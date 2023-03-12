@@ -6,11 +6,14 @@ Nostribe is an open-source web client for the decentralized and censorship-resis
 
 ## Features
 
-- Simple and intuitive UI/UX design
-- Customizable and dynamic feed
+- Decentralized and censorship-resistant backend with Nostr protocol
+- Open-source and transparent
+- End-to-end encrypted for secure communication
+- User profiles and social features (e.g. following and exploring users and tags)
 - Multimedia support for images and videos
-- User profiles with social features such as following and sharing
-- Transparent and decentralized backend using the Nostr protocol
+- Public and private chat rooms
+- Private and end-to-end encrypted direct messaging
+- Integrated with Bitcoin Lightning Network over ZAP
 
 ## Getting Started
 
