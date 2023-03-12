@@ -1,6 +1,8 @@
 # Nostribe
 
-Nostribe is a decentralized social media platform built on top of the Nostr protocol. It aims to provide a secure, transparent, and censorship-resistant platform for people to share their thoughts and ideas.
+Nostribe is an open-source web client for the decentralized and censorship-resistant Nostr protocol. It provides a social media platform for Nostribians to communicate freely and securely. Its mission is to foster a transparent tribe where everyone has an equal voice and a sense of belonging.
+
+<img src="https://raw.githubusercontent.com/sepehr-safari/nostribe-web-client/main/public/nostribe.png" width="300" alt="Nostribe Logo">
 
 ## Features
 
