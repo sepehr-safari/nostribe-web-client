@@ -16,11 +16,11 @@ To get started with Nostribe, simply visit our website at [www.nostribe.com](htt
 
 ## Contributing
 
-We welcome contributions from the community. Please see our [CONTRIBUTING.md](https://github.com/sepehr-safari/nostribe/blob/main/CONTRIBUTING.md) file for details on how to contribute to the project.
+We welcome contributions from the community. Please see our [CONTRIBUTING.md](https://github.com/sepehr-safari/nostribe-web-client/blob/main/CONTRIBUTING.md) file for details on how to contribute to the project.
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE.md](https://github.com/sepehr-safari/nostribe/blob/main/LICENSE.md) file for details.
+This project is licensed under the MIT License - see the [LICENSE.md](https://github.com/sepehr-safari/nostribe-web-client/blob/main/LICENSE.md) file for details.
 
 ## Contact
 
