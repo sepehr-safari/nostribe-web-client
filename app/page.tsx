@@ -1,5 +1,5 @@
-import Image from "next/image";
-import logoImage from "../public/nostribe.png";
+import Image from 'next/image';
+import logoImage from '../public/nostribe.png';
 
 export default function Home() {
   return (

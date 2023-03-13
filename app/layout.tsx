@@ -1,18 +1,18 @@
-import "./globals.css";
+import './globals.css';
 
 export const metadata = {
-  title: "Nostribe",
-  description: "Join the tribe, join the vibe.",
+  title: 'Nostribe',
+  description: 'Join the tribe, join the vibe.',
   keywords:
-    "Nostribe, Nostr, Nostr protocol, decentralized, censorship-resistant, social media, web client, social network",
-  robots: "index, follow",
+    'Nostribe, Nostr, Nostr protocol, decentralized, censorship-resistant, social media, web client, social network',
+  robots: 'index, follow',
   openGraph: {
-    type: "website",
-    title: "Nostribe",
-    description: "Join the tribe, join the vibe.",
+    type: 'website',
+    title: 'Nostribe',
+    description: 'Join the tribe, join the vibe.',
     images: [
       {
-        url: "https://raw.githubusercontent.com/sepehr-safari/nostribe-web-client/main/public/nostribe.png",
+        url: 'https://raw.githubusercontent.com/sepehr-safari/nostribe-web-client/main/public/nostribe.png',
       },
     ],
   },
