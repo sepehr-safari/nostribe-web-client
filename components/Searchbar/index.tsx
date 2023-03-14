@@ -6,7 +6,6 @@ export default function Searchbar() {
         placeholder="Search ..."
         className="input input-bordered w-full"
       />
-      ;
     </>
   );
 }
