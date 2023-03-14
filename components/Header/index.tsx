@@ -12,10 +12,12 @@ export default function Header() {
             <div className="flex gap-2 items-center w-1/4">
               <Avatar url="/nostribe.png" />
 
-              <h1 className="font-bold normal-case text-xl">Nostribe</h1>
+              <h1 className="font-bold normal-case text-lg md:text-xl">
+                Nostribe
+              </h1>
             </div>
 
-            <div className="flex w-1/4">
+            <div className="flex w-1/3">
               <Searchbar />
             </div>
 
