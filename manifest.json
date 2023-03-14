@@ -1,0 +1,18 @@
+{
+  "name": "Nostribe",
+  "short_name": "Nostribe",
+  "description": "Join the tribe, join the vibe.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#111327",
+  "theme_color": "#111327",
+  "icons": [
+    {
+      "src": "/nostribe.png",
+      "sizes": "1024x1024",
+      "type": "image/png"
+    }
+  ],
+  "orientation": "portrait",
+  "prefer_related_applications": false
+}

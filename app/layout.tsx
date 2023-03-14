@@ -19,6 +19,7 @@ export const metadata = {
   description: 'Join the tribe, join the vibe.',
   keywords:
     'Nostribe, Nostr, Nostr protocol, decentralized, censorship-resistant, social media, web client, social network',
+  manifest: '/manifest.json',
   robots: 'index, follow',
   openGraph: {
     type: 'website',
