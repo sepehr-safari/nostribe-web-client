@@ -1,20 +1,38 @@
 import Image from 'next/image';
+
+import { PostCard } from '@/components';
+
 import logoImage from '../public/nostribe.png';
 
-export default function Home() {
+export default function Feed() {
   return (
-    <main className="flex flex-col h-full w-full justify-center items-center">
-      <Image
-        src={logoImage}
-        alt="Nostribe Logo"
-        width={300}
-        height={300}
-        placeholder="blur"
-        className="rounded-2xl mb-2"
-      />
+    <>
+      <PostCard>
+        <p>Hi From Nostribe &#128075;</p>
+      </PostCard>
 
-      <div className="text-4xl mb-2">Hi From Nostribe &#128075;</div>
-      <div>&#9889; COMING SOON &#9889;</div>
-    </main>
+      <PostCard>
+        <p>
+          Nostribe is an open-source web client for the decentralized and
+          censorship-resistant Nostr protocol. It provides a social media
+          platform for Nostribians to communicate freely and securely. Its
+          mission is to foster a transparent tribe where everyone has an equal
+          voice and a sense of belonging.
+        </p>
+      </PostCard>
+
+      <PostCard>
+        <Image
+          src={logoImage}
+          alt="Nostribe Logo"
+          width={340}
+          height={340}
+          placeholder="blur"
+          className="rounded-2xl self-center"
+        />
+
+        <p>Just generated our logo with Midjourney &#10024;</p>
+      </PostCard>
+    </>
   );
 }
