@@ -47,9 +47,9 @@ export default function RootLayout({
           <Navbar />
         </header>
 
-        <section className="flex justify-center py-2 mt-32">
+        <section className="flex justify-center pt-32">
           <div className="flex w-full max-w-screen-xl justify-between">
-            <aside className="hidden lg:flex flex-col w-1/4 p-2 gap-4">
+            <aside className="hidden lg:flex flex-col w-1/4 px-2 py-4 gap-4">
               <div className="card bg-neutral text-neutral-content shadow-2xl shadow-black">
                 <div className="card-body p-4">
                   <h2 className="card-title">
@@ -90,11 +90,33 @@ export default function RootLayout({
               </div>
             </aside>
 
-            <main className="flex flex-col w-full md:w-3/4 lg:w-1/2 p-2 gap-4">
+            <main className="flex flex-col w-full md:w-3/4 lg:w-1/2 px-2 py-4 gap-4">
+              <div className="alert alert-warning shadow-lg text-sm">
+                <div>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="stroke-current flex-shrink-0 h-6 w-6"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+                    />
+                  </svg>
+                  <span>
+                    Nostribe is still under development. Some parts are may not
+                    functioning yet.
+                  </span>
+                </div>
+              </div>
+
               {children}
             </main>
 
-            <aside className="hidden md:flex flex-col md:w-1/4 p-2 gap-4">
+            <aside className="hidden md:flex flex-col md:w-1/4 px-2 py-4 gap-4">
               <div className="card bg-neutral text-neutral-content shadow-2xl shadow-black">
                 <div className="card-body p-4">
                   <h2 className="card-title">
