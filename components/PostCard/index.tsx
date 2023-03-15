@@ -34,7 +34,9 @@ export default function PostCard({ children }: PropsWithChildren) {
               </div>
             </div>
 
-            <div className="flex flex-col gap-2 ml-14 mr-2">{children}</div>
+            <div className="flex flex-col break-words gap-2 ml-14 mr-2">
+              {children}
+            </div>
           </div>
 
           <div className="card-actions">
