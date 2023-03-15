@@ -7,6 +7,7 @@ import {
   ChatBubbleLeftRightIcon,
   ChevronRightIcon,
   EllipsisHorizontalIcon,
+  ExclamationTriangleIcon,
   LinkIcon,
   PlusIcon,
   TagIcon,
@@ -63,19 +64,19 @@ export default function RootLayout({
                       <WifiIcon width={16} />
                     </li>
                     <li className="flex justify-between">
-                      <p>wss://eden.nostr.land</p>
-                      <WifiIcon width={16} />
-                    </li>
-                    <li className="flex justify-between">
                       <p>wss://relay.snort.social</p>
                       <WifiIcon width={16} />
                     </li>
                     <li className="flex justify-between">
-                      <p>wss://offchain.pub</p>
+                      <p>wss://eden.nostr.land</p>
+                      <WifiIcon width={16} />
+                    </li>
+                    <li className="flex justify-between">
+                      <p>wss://relay.nostr.info</p>
                       <EllipsisHorizontalIcon width={16} />
                     </li>
                     <li className="flex justify-between">
-                      <p>wss://nos.lol</p>
+                      <p>wss://offchain.pub</p>
                       <WifiIcon width={16} />
                     </li>
                   </ul>
@@ -93,21 +94,9 @@ export default function RootLayout({
             <main className="flex flex-col w-full md:w-3/4 lg:w-1/2 px-2 py-4 gap-4">
               <div className="alert alert-warning shadow-lg text-sm">
                 <div>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="stroke-current flex-shrink-0 h-6 w-6"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
-                    />
-                  </svg>
+                  <ExclamationTriangleIcon width={20} />
                   <span>
-                    Nostribe is still under development. Some parts are may not
+                    Nostribe is still under development. Some parts might not be
                     functioning yet.
                   </span>
                 </div>

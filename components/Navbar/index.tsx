@@ -1,13 +1,11 @@
-import Link from 'next/link';
-
 import {
-  BookmarkIcon,
-  ChatBubbleLeftRightIcon,
-  ChatBubbleOvalLeftIcon,
-  Cog6ToothIcon,
-  HashtagIcon,
-  HomeIcon,
-} from '@heroicons/react/24/outline';
+  ChatroomNavItem,
+  ExploreNavItem,
+  FeedNavItem,
+  MemoNavItem,
+  MessageNavItem,
+  SettingsNavItem,
+} from './NavItems';
 
 export default function Navbar() {
   return (
@@ -15,76 +13,22 @@ export default function Navbar() {
       <nav className="navbar bg-base-100 justify-center">
         <ul className="gap-2">
           <li>
-            <Link
-              href="/"
-              className="btn btn-ghost p-3 rounded-full md:rounded-lg"
-            >
-              <div>
-                <HomeIcon width={24} className="block md:hidden" />
-              </div>
-              <div className="hidden md:block">Feed</div>
-            </Link>
+            <FeedNavItem />
           </li>
           <li>
-            <Link
-              href="/explore"
-              className="btn btn-ghost p-3 rounded-full md:rounded-lg"
-            >
-              <div>
-                <HashtagIcon width={24} className="block md:hidden" />
-              </div>
-              <div className="hidden md:block">Explore</div>
-            </Link>
+            <ExploreNavItem />
           </li>
           <li>
-            <Link
-              href="/message"
-              className="btn btn-ghost p-3 rounded-full md:rounded-lg"
-            >
-              <div>
-                <ChatBubbleOvalLeftIcon
-                  width={24}
-                  className="block md:hidden"
-                />
-              </div>
-              <div className="hidden md:block">Message</div>
-            </Link>
+            <MessageNavItem />
           </li>
           <li>
-            <Link
-              href="/chatroom"
-              className="btn btn-ghost p-3 rounded-full md:rounded-lg"
-            >
-              <div>
-                <ChatBubbleLeftRightIcon
-                  width={24}
-                  className="block md:hidden"
-                />
-              </div>
-              <div className="hidden md:block">Chat Room</div>
-            </Link>
+            <ChatroomNavItem />
           </li>
           <li>
-            <Link
-              href="/memo"
-              className="btn btn-ghost p-3 rounded-full md:rounded-lg"
-            >
-              <div>
-                <BookmarkIcon width={24} className="block md:hidden" />
-              </div>
-              <div className="hidden md:block">Memo</div>
-            </Link>
+            <MemoNavItem />
           </li>
           <li>
-            <Link
-              href="/settings"
-              className="btn btn-ghost p-3 rounded-full md:rounded-lg"
-            >
-              <div>
-                <Cog6ToothIcon width={24} className="block md:hidden" />
-              </div>
-              <div className="hidden md:block">Settings</div>
-            </Link>
+            <SettingsNavItem />
           </li>
         </ul>
       </nav>
