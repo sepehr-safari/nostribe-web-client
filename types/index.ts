@@ -2,7 +2,7 @@ export interface IPost {
   id: string;
   content: string;
   author: {
-    pubkey: string;
+    id: string;
     name?: string;
     nip05?: string;
     profilePicture?: string;
@@ -13,4 +13,15 @@ export interface IPost {
     comments?: { pubkey: string; content: string }[];
     reposts?: { pubkey: string }[];
   };
+}
+
+export interface IAuthor {
+  id: string;
+  picture: string;
+  name: string;
+  nip05: string;
+  about: string;
+  banner: string;
+  lud06: string;
+  website: string;
 }
