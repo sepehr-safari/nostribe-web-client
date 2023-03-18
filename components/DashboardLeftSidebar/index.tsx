@@ -1,0 +1,50 @@
+import {
+  ChevronRightIcon,
+  EllipsisHorizontalIcon,
+  LinkIcon,
+  WifiIcon,
+} from '@heroicons/react/24/outline';
+
+const relays = [
+  'wss://relay.damus.io',
+  'wss://relay.snort.social',
+  'wss://eden.nostr.land',
+  'wss://relay.nostr.info',
+  'wss://offchain.pub',
+  'wss://nostr-pub.wellorder.net',
+  'wss://nostr.fmt.wiz.biz',
+  'wss://nos.lol',
+];
+
+export default function DashboardLeftSidebar() {
+  return (
+    <>
+      <aside className="hidden lg:flex flex-col w-1/4 px-2 py-4 gap-4">
+        <div className="card bg-neutral text-neutral-content shadow-2xl shadow-black">
+          <div className="card-body p-4">
+            <h2 className="card-title">
+              Relays
+              <LinkIcon width={20} />
+            </h2>
+
+            <ul className="text-sm my-2">
+              {relays.map((relay, index) => (
+                <li key={index} className="flex justify-between">
+                  <p>{relay}</p>
+                  <WifiIcon width={16} />
+                </li>
+              ))}
+            </ul>
+
+            <div className="card-actions justify-end">
+              <button className="btn btn-xs btn-ghost">
+                Manage Relays
+                <ChevronRightIcon width={16} />
+              </button>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </>
+  );
+}
