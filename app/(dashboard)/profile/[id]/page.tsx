@@ -39,6 +39,12 @@ function Profile({ params }: { params: { id: string } }) {
     [eventList]
   );
 
+  // [TODO]: object might be empty
+  const contactsEvent = useMemo(
+    () => eventList.find((e) => e.kind === 3),
+    [eventList]
+  );
+
   if (pubkey === null) {
     return <>Profile Not Found</>;
   }
@@ -52,7 +58,7 @@ function Profile({ params }: { params: { id: string } }) {
       {profileEvent && (
         <ProfileCard
           profileEvent={profileEvent}
-          contactsEvent={eventList.find((e) => e.kind === 3)!}
+          contactsEvent={contactsEvent!}
         />
       )}
 

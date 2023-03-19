@@ -1,43 +1,46 @@
 'use client';
 
-import { nip19 } from 'nostr-tools';
-import { useEffect, useMemo, useState } from 'react';
+import { Event, Filter, nip19 } from 'nostr-tools';
+import { memo, useCallback, useEffect, useState } from 'react';
 
-import { PostCard, ProfileCard } from '@/components';
+import { useSubscription } from '@/hooks';
 
-import { usePosts } from '@/hooks';
+import { PostCard } from '@/components';
 
-export default function Post({ params }: { params: { id: string } }) {
-  const [postId, setPostId] = useState<string>(params.id);
+function Post({ params }: { params: { id: string } }) {
+  if (params.id.startsWith('note')) {
+    const { data } = nip19.decode(params.id);
+
+    params.id = data.toString();
+  }
+
+  const [eventList, setEventList] = useState<Event[]>([]);
+
+  const handleEvent = useCallback(
+    (e: Event) => setEventList((oldEvent) => [...oldEvent, e]),
+    []
+  );
 
   useEffect(() => {
-    if (params.id.startsWith('note')) {
-      // nip19
-      const { data } = nip19.decode(params.id);
-      setPostId(data.toString());
-    }
+    const filters: Filter[] = [{ ids: [params.id], kinds: [1], limit: 1 }];
+
+    const subscription = useSubscription(handleEvent, filters);
+
+    return () => subscription.unsub();
   }, []);
 
-  const filter = useMemo(() => ({ ids: [postId], limit: 1 }), [postId]);
-
-  const posts = usePosts(filter);
+  if (eventList.length === 0) {
+    return <>Loading...</>;
+  }
 
   return (
     <>
-      {posts &&
-        posts.map((post, index) => (
-          <ProfileCard key={index} id={post.author.id} />
-        ))}
-
-      {posts &&
-        posts.map((post, index) => (
-          <PostCard
-            key={index}
-            id={post.id}
-            content={post.content}
-            pubkey={post.author.id}
-          />
-        ))}
+      {eventList.map(
+        (event, index) =>
+          event.kind === 1 && <PostCard key={index} postEvent={event} />
+      )}
     </>
   );
 }
+
+export default memo(Post);

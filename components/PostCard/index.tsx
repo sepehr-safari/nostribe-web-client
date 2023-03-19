@@ -110,7 +110,9 @@ const PostCard = ({
                 </div>
               )}
 
-              <Link href={`/post/${postEvent.id}`}>{postEvent.content}</Link>
+              <Link href={`/post/${nip19.noteEncode(postEvent.id)}`}>
+                {postEvent.content}
+              </Link>
             </div>
           </div>
 
