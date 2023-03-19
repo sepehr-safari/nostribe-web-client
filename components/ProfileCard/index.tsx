@@ -1,12 +1,21 @@
 'use client';
 
-import { useAuthor } from '@/hooks';
 import { PlusIcon } from '@heroicons/react/24/outline';
+import { Event } from 'nostr-tools';
+import { memo } from 'react';
 
 import Avatar from '../Avatar';
 
-export default function ProfileCard({ id }: { id: string }) {
-  const author = useAuthor(id);
+import { IAuthor } from '@/types';
+
+const ProfileCard = ({
+  profileEvent,
+  contactsEvent,
+}: {
+  profileEvent: Event;
+  contactsEvent: Event;
+}) => {
+  const profileObject: IAuthor = JSON.parse(profileEvent.content);
 
   return (
     <>
@@ -14,32 +23,42 @@ export default function ProfileCard({ id }: { id: string }) {
         <div className="card-body p-4">
           <div className="absolute top-0 left-0 w-full h-48">
             <img
-              src={author.banner || '/nostribe.png'}
+              src={profileObject.banner || '/nostribe.png'}
               className="opacity-80 w-full h-full object-cover rounded-t-box"
             />
           </div>
           <div className="flex flex-col gap-4 pt-36">
             <div className="flex gap-4 items-start">
-              <Avatar url={author.picture || '/nostribe.png'} width="w-36" />
+              <Avatar
+                url={profileObject.picture || '/nostribe.png'}
+                width="w-36"
+              />
 
-              <div className="flex flex-col gap-3 pt-12">
-                {author.name && (
-                  <div className="text-xl font-bold">{author.name}</div>
+              <div className="flex flex-col w-full gap-3 pt-12">
+                {profileObject.name && (
+                  <div className="text-xl font-bold">{profileObject.name}</div>
                 )}
 
-                {author.nip05 && (
+                {profileObject.nip05 && (
                   <div className="text-sm font-bold bg-gradient-to-r from-warning to-accent text-transparent bg-clip-text">
-                    {author.nip05}
+                    {profileObject.nip05}
                   </div>
                 )}
 
-                {author.nip05 && (
-                  <div className="text-xs">
-                    {0} Followers {0} Following
+                {contactsEvent && (
+                  <div className="text-xs flex flex-wrap gap-3">
+                    <div>
+                      <b>{contactsEvent.tags.length}</b> Following
+                    </div>
+                    <div>
+                      <b>{0}</b> Followers
+                    </div>
                   </div>
                 )}
 
-                {author.about && <div className="text-xs">{author.about}</div>}
+                {profileObject.about && (
+                  <div className="text-xs break-all">{profileObject.about}</div>
+                )}
               </div>
 
               <div className="flex h-full ml-auto pt-12 justify-end">
@@ -54,4 +73,6 @@ export default function ProfileCard({ id }: { id: string }) {
       </div>
     </>
   );
-}
+};
+
+export default memo(ProfileCard);

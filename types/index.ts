@@ -24,4 +24,5 @@ export interface IAuthor {
   banner: string;
   lud06: string;
   website: string;
+  following: string[];
 }

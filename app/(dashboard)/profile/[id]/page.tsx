@@ -1,45 +1,73 @@
 'use client';
 
-import { nip05, nip19 } from 'nostr-tools';
-import { useEffect, useMemo, useState } from 'react';
+import { Event, Filter } from 'nostr-tools';
+import { memo, useCallback, useEffect, useMemo, useState } from 'react';
 
 import { PostCard, ProfileCard } from '@/components';
 
-import { usePosts } from '@/hooks';
+import { useSubscription } from '@/hooks';
 
-export default function Profile({ params }: { params: { id: string } }) {
-  const [pubkey, setPubkey] = useState<string>(params.id);
+import { getProfileHex } from '@/utils';
+
+function Profile({ params }: { params: { id: string } }) {
+  const [pubkey, setPubkey] = useState<string | null>('');
+  const [eventList, setEventList] = useState<Event[]>([]);
 
   useEffect(() => {
-    // nip05
-    if (params.id.includes('%40')) {
-      nip05
-        .queryProfile(params.id.replace('%40', '@'))
-        .then((profile) => profile?.pubkey && setPubkey(profile.pubkey));
-    } else if (params.id.startsWith('npub1')) {
-      // nip19
-      const { data } = nip19.decode(params.id);
-      setPubkey(data.toString());
-    }
+    getProfileHex(params.id).then((hex) => setPubkey(hex));
   }, []);
 
-  const filter = useMemo(() => ({ authors: [pubkey] }), [pubkey]);
+  const handleEvent = useCallback(
+    (e: Event) => setEventList((oldEvent) => [...oldEvent, e]),
+    []
+  );
 
-  const posts = usePosts(filter);
+  useEffect(() => {
+    if (!pubkey) return;
+
+    const filters: Filter[] = [
+      { authors: [pubkey], kinds: [0, 1, 3], limit: 10 },
+    ];
+
+    const subscription = useSubscription(handleEvent, filters);
+
+    return () => subscription.unsub();
+  }, [pubkey]);
+
+  const profileEvent = useMemo(
+    () => eventList.find((e) => e.kind === 0),
+    [eventList]
+  );
+
+  if (pubkey === null) {
+    return <>Profile Not Found</>;
+  }
+
+  if (eventList.length === 0 || !profileEvent) {
+    return <>Loading...</>;
+  }
 
   return (
     <>
-      <ProfileCard id={pubkey} />
+      {profileEvent && (
+        <ProfileCard
+          profileEvent={profileEvent}
+          contactsEvent={eventList.find((e) => e.kind === 3)!}
+        />
+      )}
 
-      {posts &&
-        posts.map((post, index) => (
-          <PostCard
-            key={index}
-            id={post.id}
-            content={post.content}
-            pubkey={post.author.id}
-          />
-        ))}
+      {eventList.map(
+        (event, index) =>
+          event.kind === 1 && (
+            <PostCard
+              key={index}
+              postEvent={event}
+              profileEvent={profileEvent}
+            />
+          )
+      )}
     </>
   );
 }
+
+export default memo(Profile);

@@ -7,27 +7,64 @@ import {
   HeartIcon,
   PlusIcon,
 } from '@heroicons/react/24/outline';
-
-import { useAuthor, useReactions } from '@/hooks';
+import Link from 'next/link';
+import { Event, Filter, nip19 } from 'nostr-tools';
+import { memo, useCallback, useEffect, useState } from 'react';
 
 import Avatar from '../Avatar';
-import Link from 'next/link';
 
-export default function PostCard({
-  id,
-  pubkey,
-  content,
+import { useSubscription } from '@/hooks';
+
+import { IAuthor } from '@/types';
+
+const PostCard = ({
+  profileEvent,
+  postEvent,
 }: {
-  id: string;
-  pubkey: string;
-  content: string;
-}) {
-  const author = useAuthor(pubkey);
-  const { likers, zappers, commenters } = useReactions(id);
+  profileEvent?: Event;
+  postEvent: Event;
+}) => {
+  const [profileObject, setProfileObject] = useState<IAuthor>();
+  const [eventList, setEventList] = useState<Event[]>([]);
+
+  const handlePostEvent = useCallback(
+    (e: Event) => setEventList((oldEvent) => [...oldEvent, e]),
+    []
+  );
+
+  useEffect(() => {
+    const filters: Filter[] = [{ '#e': [postEvent.id], kinds: [1, 7, 9735] }];
+
+    const subscription = useSubscription(handlePostEvent, filters);
+
+    return () => subscription.unsub();
+  }, []);
+
+  const handleProfileEvent = useCallback((e: Event) => {
+    setProfileObject(JSON.parse(e.content) || null);
+  }, []);
+
+  useEffect(() => {
+    if (profileEvent) {
+      setProfileObject(JSON.parse(profileEvent.content));
+
+      return;
+    }
+
+    const filters: Filter[] = [{ authors: [postEvent.pubkey], kinds: [0] }];
+
+    const subscription = useSubscription(handleProfileEvent, filters);
+
+    return () => subscription.unsub();
+  }, []);
 
   const imageRegex =
     /(?:https?:\/\/)?(?:www\.)?\S+\.(?:jpg|jpeg|png|gif|bmp)/gi;
-  const imageInsideContent = content.match(imageRegex);
+  const imageInsideContent = postEvent.content.match(imageRegex);
+
+  if (profileObject === null) {
+    return null;
+  }
 
   return (
     <>
@@ -35,18 +72,24 @@ export default function PostCard({
         <div className="card-body p-4">
           <div className="flex flex-col gap-2">
             <div className="flex gap-4 items-center">
-              <Link href={`/profile/${pubkey}`} className="flex gap-4">
-                <Avatar url={author.picture || '/nostribe.png'} width="w-12" />
+              <Link
+                href={`/profile/${nip19.npubEncode(postEvent.pubkey)}`}
+                className="flex gap-4"
+              >
+                <Avatar
+                  url={profileObject?.picture || '/nostribe.png'}
+                  width="w-12"
+                />
 
                 <div className="flex flex-col">
-                  {author.name && (
+                  {profileObject?.name && (
                     <p className="text-lg font-bold">
-                      {author.name.slice(0, 35)}
+                      {profileObject.name.slice(0, 35)}
                     </p>
                   )}
-                  {author.nip05 && (
+                  {profileObject?.nip05 && (
                     <p className="text-sm font-bold bg-gradient-to-r from-warning to-accent text-transparent bg-clip-text">
-                      {author.nip05.slice(0, 35)}
+                      {profileObject.nip05.slice(0, 35)}
                     </p>
                   )}
                 </div>
@@ -67,34 +110,49 @@ export default function PostCard({
                 </div>
               )}
 
-              <Link href={`/post/${id}`}>{content}</Link>
+              <Link href={`/post/${postEvent.id}`}>{postEvent.content}</Link>
             </div>
           </div>
 
           <div className="flex flex-wrap w-full justify-evenly">
             <button className="btn btn-ghost btn-sm px-2 gap-2">
               <BoltIcon width={24} />
-              {zappers.length}
+
+              {eventList.filter((event) => event.kind === 9735).length}
             </button>
 
             <button className="btn btn-ghost btn-sm px-2 gap-2">
               <ChatBubbleOvalLeftIcon width={24} />
-              {commenters.length}
+
+              {eventList.filter((event) => event.kind === 1).length}
             </button>
 
             <button className="btn btn-ghost btn-sm px-2 gap-2">
               <HeartIcon width={24} />
 
-              {likers.length}
+              {eventList.filter((event) => event.kind === 7).length}
             </button>
 
             <button className="btn btn-ghost btn-sm px-2 gap-2">
               <ArrowPathIcon width={24} />
+
               {}
             </button>
           </div>
+
+          {/* <div className="flex flex-col gap-2">
+            {eventList
+              .filter((event) => event.kind === 1)
+              .map((comment, index) => (
+                <div key={index} className="flex gap-2">
+                  <div>{comment.content}</div>
+                </div>
+              ))}
+          </div> */}
         </div>
       </article>
     </>
   );
-}
+};
+
+export default memo(PostCard);
