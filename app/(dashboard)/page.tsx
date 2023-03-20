@@ -1,26 +1,22 @@
 'use client';
 
 import { Event, Filter } from 'nostr-tools';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { PostCard } from '@/components';
 
-import { useSubscription } from '@/hooks';
-import { isVerifiedContent } from '@/utils';
+import { subscribe, verifyContent } from '@/utils';
 
 export default function Feed() {
   const [eventList, setEventList] = useState<Event[]>([]);
 
-  const handleEvent = useCallback(
-    (e: Event) =>
-      isVerifiedContent(e) && setEventList((oldEvent) => [...oldEvent, e]),
-    []
-  );
-
   useEffect(() => {
+    const handleEvent = (e: Event) =>
+      verifyContent(e) && setEventList((oldEvent) => [...oldEvent, e]);
+
     const filters: Filter[] = [{ kinds: [1], limit: 5 }];
 
-    const subscription = useSubscription(handleEvent, filters);
+    const subscription = subscribe(handleEvent, filters);
 
     return () => subscription.unsub();
   }, []);

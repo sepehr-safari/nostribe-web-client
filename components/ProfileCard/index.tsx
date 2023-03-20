@@ -25,6 +25,7 @@ const ProfileCard = ({
             <img
               src={profileObject.banner || '/nostribe.png'}
               className="opacity-80 w-full h-full object-cover rounded-t-box"
+              alt={profileObject.name}
             />
           </div>
           <div className="flex flex-col gap-4 pt-36">

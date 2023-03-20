@@ -1,9 +1,9 @@
 'use client';
 
 import { Event, Filter, nip19 } from 'nostr-tools';
-import { memo, useCallback, useEffect, useState } from 'react';
+import { memo, useEffect, useState } from 'react';
 
-import { useSubscription } from '@/hooks';
+import { subscribe } from '@/utils';
 
 import { PostCard } from '@/components';
 
@@ -16,18 +16,16 @@ function Post({ params }: { params: { id: string } }) {
 
   const [eventList, setEventList] = useState<Event[]>([]);
 
-  const handleEvent = useCallback(
-    (e: Event) => setEventList((oldEvent) => [...oldEvent, e]),
-    []
-  );
-
   useEffect(() => {
+    const handleEvent = (e: Event) =>
+      setEventList((oldEvent) => [...oldEvent, e]);
+
     const filters: Filter[] = [{ ids: [params.id], kinds: [1], limit: 1 }];
 
-    const subscription = useSubscription(handleEvent, filters);
+    const subscription = subscribe(handleEvent, filters);
 
     return () => subscription.unsub();
-  }, []);
+  }, [params.id]);
 
   if (eventList.length === 0) {
     return <>Loading...</>;

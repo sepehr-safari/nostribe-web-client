@@ -9,11 +9,11 @@ import {
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { Event, Filter, nip19 } from 'nostr-tools';
-import { memo, useCallback, useEffect, useState } from 'react';
+import { memo, useEffect, useState } from 'react';
 
 import Avatar from '../Avatar';
 
-import { useSubscription } from '@/hooks';
+import { subscribe } from '@/utils';
 
 import { IAuthor } from '@/types';
 
@@ -27,22 +27,16 @@ const PostCard = ({
   const [profileObject, setProfileObject] = useState<IAuthor>();
   const [eventList, setEventList] = useState<Event[]>([]);
 
-  const handlePostEvent = useCallback(
-    (e: Event) => setEventList((oldEvent) => [...oldEvent, e]),
-    []
-  );
-
   useEffect(() => {
+    const handlePostEvent = (e: Event) =>
+      setEventList((oldEvent) => [...oldEvent, e]);
+
     const filters: Filter[] = [{ '#e': [postEvent.id], kinds: [1, 7, 9735] }];
 
-    const subscription = useSubscription(handlePostEvent, filters);
+    const subscription = subscribe(handlePostEvent, filters);
 
     return () => subscription.unsub();
-  }, []);
-
-  const handleProfileEvent = useCallback((e: Event) => {
-    setProfileObject(JSON.parse(e.content) || null);
-  }, []);
+  }, [postEvent.id]);
 
   useEffect(() => {
     if (profileEvent) {
@@ -51,12 +45,15 @@ const PostCard = ({
       return;
     }
 
+    const handleProfileEvent = (e: Event) =>
+      setProfileObject(JSON.parse(e.content) || null);
+
     const filters: Filter[] = [{ authors: [postEvent.pubkey], kinds: [0] }];
 
-    const subscription = useSubscription(handleProfileEvent, filters);
+    const subscription = subscribe(handleProfileEvent, filters);
 
     return () => subscription.unsub();
-  }, []);
+  }, [postEvent.pubkey]);
 
   const imageRegex =
     /(?:https?:\/\/)?(?:www\.)?\S+\.(?:jpg|jpeg|png|gif|bmp)/gi;
@@ -106,7 +103,10 @@ const PostCard = ({
             <div className="flex flex-col break-words gap-2 ml-16 mr-2">
               {imageInsideContent && (
                 <div className="relative object-contain overflow-hidden w-2/3">
-                  <img src={imageInsideContent[0]} />
+                  <img
+                    src={imageInsideContent[0]}
+                    alt={postEvent.content.slice(0, 20)}
+                  />
                 </div>
               )}
 

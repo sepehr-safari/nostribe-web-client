@@ -13,7 +13,7 @@ const relays = [
   'wss://nos.lol',
 ];
 
-export default function useSubscription(
+export default function subscribe(
   cb: (event: Event) => void,
   filters: Filter[]
 ) {

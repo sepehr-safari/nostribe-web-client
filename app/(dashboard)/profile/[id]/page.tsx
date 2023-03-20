@@ -1,13 +1,11 @@
 'use client';
 
 import { Event, Filter } from 'nostr-tools';
-import { memo, useCallback, useEffect, useMemo, useState } from 'react';
+import { memo, useEffect, useMemo, useState } from 'react';
 
 import { PostCard, ProfileCard } from '@/components';
 
-import { useSubscription } from '@/hooks';
-
-import { getProfileHex } from '@/utils';
+import { getProfileHex, subscribe } from '@/utils';
 
 function Profile({ params }: { params: { id: string } }) {
   const [pubkey, setPubkey] = useState<string | null>('');
@@ -15,21 +13,19 @@ function Profile({ params }: { params: { id: string } }) {
 
   useEffect(() => {
     getProfileHex(params.id).then((hex) => setPubkey(hex));
-  }, []);
-
-  const handleEvent = useCallback(
-    (e: Event) => setEventList((oldEvent) => [...oldEvent, e]),
-    []
-  );
+  }, [params.id]);
 
   useEffect(() => {
     if (!pubkey) return;
+
+    const handleEvent = (e: Event) =>
+      setEventList((oldEvent) => [...oldEvent, e]);
 
     const filters: Filter[] = [
       { authors: [pubkey], kinds: [0, 1, 3], limit: 10 },
     ];
 
-    const subscription = useSubscription(handleEvent, filters);
+    const subscription = subscribe(handleEvent, filters);
 
     return () => subscription.unsub();
   }, [pubkey]);
