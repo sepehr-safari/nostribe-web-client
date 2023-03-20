@@ -53,7 +53,7 @@ const PostCard = ({
     const subscription = subscribe(handleProfileEvent, filters);
 
     return () => subscription.unsub();
-  }, [postEvent.pubkey]);
+  }, [profileEvent, postEvent.pubkey]);
 
   const imageRegex =
     /(?:https?:\/\/)?(?:www\.)?\S+\.(?:jpg|jpeg|png|gif|bmp)/gi;
