@@ -29,4 +29,4 @@ This project is licensed under the MIT License - see the [LICENSE.md](https://gi
 
 ## Contact
 
-If you have any questions or concerns, please contact us at [npub18c556t7n8xa3df2q82rwxejfglw5przds7sqvefylzjh8tjne28qld0we7](https://nostribe.com/p/npub18c556t7n8xa3df2q82rwxejfglw5przds7sqvefylzjh8tjne28qld0we7).
+If you have any questions or concerns, please contact us at [npub18c556t7n8xa3df2q82rwxejfglw5przds7sqvefylzjh8tjne28qld0we7](https://nostribe.com/profile/npub18c556t7n8xa3df2q82rwxejfglw5przds7sqvefylzjh8tjne28qld0we7).
