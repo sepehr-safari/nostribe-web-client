@@ -70,6 +70,8 @@ const PostCard = ({
     [imageInsideContent]
   );
 
+  const createdAt = new Date(postEvent.created_at * 1000);
+
   if (profileObject === null) {
     return null;
   }
@@ -86,12 +88,12 @@ const PostCard = ({
               >
                 <Avatar
                   url={profileObject?.picture || '/nostribe.png'}
-                  width="w-12"
+                  width="w-14"
                 />
 
                 <div className="flex flex-col">
                   {profileObject?.name && (
-                    <h4 className="text-lg font-bold">
+                    <h4 className="leading-5 font-bold">
                       {profileObject.name.length > 25
                         ? profileObject.name.slice(0, 10) +
                           '...' +
@@ -99,14 +101,21 @@ const PostCard = ({
                         : profileObject.name}
                     </h4>
                   )}
+
                   {profileObject?.nip05 && (
-                    <h5 className="text-sm font-bold bg-gradient-to-r from-warning to-accent text-transparent bg-clip-text">
+                    <h5 className="text-xs leading-5 font-bold bg-gradient-to-r from-warning to-accent text-transparent bg-clip-text">
                       {profileObject.nip05.length > 25
                         ? profileObject.nip05.slice(0, 10) +
                           '...' +
                           profileObject.nip05.slice(-15)
                         : profileObject.nip05}
                     </h5>
+                  )}
+
+                  {createdAt && (
+                    <div className="text-xs leading-5 opacity-50">
+                      {createdAt.toLocaleString()}
+                    </div>
                   )}
                 </div>
               </Link>
