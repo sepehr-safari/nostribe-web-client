@@ -29,15 +29,15 @@ const ProfileCard = ({
             />
           </div>
 
-          <div className="flex gap-4 items-start pt-36">
+          <div className="flex flex-col items-center gap-4 pt-36 md:flex-row">
             <Avatar
               url={profileObject.picture || '/nostribe.png'}
               width="w-36"
             />
 
-            <div className="flex flex-col flex-wrap w-full gap-3 pt-12">
-              <div className="flex">
-                <div className="flex flex-col gap-2 w-3/4">
+            <div className="flex flex-col w-full gap-3 md:mt-12">
+              <div className="flex flex-wrap">
+                <div className="flex flex-col gap-2">
                   {profileObject.name && (
                     <div className="text-xl font-bold">
                       {profileObject.name}
@@ -67,7 +67,7 @@ const ProfileCard = ({
                   )}
                 </div>
 
-                <div className="flex w-1/4">
+                <div className="flex ml-auto">
                   <button className="btn btn-sm btn-ghost gap-2">
                     <PlusIcon width={16} />
                     Follow
