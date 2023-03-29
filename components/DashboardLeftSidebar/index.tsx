@@ -1,6 +1,5 @@
 import {
   ChevronRightIcon,
-  EllipsisHorizontalIcon,
   LinkIcon,
   WifiIcon,
 } from '@heroicons/react/24/outline';
@@ -27,7 +26,9 @@ export default function DashboardLeftSidebar() {
               <LinkIcon width={20} />
             </h2>
 
-            <ul className="text-sm my-2">
+            <hr className="opacity-10" />
+
+            <ul className="text-sm">
               {relays.map((relay, index) => (
                 <li key={index} className="flex justify-between">
                   <p>{relay}</p>

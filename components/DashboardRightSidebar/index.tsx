@@ -1,45 +1,71 @@
 import {
-  ArrowsPointingInIcon,
   ChatBubbleLeftRightIcon,
   ChevronRightIcon,
-  PlusIcon,
   TagIcon,
   UsersIcon,
 } from '@heroicons/react/24/outline';
+import Link from 'next/link';
+
+// [TODO] replace mock data with real data
 
 export default function DashboardRightSidebar() {
-  //
   return (
     <>
       <aside className="hidden md:flex flex-col md:w-1/4 px-2 py-4 gap-4">
         <div className="card bg-neutral text-neutral-content shadow-2xl shadow-black">
           <div className="card-body p-4">
             <h2 className="card-title">
-              Nostribians
+              Tribe
               <UsersIcon width={20} />
             </h2>
 
-            <ul className="text-sm my-2">
-              <li className="flex justify-between">
-                <p>@Himmel</p>
-                <button className="btn btn-ghost btn-xs gap-2">
-                  <PlusIcon width={16} />
-                  Follow
-                </button>
+            <hr className="opacity-10" />
+
+            <ul className="-ml-2 flex flex-wrap gap-2">
+              <li className="btn btn-xs btn-ghost">
+                <Link
+                  href={
+                    '/profile/npub18c556t7n8xa3df2q82rwxejfglw5przds7sqvefylzjh8tjne28qld0we7'
+                  }
+                >
+                  Sepehr
+                </Link>
               </li>
-              <li className="flex justify-between">
-                <p>@Jack</p>
-                <button className="btn btn-ghost btn-xs gap-2">
-                  <PlusIcon width={16} />
-                  Follow
-                </button>
+              <li className="btn btn-xs btn-ghost">
+                <Link
+                  href={
+                    '/profile/npub1sg6plzptd64u62a878hep2kev88swjh3tw00gjsfl8f237lmu63q0uf63m'
+                  }
+                >
+                  Jack
+                </Link>
               </li>
-              <li className="flex justify-between">
-                <p>@GIGI</p>
-                <button className="btn btn-ghost btn-xs gap-2">
-                  <PlusIcon width={16} />
-                  Follow
-                </button>
+              <li className="btn btn-xs btn-ghost">
+                <Link
+                  href={
+                    '/profile/npub1xtscya34g58tk0z605fvr788k263gsu6cy9x0mhnm87echrgufzsevkk5s'
+                  }
+                >
+                  jb55
+                </Link>
+              </li>
+              <li className="btn btn-xs btn-ghost">
+                <Link
+                  href={
+                    '/profile/npub180cvv07tjdrrgpa0j7j7tmnyl2yr6yr7l8j4s3evf6u64th6gkwsyjh6w6'
+                  }
+                >
+                  fiatjaf
+                </Link>
+              </li>
+              <li className="btn btn-xs btn-ghost">
+                <Link
+                  href={
+                    '/profile/npub1k979np6dcpwh7mkfwk7wq3msezml48fh7wksp9hakakf8pwk3y5qhdz7te'
+                  }
+                >
+                  Andrew
+                </Link>
               </li>
             </ul>
 
@@ -59,34 +85,26 @@ export default function DashboardRightSidebar() {
               <ChatBubbleLeftRightIcon width={20} />
             </h2>
 
-            <ul className="text-sm my-2">
-              <li className="flex justify-between">
-                <p>Nostr Lovers</p>
-                <button className="btn btn-ghost btn-xs gap-2">
-                  <ArrowsPointingInIcon width={16} />
-                  Join
-                </button>
+            <hr className="opacity-10" />
+
+            <ul className="-ml-2 flex flex-wrap gap-2">
+              <li className="btn btn-xs btn-ghost">
+                <Link href={'#'}>Nostr Lovers</Link>
               </li>
-              <li className="flex justify-between">
-                <p>PV Nostribians</p>
-                <button className="btn btn-ghost btn-xs gap-2">
-                  <ArrowsPointingInIcon width={16} />
-                  Join
-                </button>
+              <li className="btn btn-xs btn-ghost">
+                <Link href={'#'}>Pura Vida!</Link>
               </li>
-              <li className="flex justify-between">
-                <p>Coolers</p>
-                <button className="btn btn-ghost btn-xs gap-2">
-                  <ArrowsPointingInIcon width={16} />
-                  Join
-                </button>
+              <li className="btn btn-xs btn-ghost">
+                <Link href={'#'}>Nostribians</Link>
               </li>
-              <li className="flex justify-between">
-                <p>Satoshi</p>
-                <button className="btn btn-ghost btn-xs gap-2">
-                  <ArrowsPointingInIcon width={16} />
-                  Join
-                </button>
+              <li className="btn btn-xs btn-ghost">
+                <Link href={'#'}>Satoshi</Link>
+              </li>
+              <li className="btn btn-xs btn-ghost">
+                <Link href={'#'}>Zap! Zap! Zap!</Link>
+              </li>
+              <li className="btn btn-xs btn-ghost">
+                <Link href={'#'}>Nostrica</Link>
               </li>
             </ul>
 
@@ -106,24 +124,26 @@ export default function DashboardRightSidebar() {
               <TagIcon width={20} />
             </h2>
 
-            <ul className="text-sm flex gap-2 flex-wrap my-2">
-              <li>
-                <button className="btn btn-outline btn-xs">nostr</button>
+            <hr className="opacity-10" />
+
+            <ul className="-ml-2 flex flex-wrap gap-2">
+              <li className="btn btn-xs btn-ghost">
+                <Link href={'#'}>nostr</Link>
               </li>
-              <li>
-                <button className="btn btn-outline btn-xs">jack</button>
+              <li className="btn btn-xs btn-ghost">
+                <Link href={'#'}>jack</Link>
               </li>
-              <li>
-                <button className="btn btn-outline btn-xs">zap</button>
+              <li className="btn btn-xs btn-ghost">
+                <Link href={'#'}>bitcoin</Link>
               </li>
-              <li>
-                <button className="btn btn-outline btn-xs">bitcoin</button>
+              <li className="btn btn-xs btn-ghost">
+                <Link href={'#'}>zap</Link>
               </li>
-              <li>
-                <button className="btn btn-outline btn-xs">lightning</button>
+              <li className="btn btn-xs btn-ghost">
+                <Link href={'#'}>lightning</Link>
               </li>
-              <li>
-                <button className="btn btn-outline btn-xs">nostribe</button>
+              <li className="btn btn-xs btn-ghost">
+                <Link href={'#'}>nostribe</Link>
               </li>
             </ul>
 
