@@ -3,7 +3,7 @@ export default function Avatar({
   width = 'w-12',
 }: {
   url: string;
-  width?: 'w-6' | 'w-12' | 'w-24' | 'w-36';
+  width?: 'w-6' | 'w-12' | 'w-14' | 'w-24' | 'w-36';
 }) {
   return (
     <>
