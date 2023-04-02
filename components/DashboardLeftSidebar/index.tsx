@@ -4,6 +4,7 @@ import {
   WifiIcon,
 } from '@heroicons/react/24/outline';
 
+// [TODO]: get relays from state
 const relays = [
   'wss://relay.damus.io',
   'wss://relay.snort.social',

@@ -1,21 +1,28 @@
 'use client';
 
-import { useEffect } from 'react';
+import { nip19 } from 'nostr-tools';
+import { memo, useEffect } from 'react';
 
 import { PostCard, Spinner } from '@/components';
 
 import useStore from '@/store';
 
-export default function Feed() {
+function Post({ params }: { params: { address: string } }) {
+  if (params.address.startsWith('note')) {
+    const { data } = nip19.decode(params.address);
+
+    params.address = data.toString();
+  }
+
   const { clear, data, error, fetchFeed, isLoading } = useStore(
     (state) => state.feed
   );
 
   useEffect(() => {
-    fetchFeed();
+    fetchFeed({ ids: [params.address] });
 
     return () => clear();
-  }, []);
+  }, [params.address]);
 
   if (isLoading) {
     return <Spinner />;
@@ -37,3 +44,5 @@ export default function Feed() {
     </>
   );
 }
+
+export default memo(Post);

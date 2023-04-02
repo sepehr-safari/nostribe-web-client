@@ -6,3 +6,4 @@ export { default as Navbar } from './Navbar';
 export { default as PostCard } from './PostCard';
 export { default as ProfileCard } from './ProfileCard';
 export { default as Searchbar } from './Searchbar';
+export { default as Spinner } from './Spinner';

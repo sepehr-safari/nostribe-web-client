@@ -9,13 +9,17 @@ import Avatar from '../Avatar';
 import { IAuthor } from '@/types';
 
 const ProfileCard = ({
-  profileEvent,
-  contactsEvent,
+  metadata,
+  contacts,
 }: {
-  profileEvent: Event;
-  contactsEvent: Event;
+  metadata: Event[];
+  contacts: Event[];
 }) => {
-  const profileObject: IAuthor = JSON.parse(profileEvent.content);
+  if (metadata.length === 0) {
+    return <>metadata is not available, try again later.</>;
+  }
+
+  const profileObject: IAuthor = JSON.parse(metadata[0].content);
 
   return (
     <>
@@ -75,13 +79,15 @@ const ProfileCard = ({
                 </div>
               </div>
 
-              {contactsEvent && (
+              {contacts && (
                 <div className="text-xs flex flex-wrap gap-3">
                   <div>
-                    <b>{contactsEvent.tags.length}</b> Following
+                    <b>{contacts.length ? contacts[0].tags.length : 0}</b>
+                    {` `}Following
                   </div>
                   <div>
-                    <b>{0}</b> Followers
+                    <b>{`*`}</b>
+                    {` `}Followers
                   </div>
                 </div>
               )}

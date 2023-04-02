@@ -8,73 +8,38 @@ import {
   HeartIcon,
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
-import { Event, Filter, nip19 } from 'nostr-tools';
-import { memo, useEffect, useMemo, useState } from 'react';
+import { Event, nip19 } from 'nostr-tools';
+import { memo, useMemo } from 'react';
 
 import Avatar from '../Avatar';
-
-import { subscribe } from '@/utils';
 
 import { IAuthor } from '@/types';
 
 const PostCard = ({
-  profileEvent,
-  postEvent,
+  metadata,
+  event,
 }: {
-  profileEvent?: Event;
-  postEvent: Event;
+  metadata: Event[];
+  event: Event & { reactions: Event[] };
 }) => {
-  const [profileObject, setProfileObject] = useState<IAuthor>();
-  const [reactionEventList, setReactionEventList] = useState<Event[]>([]);
-
-  useEffect(() => {
-    const handlePostEvent = (e: Event) =>
-      setReactionEventList((oldEvent) => [...oldEvent, e]);
-
-    const filters: Filter[] = [{ '#e': [postEvent.id], kinds: [1, 7, 9735] }];
-
-    const subscription = subscribe(handlePostEvent, filters);
-
-    return () => subscription.unsub();
-  }, [postEvent.id]);
-
-  useEffect(() => {
-    if (profileEvent) {
-      setProfileObject(JSON.parse(profileEvent.content));
-
-      return;
-    }
-
-    const handleProfileEvent = (e: Event) =>
-      setProfileObject(JSON.parse(e.content) || null);
-
-    const filters: Filter[] = [{ authors: [postEvent.pubkey], kinds: [0] }];
-
-    const subscription = subscribe(handleProfileEvent, filters);
-
-    return () => subscription.unsub();
-  }, [profileEvent, postEvent.pubkey]);
+  const profileObject: IAuthor = JSON.parse(metadata[0]?.content || '{}');
 
   const imageRegex =
     /(?:https?:\/\/)?(?:www\.)?\S+\.(?:jpg|jpeg|png|gif|bmp)/gi;
-  const imageInsideContent = postEvent.content.match(imageRegex);
+  const imageInsideContent = event.content.match(imageRegex);
 
   const contentView = useMemo(
     () =>
       imageInsideContent
         ? imageInsideContent.reduce(
             (content, imgUrl) => content.replace(imgUrl, ''),
-            postEvent.content
+            event.content
           )
-        : postEvent.content,
+        : event.content,
     [imageInsideContent]
   );
 
-  const createdAt = new Date(postEvent.created_at * 1000);
-
-  if (profileObject === null) {
-    return null;
-  }
+  const createdAt = new Date(event.created_at * 1000);
 
   return (
     <>
@@ -83,7 +48,7 @@ const PostCard = ({
           <div className="flex flex-col gap-4">
             <div className="flex items-center gap-4">
               <Link
-                href={`/profile/${nip19.npubEncode(postEvent.pubkey)}`}
+                href={`/profile/${nip19.npubEncode(event.pubkey)}`}
                 className="flex items-center gap-4"
               >
                 <Avatar
@@ -135,7 +100,7 @@ const PostCard = ({
                         onClick={() =>
                           navigator.clipboard.writeText(
                             `${location.origin}/post/${nip19.noteEncode(
-                              postEvent.id
+                              event.id
                             )}`
                           )
                         }
@@ -146,7 +111,7 @@ const PostCard = ({
                     <li>
                       <Link
                         className="text-xs"
-                        href={`/post/${nip19.noteEncode(postEvent.id)}`}
+                        href={`/post/${nip19.noteEncode(event.id)}`}
                       >
                         Open Post
                       </Link>
@@ -154,7 +119,7 @@ const PostCard = ({
                     <li>
                       <Link
                         className="text-xs"
-                        href={`/profile/${nip19.npubEncode(postEvent.pubkey)}`}
+                        href={`/profile/${nip19.npubEncode(event.pubkey)}`}
                       >
                         Open Profile
                       </Link>
@@ -185,19 +150,19 @@ const PostCard = ({
             <button className="py-7 content-center btn btn-ghost rounded-t-none rounded-br-none rounded-bl-box px-2 gap-2 w-1/4">
               <BoltIcon width={24} />
 
-              {reactionEventList.filter((event) => event.kind === 9735).length}
+              {event.reactions?.filter((event) => event.kind === 9735).length}
             </button>
 
             <button className="py-7 content-center btn btn-ghost rounded-none px-2 gap-2 w-1/4">
               <ChatBubbleOvalLeftIcon width={24} />
 
-              {reactionEventList.filter((event) => event.kind === 1).length}
+              {event.reactions?.filter((event) => event.kind === 1).length}
             </button>
 
             <button className="py-7 content-center btn btn-ghost rounded-none px-2 gap-2 w-1/4">
               <HeartIcon width={24} />
 
-              {reactionEventList.filter((event) => event.kind === 7).length}
+              {event.reactions?.filter((event) => event.kind === 7).length}
             </button>
 
             <button className="py-7 content-center btn btn-ghost rounded-t-none rounded-bl-none rounded-br-box px-2 gap-2 w-1/4">
