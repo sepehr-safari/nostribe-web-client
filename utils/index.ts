@@ -1,3 +1,3 @@
-export { default as verifyContent } from './verifyContent';
-export { default as subscribe } from './subscribe';
+export { default as getProfileAddressType } from './getProfileAddressType';
 export { default as getProfileHex } from './getProfileHex';
+export { default as verifyContent } from './verifyContent';

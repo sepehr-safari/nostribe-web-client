@@ -9,6 +9,7 @@ export default function verifyContent(e: Event) {
     'Free sats?',
     'dugou',
     'jianhuanghui',
+    'https://www.twitterspace.co/?ref=damus',
   ];
 
   return !bannedItems.find((item) => e.content.includes(item));
