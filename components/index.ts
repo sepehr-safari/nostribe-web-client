@@ -5,6 +5,7 @@ export { default as DashboardRightSidebar } from './DashboardRightSidebar';
 export { default as Header } from './Header';
 export { default as Navbar } from './Navbar';
 export { default as Nip05View } from './Nip05View';
+export { default as PostContent } from './PostContent';
 export { default as PostCard } from './PostCard';
 export { default as ProfileCard } from './ProfileCard';
 export { default as Searchbar } from './Searchbar';

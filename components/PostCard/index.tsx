@@ -9,9 +9,9 @@ import {
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { Event, nip19 } from 'nostr-tools';
-import { memo, useMemo } from 'react';
+import { memo } from 'react';
 
-import { Avatar, CardContainer, Nip05View } from '@/components';
+import { Avatar, CardContainer, Nip05View, PostContent } from '@/components';
 
 import { IAuthor } from '@/types';
 
@@ -20,24 +20,9 @@ const PostCard = ({
   event,
 }: {
   metadata: Event[];
-  event: Event & { reactions: Event[] };
+  event: Event & { reactions: Event[]; mentions: Event[] };
 }) => {
   const profileObject: IAuthor = JSON.parse(metadata[0]?.content || '{}');
-
-  const imageRegex =
-    /(?:https?:\/\/)?(?:www\.)?\S+\.(?:jpg|jpeg|png|gif|bmp)/gi;
-  const imageInsideContent = event.content.match(imageRegex);
-
-  const contentView = useMemo(
-    () =>
-      imageInsideContent
-        ? imageInsideContent.reduce(
-            (content, imgUrl) => content.replace(imgUrl, ''),
-            event.content
-          )
-        : event.content,
-    [imageInsideContent]
-  );
 
   const createdAt = new Date(event.created_at * 1000);
 
@@ -124,17 +109,7 @@ const PostCard = ({
             </div>
 
             <div className="flex flex-col break-words gap-4 ml-16 mr-2">
-              {imageInsideContent &&
-                imageInsideContent.map((imgUrl, index) => (
-                  <div
-                    key={index}
-                    className="relative object-contain overflow-hidden w-2/3"
-                  >
-                    <img src={imgUrl} alt={contentView.slice(0, 20)} />
-                  </div>
-                ))}
-
-              <p>{contentView}</p>
+              <PostContent event={event} />
             </div>
           </div>
 

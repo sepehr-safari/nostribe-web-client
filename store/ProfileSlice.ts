@@ -11,7 +11,7 @@ export interface ProfileSlice {
     data: null | {
       metadata: Array<Event>;
       contacts: Array<Event>;
-      posts: Array<Event & { reactions: Event[] }>;
+      posts: Array<Event & { reactions: Event[]; mentions: Event[] }>;
     };
     error: null | string;
     fetchProfile: (profileAddress: string) => void;
@@ -56,7 +56,7 @@ const createProfileSlice: StateCreator<
         const metadata = profileEvents.filter((event) => event.kind === 0);
         const posts = profileEvents
           .filter((event) => event.kind === 1)
-          .map((post) => ({ ...post, reactions: [] }));
+          .map((post) => ({ ...post, reactions: [], mentions: [] }));
         const contacts = profileEvents.filter((event) => event.kind === 3);
 
         set((state) => ({
@@ -68,10 +68,20 @@ const createProfileSlice: StateCreator<
           },
         }));
 
-        const postsReactionsEvents = await get().pool.list([
+        const postDetails = await get().pool.list([
           {
             '#e': posts.map((event) => event.id),
             kinds: [1, 7, 9735],
+          },
+          {
+            authors: posts.reduce<string[]>((acc, postEvent) => {
+              postEvent.tags.forEach(
+                (tag) => tag[0] === 'p' && acc.push(tag[1])
+              );
+
+              return acc;
+            }, []),
+            kinds: [0],
           },
         ]);
 
@@ -83,10 +93,17 @@ const createProfileSlice: StateCreator<
               contacts,
               posts: posts.map((postEvent) => ({
                 ...postEvent,
-                reactions: postsReactionsEvents.filter((reactionsEvent) =>
-                  reactionsEvent.tags.find(
+                reactions: postDetails.filter((event) =>
+                  event.tags.find(
                     (tag) => tag[0] === 'e' && tag[1] === postEvent.id
                   )
+                ),
+                mentions: postDetails.filter(
+                  (event) =>
+                    event.kind === 0 &&
+                    postEvent.tags.find(
+                      (tag) => tag[0] === 'p' && tag[1] === event.pubkey
+                    )
                 ),
               })),
             },

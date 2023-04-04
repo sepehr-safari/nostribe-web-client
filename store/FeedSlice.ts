@@ -9,7 +9,9 @@ export interface FeedSlice {
   feed: {
     isLoading: boolean;
     data: null | {
-      posts: Array<Event & { metadata: Event[]; reactions: Event[] }>;
+      posts: Array<
+        Event & { metadata: Event[]; reactions: Event[]; mentions: Event[] }
+      >;
     };
     error: null | string;
     fetchFeed: (options?: { authors?: string[]; ids?: string[] }) => void;
@@ -51,6 +53,16 @@ const createFeedSlice: StateCreator<
             authors: postsEvents.map((event) => event.pubkey),
             kinds: [0],
           },
+          {
+            authors: postsEvents.reduce<string[]>((acc, postEvent) => {
+              postEvent.tags.forEach(
+                (tag) => tag[0] === 'p' && acc.push(tag[1])
+              );
+
+              return acc;
+            }, []),
+            kinds: [0],
+          },
         ]);
 
         const metadata = postsDetails.filter((event) => event.kind === 0);
@@ -74,6 +86,14 @@ const createFeedSlice: StateCreator<
                     reactionsEvent.tags.find(
                       (tag) => tag[0] === 'e' && tag[1] === postEvent.id
                     )
+                  ),
+                  mentions: metadata.filter(
+                    (metadataEvent) =>
+                      metadataEvent.pubkey !== postEvent.pubkey &&
+                      postEvent.tags.find(
+                        (tag) =>
+                          tag[0] === 'p' && tag[1] === metadataEvent.pubkey
+                      )
                   ),
                 })),
             },
