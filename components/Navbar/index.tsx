@@ -10,7 +10,7 @@ import {
 export default function Navbar() {
   return (
     <>
-      <nav className="navbar bg-base-100 justify-center">
+      <nav className="navbar justify-center">
         <ul className="gap-2">
           <li>
             <FeedNavItem />

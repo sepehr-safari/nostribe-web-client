@@ -4,7 +4,7 @@ export default function Searchbar() {
       <input
         type="text"
         placeholder="Search ..."
-        className="input input-bordered w-full"
+        className="input input-bordered input-sm w-full"
       />
     </>
   );

@@ -4,7 +4,7 @@ import { PlusIcon } from '@heroicons/react/24/outline';
 import { Event } from 'nostr-tools';
 import { memo } from 'react';
 
-import Avatar from '../Avatar';
+import { Avatar, CardContainer, Nip05View } from '@/components';
 
 import { IAuthor } from '@/types';
 
@@ -23,7 +23,7 @@ const ProfileCard = ({
 
   return (
     <>
-      <div className="card bg-neutral text-neutral-content shadow-2xl shadow-black">
+      <CardContainer>
         <div className="card-body p-4">
           <div className="absolute top-0 left-0 w-full h-48">
             <img
@@ -48,26 +48,8 @@ const ProfileCard = ({
                     </div>
                   )}
 
-                  {profileObject.nip05 && profileObject.nip05.length > 25 ? (
-                    <div className="dropdown dropdown-hover">
-                      <label tabIndex={0}>
-                        <div className="text-sm font-bold bg-gradient-to-r from-warning to-accent text-transparent bg-clip-text">
-                          {profileObject.nip05.slice(0, 10) +
-                            '...' +
-                            profileObject.nip05.slice(-15)}
-                        </div>
-                      </label>
-                      <div
-                        tabIndex={0}
-                        className="dropdown-content menu p-2 text-xs bg-accent text-accent-content rounded-xl"
-                      >
-                        {profileObject.nip05}
-                      </div>
-                    </div>
-                  ) : (
-                    <div className="text-sm font-bold bg-gradient-to-r from-warning to-accent text-transparent bg-clip-text">
-                      {profileObject.nip05}
-                    </div>
+                  {profileObject.nip05 && (
+                    <Nip05View text={profileObject.nip05} />
                   )}
                 </div>
 
@@ -98,7 +80,7 @@ const ProfileCard = ({
             </div>
           </div>
         </div>
-      </div>
+      </CardContainer>
     </>
   );
 };

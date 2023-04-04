@@ -4,6 +4,8 @@ import {
   WifiIcon,
 } from '@heroicons/react/24/outline';
 
+import { CardContainer } from '@/components';
+
 // [TODO]: get relays from state
 const relays = [
   'wss://relay.damus.io',
@@ -20,7 +22,7 @@ export default function DashboardLeftSidebar() {
   return (
     <>
       <aside className="hidden lg:flex flex-col w-1/4 px-2 py-4 gap-4">
-        <div className="card bg-neutral text-neutral-content shadow-2xl shadow-black">
+        <CardContainer>
           <div className="card-body p-4">
             <h2 className="card-title">
               Relays
@@ -45,7 +47,7 @@ export default function DashboardLeftSidebar() {
               </button>
             </div>
           </div>
-        </div>
+        </CardContainer>
       </aside>
     </>
   );

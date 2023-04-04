@@ -6,13 +6,15 @@ import {
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 
+import { CardContainer } from '@/components';
+
 // [TODO] replace mock data with real data
 
 export default function DashboardRightSidebar() {
   return (
     <>
       <aside className="hidden md:flex flex-col md:w-1/4 px-2 py-4 gap-4">
-        <div className="card bg-neutral text-neutral-content shadow-2xl shadow-black">
+        <CardContainer>
           <div className="card-body p-4">
             <h2 className="card-title">
               Tribe
@@ -76,9 +78,9 @@ export default function DashboardRightSidebar() {
               </button>
             </div>
           </div>
-        </div>
+        </CardContainer>
 
-        <div className="card bg-neutral text-neutral-content shadow-2xl shadow-black">
+        <CardContainer>
           <div className="card-body p-4">
             <h2 className="card-title">
               Popular Chat Rooms
@@ -115,9 +117,9 @@ export default function DashboardRightSidebar() {
               </button>
             </div>
           </div>
-        </div>
+        </CardContainer>
 
-        <div className="card bg-neutral text-neutral-content shadow-2xl shadow-black">
+        <CardContainer>
           <div className="card-body p-4">
             <h2 className="card-title">
               Popular Tags
@@ -154,7 +156,7 @@ export default function DashboardRightSidebar() {
               </button>
             </div>
           </div>
-        </div>
+        </CardContainer>
       </aside>
     </>
   );

@@ -25,7 +25,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="h-full w-full" data-theme="nostribish">
+    <html
+      lang="en"
+      className="h-full w-full bg-gradient-to-l from-base-200 to-base-200"
+      data-theme="nostribish"
+    >
       <body className="overflow-x-hidden overflow-y-auto">{children}</body>
     </html>
   );

@@ -1,12 +1,11 @@
 import { BellIcon, UserIcon } from '@heroicons/react/24/outline';
 
-import Avatar from '../Avatar';
-import Searchbar from '../Searchbar';
+import { Avatar, Searchbar } from '@/components';
 
 export default function Header() {
   return (
     <>
-      <nav className="navbar bg-base-100 justify-center">
+      <nav className="navbar justify-center">
         <div className="w-full max-w-screen-xl">
           <div className="flex w-full items-center justify-between">
             <div className="flex gap-2 items-center w-1/4">
@@ -17,7 +16,7 @@ export default function Header() {
               </h1>
             </div>
 
-            <div className="flex w-1/3">
+            <div className="flex w-1/3 px-2">
               <Searchbar />
             </div>
 

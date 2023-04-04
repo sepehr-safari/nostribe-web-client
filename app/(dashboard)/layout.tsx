@@ -14,7 +14,7 @@ export default function DashboardLayout({
 }) {
   return (
     <>
-      <header className="w-full z-20 shadow-lg shadow-black fixed top-0">
+      <header className="backdrop-blur-lg bg-base-200 bg-opacity-50 shadow-lg shadow-black w-full z-20 fixed top-0">
         <Header />
 
         <Navbar />

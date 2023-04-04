@@ -11,7 +11,7 @@ import Link from 'next/link';
 import { Event, nip19 } from 'nostr-tools';
 import { memo, useMemo } from 'react';
 
-import Avatar from '../Avatar';
+import { Avatar, CardContainer, Nip05View } from '@/components';
 
 import { IAuthor } from '@/types';
 
@@ -43,7 +43,7 @@ const PostCard = ({
 
   return (
     <>
-      <article className="card bg-neutral text-neutral-content shadow-2xl shadow-black">
+      <CardContainer>
         <div className="card-body gap-4 p-4">
           <div className="flex flex-col gap-4">
             <div className="flex items-center gap-4">
@@ -68,13 +68,7 @@ const PostCard = ({
                   )}
 
                   {profileObject?.nip05 && (
-                    <h5 className="text-xs leading-5 font-bold bg-gradient-to-r from-warning to-accent text-transparent bg-clip-text">
-                      {profileObject.nip05.length > 25
-                        ? profileObject.nip05.slice(0, 10) +
-                          '...' +
-                          profileObject.nip05.slice(-15)
-                        : profileObject.nip05}
-                    </h5>
+                    <Nip05View text={profileObject.nip05} />
                   )}
 
                   {createdAt && (
@@ -182,7 +176,7 @@ const PostCard = ({
               ))}
           </div> */}
         </div>
-      </article>
+      </CardContainer>
     </>
   );
 };
