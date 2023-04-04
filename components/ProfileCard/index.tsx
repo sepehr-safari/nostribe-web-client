@@ -34,10 +34,12 @@ const ProfileCard = ({
           </div>
 
           <div className="flex flex-col items-center gap-4 pt-36 md:flex-row">
-            <Avatar
-              url={profileObject.picture || '/nostribe.png'}
-              width="w-36"
-            />
+            <div className="md:self-start">
+              <Avatar
+                url={profileObject.picture || '/nostribe.png'}
+                width="w-36"
+              />
+            </div>
 
             <div className="flex flex-col w-full gap-3 md:mt-12">
               <div className="flex flex-wrap">
