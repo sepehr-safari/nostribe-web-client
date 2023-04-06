@@ -4,40 +4,40 @@ import { memo, useEffect } from 'react';
 
 import { PostCard, ProfileCard, Spinner } from '@/components';
 
+import { getProfileHex } from '@/utils';
+
 import useStore from '@/store';
 
-function Profile({ params }: { params: { address: string } }) {
-  const { clear, data, error, fetchProfile, isLoading } = useStore(
-    (state) => state.profile
+const Profile = ({ params }: { params: { address: string } }) => {
+  const { clearFeed, data, fetchFeed, isFetching } = useStore(
+    (state) => state.feed
   );
 
   useEffect(() => {
-    fetchProfile(params.address);
+    getProfileHex(params.address).then((profileHex) =>
+      fetchFeed({ author: profileHex })
+    );
 
-    return () => clear();
-  }, [params.address]);
+    return () => clearFeed();
+  }, [params.address, clearFeed, fetchFeed]);
 
-  if (isLoading) {
-    return <Spinner />;
-  }
+  if (!data || !data.author || !data.posts) {
+    if (isFetching) {
+      return <Spinner />;
+    }
 
-  if (error) {
-    return <>{error}</>;
-  }
-
-  if (!data) {
-    return null;
+    return <>Profile Not Found!</>;
   }
 
   return (
     <>
-      <ProfileCard metadata={data.metadata} contacts={data.contacts} />
+      <ProfileCard data={data.author} />
 
-      {data.posts.map((post, index) => (
-        <PostCard key={index} metadata={data.metadata} event={post} />
+      {data.posts.map((postEvent, index) => (
+        <PostCard key={index} data={postEvent} />
       ))}
     </>
   );
-}
+};
 
 export default memo(Profile);

@@ -8,21 +8,30 @@ import {
   HeartIcon,
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
-import { Event, nip19 } from 'nostr-tools';
+import { nip19 } from 'nostr-tools';
 import { memo } from 'react';
 
-import { Avatar, CardContainer, Nip05View, PostContent } from '@/components';
+import {
+  Avatar,
+  AvatarLoader,
+  BoxLoader,
+  CardContainer,
+  Nip05View,
+  PostContent,
+} from '@/components';
 
-import { IAuthor } from '@/types';
+import useStore from '@/store';
 
-const PostCard = ({
-  metadata,
-  event,
-}: {
-  metadata: Event[];
-  event: Event & { reactions: Event[]; mentions: Event[] };
-}) => {
-  const profileObject: IAuthor = JSON.parse(metadata[0]?.content || '{}');
+import { IAuthor, PostData } from '@/types';
+
+const PostCard = ({ data }: { data: PostData }) => {
+  const isFetching = useStore((state) => state.feed.isFetching);
+
+  const { event, metadata, reactions = [] } = data;
+
+  const profileObject: IAuthor = JSON.parse(metadata?.content || '{}');
+
+  const displayName = profileObject.display_name || profileObject.name;
 
   const createdAt = new Date(event.created_at * 1000);
 
@@ -36,24 +45,34 @@ const PostCard = ({
                 href={`/profile/${nip19.npubEncode(event.pubkey)}`}
                 className="flex items-center gap-4"
               >
-                <Avatar
-                  url={profileObject?.picture || '/nostribe.png'}
-                  width="w-14"
-                />
+                {profileObject && profileObject.picture ? (
+                  <Avatar
+                    url={profileObject.picture || '/nostribe.png'}
+                    width="w-14"
+                  />
+                ) : isFetching ? (
+                  <AvatarLoader />
+                ) : (
+                  <Avatar url="/nostribe.png" width="w-14" />
+                )}
 
                 <div className="flex flex-col">
-                  {profileObject?.name && (
+                  {profileObject && displayName ? (
                     <h4 className="leading-5 font-bold">
-                      {profileObject.name.length > 25
-                        ? profileObject.name.slice(0, 10) +
+                      {displayName.length > 25
+                        ? displayName.slice(0, 10) +
                           '...' +
-                          profileObject.name.slice(-15)
-                        : profileObject.name}
+                          displayName.slice(-15)
+                        : displayName}
                     </h4>
+                  ) : (
+                    isFetching && <BoxLoader />
                   )}
 
-                  {profileObject?.nip05 && (
+                  {profileObject && profileObject.nip05 ? (
                     <Nip05View text={profileObject.nip05} />
+                  ) : (
+                    isFetching && <BoxLoader />
                   )}
 
                   {createdAt && (
@@ -109,7 +128,7 @@ const PostCard = ({
             </div>
 
             <div className="flex flex-col break-words gap-4 ml-16 mr-2">
-              <PostContent event={event} />
+              <PostContent data={data} />
             </div>
           </div>
 
@@ -119,19 +138,19 @@ const PostCard = ({
             <button className="py-7 content-center btn btn-ghost rounded-t-none rounded-br-none rounded-bl-box px-2 gap-2 w-1/4">
               <BoltIcon width={24} />
 
-              {event.reactions?.filter((event) => event.kind === 9735).length}
+              {reactions.filter((event) => event.kind === 9735).length}
             </button>
 
             <button className="py-7 content-center btn btn-ghost rounded-none px-2 gap-2 w-1/4">
               <ChatBubbleOvalLeftIcon width={24} />
 
-              {event.reactions?.filter((event) => event.kind === 1).length}
+              {reactions.filter((event) => event.kind === 1).length}
             </button>
 
             <button className="py-7 content-center btn btn-ghost rounded-none px-2 gap-2 w-1/4">
               <HeartIcon width={24} />
 
-              {event.reactions?.filter((event) => event.kind === 7).length}
+              {reactions.filter((event) => event.kind === 7).length}
             </button>
 
             <button className="py-7 content-center btn btn-ghost rounded-t-none rounded-bl-none rounded-br-box px-2 gap-2 w-1/4">

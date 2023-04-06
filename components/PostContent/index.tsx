@@ -1,18 +1,16 @@
 import Link from 'next/link';
-import { Event, nip19 } from 'nostr-tools';
+import { nip19 } from 'nostr-tools';
+import { memo } from 'react';
+
+import { PostData } from '@/types';
 
 import { parseImageUrls, parseMentions } from '@/utils';
 
-export default function PostContent({
-  event,
-}: {
-  event: Event & { reactions: Event[]; mentions: Event[] };
-}) {
-  const eventContent = event.content;
-  const eventTags = event.tags;
-  const eventMentions = event.mentions;
+const PostContent = ({ data }: { data: PostData }) => {
+  const { event, mentions } = data;
+  const { content, tags } = event;
 
-  const { imageUrlList, imagelessString } = parseImageUrls(eventContent);
+  const { imageUrlList, imagelessString } = parseImageUrls(content);
 
   const parsedMentions = parseMentions(imagelessString);
 
@@ -35,21 +33,19 @@ export default function PostContent({
           const tagIndex = +value.content;
 
           const isTagValid =
-            eventTags &&
-            eventTags.length > tagIndex &&
-            eventTags[tagIndex].length > 0;
+            tags && tags.length > tagIndex && tags[tagIndex].length > 0;
 
           if (!isTagValid) return null;
 
-          const isProfileMention = eventTags[tagIndex][0] === 'p';
+          const isProfileMention = tags[tagIndex][0] === 'p';
 
           if (isProfileMention) {
-            const profileHex = eventTags[tagIndex][1];
+            const profileHex = tags[tagIndex][1];
             const profileNpub = nip19.npubEncode(profileHex);
 
             const profileContent =
-              (eventMentions || []).find((event) => event.pubkey === profileHex)
-                ?.content || '{}';
+              (mentions || []).find((e) => e.pubkey === profileHex)?.content ||
+              '{}';
             const profileObj = JSON.parse(profileContent);
             const profileName = profileObj.name;
 
@@ -64,7 +60,7 @@ export default function PostContent({
             );
           }
 
-          const note = nip19.noteEncode(eventTags[tagIndex][1]);
+          const note = nip19.noteEncode(tags[tagIndex][1]);
 
           return (
             <Link key={mapIndex} href={`/post/${note}`} className="text-info">
@@ -75,4 +71,6 @@ export default function PostContent({
       </p>
     </>
   );
-}
+};
+
+export default memo(PostContent);

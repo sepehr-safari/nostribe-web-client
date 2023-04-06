@@ -1,39 +1,31 @@
 'use client';
 
-import { useEffect } from 'react';
+import { memo, useEffect } from 'react';
 
 import { PostCard, Spinner } from '@/components';
 
 import useStore from '@/store';
 
-export default function Feed() {
-  const { clear, data, error, fetchFeed, isLoading } = useStore(
-    (state) => state.feed
-  );
+const Feed = () => {
+  const { clearFeed, data, fetchFeed } = useStore((state) => state.feed);
 
   useEffect(() => {
     fetchFeed();
 
-    return () => clear();
-  }, []);
+    return () => clearFeed();
+  }, [fetchFeed, clearFeed]);
 
-  if (isLoading) {
+  if (!data || !data.posts) {
     return <Spinner />;
-  }
-
-  if (error) {
-    return <>{error}</>;
-  }
-
-  if (!data) {
-    return null;
   }
 
   return (
     <>
-      {data.posts.map((event, index) => (
-        <PostCard key={index} event={event} metadata={event.metadata} />
+      {data.posts.map((postData, index) => (
+        <PostCard key={index} data={postData} />
       ))}
     </>
   );
-}
+};
+
+export default memo(Feed);

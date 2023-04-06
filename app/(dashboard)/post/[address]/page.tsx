@@ -7,42 +7,36 @@ import { PostCard, Spinner } from '@/components';
 
 import useStore from '@/store';
 
-function Post({ params }: { params: { address: string } }) {
-  if (params.address.startsWith('note')) {
-    const { data } = nip19.decode(params.address);
-
-    params.address = data.toString();
-  }
-
-  const { clear, data, error, fetchFeed, isLoading } = useStore(
+const Post = ({ params }: { params: { address: string } }) => {
+  const { clearFeed, data, fetchFeed, isFetching } = useStore(
     (state) => state.feed
   );
 
   useEffect(() => {
-    fetchFeed({ ids: [params.address] });
+    const id = params.address.startsWith('note')
+      ? nip19.decode(params.address).data.toString()
+      : params.address;
 
-    return () => clear();
-  }, [params.address]);
+    fetchFeed({ id });
 
-  if (isLoading) {
-    return <Spinner />;
-  }
+    return () => clearFeed();
+  }, [params.address, fetchFeed, clearFeed]);
 
-  if (error) {
-    return <>{error}</>;
-  }
+  if (!data || !data.posts) {
+    if (isFetching) {
+      return <Spinner />;
+    }
 
-  if (!data) {
-    return null;
+    return <>Post Not Found</>;
   }
 
   return (
     <>
-      {data.posts.map((event, index) => (
-        <PostCard key={index} event={event} metadata={event.metadata} />
+      {data.posts.map((post, index) => (
+        <PostCard key={index} data={post} />
       ))}
     </>
   );
-}
+};
 
 export default memo(Post);
