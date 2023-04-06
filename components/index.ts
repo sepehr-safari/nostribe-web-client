@@ -1,12 +1,14 @@
 export { default as Avatar } from './Avatar';
+export { default as AvatarLoader } from './AvatarLoader';
+export { default as BoxLoader } from './BoxLoader';
 export { default as CardContainer } from './CardContainer';
 export { default as DashboardLeftSidebar } from './DashboardLeftSidebar';
 export { default as DashboardRightSidebar } from './DashboardRightSidebar';
 export { default as Header } from './Header';
 export { default as Navbar } from './Navbar';
 export { default as Nip05View } from './Nip05View';
-export { default as PostContent } from './PostContent';
 export { default as PostCard } from './PostCard';
+export { default as PostContent } from './PostContent';
 export { default as ProfileCard } from './ProfileCard';
 export { default as Searchbar } from './Searchbar';
 export { default as Spinner } from './Spinner';
