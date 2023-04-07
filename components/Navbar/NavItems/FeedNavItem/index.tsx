@@ -5,7 +5,7 @@ import { HomeIcon } from '@heroicons/react/24/outline';
 export default function FeedNavItem() {
   return (
     <>
-      <Link href="/" className="btn btn-ghost p-3 rounded-full md:rounded-lg">
+      <Link href="/" className="btn-ghost btn rounded-full p-3 md:rounded-lg">
         <div>
           <HomeIcon width={24} className="block md:hidden" />
         </div>

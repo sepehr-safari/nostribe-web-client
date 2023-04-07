@@ -19,7 +19,7 @@ const PostContent = ({ data }: { data: PostData }) => {
       {imageUrlList.map((imgUrl, index) => (
         <div
           key={index}
-          className="relative object-contain overflow-hidden w-2/3"
+          className="relative w-2/3 overflow-hidden object-contain"
         >
           <img src={imgUrl} alt={imagelessString.slice(0, 20)} />
         </div>

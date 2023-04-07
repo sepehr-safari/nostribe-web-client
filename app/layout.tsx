@@ -30,7 +30,7 @@ export default function RootLayout({
       className="h-full w-full bg-gradient-to-l from-base-200 to-base-200"
       data-theme="nostribish"
     >
-      <body className="overflow-x-hidden overflow-y-auto">{children}</body>
+      <body className="overflow-y-auto overflow-x-hidden">{children}</body>
     </html>
   );
 }

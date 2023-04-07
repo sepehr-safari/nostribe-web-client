@@ -8,10 +8,10 @@ export default function Header() {
       <nav className="navbar justify-center">
         <div className="w-full max-w-screen-xl">
           <div className="flex w-full items-center justify-between">
-            <div className="flex gap-2 items-center w-1/4">
+            <div className="flex w-1/4 items-center gap-2">
               <Avatar url="/nostribe.png" />
 
-              <h1 className="font-bold normal-case text-lg md:text-xl">
+              <h1 className="text-lg font-bold normal-case md:text-xl">
                 Nostribe
               </h1>
             </div>
@@ -21,14 +21,14 @@ export default function Header() {
             </div>
 
             <div className="flex w-1/4 justify-end gap-2">
-              <button className="btn btn-ghost btn-circle">
+              <button className="btn-ghost btn-circle btn">
                 <div className="indicator">
                   <BellIcon width={24} />
-                  <span className="badge badge-xs badge-primary indicator-item"></span>
+                  <span className="badge-primary badge badge-xs indicator-item"></span>
                 </div>
               </button>
 
-              <button className="btn btn-ghost btn-circle">
+              <button className="btn-ghost btn-circle btn">
                 <UserIcon width={24} />
               </button>
             </div>

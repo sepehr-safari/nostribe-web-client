@@ -34,10 +34,10 @@ const ProfileCard = ({ data }: { data: AuthorData }) => {
     <>
       <CardContainer>
         <div className="card-body p-4">
-          <div className="absolute top-0 left-0 w-full h-48">
+          <div className="absolute top-0 left-0 h-48 w-full">
             <img
               src={banner || '/nostribe.png'}
-              className="opacity-80 w-full h-full object-cover rounded-t-box"
+              className="rounded-t-box h-full w-full object-cover opacity-80"
               alt={displayName}
             />
           </div>
@@ -47,7 +47,7 @@ const ProfileCard = ({ data }: { data: AuthorData }) => {
               <Avatar url={picture || '/nostribe.png'} width="w-36" />
             </div>
 
-            <div className="flex flex-col w-full gap-3 md:mt-12">
+            <div className="flex w-full flex-col gap-3 md:mt-12">
               <div className="flex flex-wrap">
                 <div className="flex flex-col gap-2">
                   {displayName && (
@@ -63,8 +63,8 @@ const ProfileCard = ({ data }: { data: AuthorData }) => {
                   )}
                 </div>
 
-                <div className="flex ml-auto">
-                  <button className="btn btn-sm btn-ghost gap-2">
+                <div className="ml-auto flex">
+                  <button className="btn-ghost btn-sm btn gap-2">
                     <PlusIcon width={16} />
                     Follow
                   </button>
@@ -72,7 +72,7 @@ const ProfileCard = ({ data }: { data: AuthorData }) => {
               </div>
 
               {contacts && (
-                <div className="text-xs flex flex-wrap gap-3">
+                <div className="flex flex-wrap gap-3 text-xs">
                   <div>
                     <b>{contacts.length ? contacts[0].tags.length : 0}</b>
                     {` `}Following
@@ -84,7 +84,7 @@ const ProfileCard = ({ data }: { data: AuthorData }) => {
                 </div>
               )}
 
-              {about && <div className="text-xs break-all">{about}</div>}
+              {about && <div className="break-all text-xs">{about}</div>}
             </div>
           </div>
         </div>

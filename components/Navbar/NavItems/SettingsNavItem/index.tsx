@@ -7,7 +7,7 @@ export default function SettingsNavItem() {
     <>
       <Link
         href="/settings"
-        className="btn btn-ghost p-3 rounded-full md:rounded-lg"
+        className="btn-ghost btn rounded-full p-3 md:rounded-lg"
       >
         <div>
           <Cog6ToothIcon width={24} className="block md:hidden" />

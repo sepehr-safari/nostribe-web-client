@@ -1,6 +1,6 @@
 function ColoredText({ text }: { text: string }) {
   return (
-    <div className="text-xs leading-5 font-bold bg-gradient-to-r from-warning to-info text-transparent bg-clip-text">
+    <div className="bg-gradient-to-r from-warning to-info bg-clip-text text-xs font-bold leading-5 text-transparent">
       {text}
     </div>
   );
@@ -20,7 +20,7 @@ export default function Nip05View({ text }: { text: string }) {
       </label>
       <div
         tabIndex={0}
-        className="dropdown-content menu p-2 text-xs bg-accent text-accent-content rounded-xl"
+        className="dropdown-content menu rounded-xl bg-accent p-2 text-xs text-accent-content"
       >
         {text}
       </div>

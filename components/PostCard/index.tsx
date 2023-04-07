@@ -58,7 +58,7 @@ const PostCard = ({ data }: { data: PostData }) => {
 
                 <div className="flex flex-col">
                   {profileObject && displayName ? (
-                    <h4 className="leading-5 font-bold">
+                    <h4 className="font-bold leading-5">
                       {displayName.length > 25
                         ? displayName.slice(0, 10) +
                           '...' +
@@ -85,12 +85,12 @@ const PostCard = ({ data }: { data: PostData }) => {
 
               <div className="ml-auto">
                 <div className="dropdown dropdown-left">
-                  <label tabIndex={0} className="btn btn-ghost btn-circle m-1">
+                  <label tabIndex={0} className="btn-ghost btn-circle btn m-1">
                     <EllipsisHorizontalIcon width={24} />
                   </label>
                   <ul
                     tabIndex={0}
-                    className="dropdown-content menu p-2 shadow-black shadow-lg bg-base-100 rounded-box w-32"
+                    className="dropdown-content menu rounded-box w-32 bg-base-100 p-2 shadow-lg shadow-black"
                   >
                     <li>
                       <button
@@ -127,33 +127,33 @@ const PostCard = ({ data }: { data: PostData }) => {
               </div>
             </div>
 
-            <div className="flex flex-col break-words gap-4 ml-16 mr-2">
+            <div className="ml-16 mr-2 flex flex-col gap-4 break-words">
               <PostContent data={data} />
             </div>
           </div>
 
-          <hr className="opacity-10 -mx-4 mt-2" />
+          <hr className="-mx-4 mt-2 opacity-10" />
 
-          <div className="flex flex-wrap -m-4">
-            <button className="py-7 content-center btn btn-ghost rounded-t-none rounded-br-none rounded-bl-box px-2 gap-2 w-1/4">
+          <div className="-m-4 flex flex-wrap">
+            <button className="btn-ghost rounded-bl-box btn w-1/4 content-center gap-2 rounded-t-none rounded-br-none py-7 px-2">
               <BoltIcon width={24} />
 
               {reactions.filter((event) => event.kind === 9735).length}
             </button>
 
-            <button className="py-7 content-center btn btn-ghost rounded-none px-2 gap-2 w-1/4">
+            <button className="btn-ghost btn w-1/4 content-center gap-2 rounded-none py-7 px-2">
               <ChatBubbleOvalLeftIcon width={24} />
 
               {reactions.filter((event) => event.kind === 1).length}
             </button>
 
-            <button className="py-7 content-center btn btn-ghost rounded-none px-2 gap-2 w-1/4">
+            <button className="btn-ghost btn w-1/4 content-center gap-2 rounded-none py-7 px-2">
               <HeartIcon width={24} />
 
               {reactions.filter((event) => event.kind === 7).length}
             </button>
 
-            <button className="py-7 content-center btn btn-ghost rounded-t-none rounded-bl-none rounded-br-box px-2 gap-2 w-1/4">
+            <button className="btn-ghost rounded-br-box btn w-1/4 content-center gap-2 rounded-t-none rounded-bl-none py-7 px-2">
               <ArrowPathIcon width={24} />
 
               {}

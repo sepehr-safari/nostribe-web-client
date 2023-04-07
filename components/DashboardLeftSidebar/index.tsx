@@ -21,7 +21,7 @@ const relays = [
 export default function DashboardLeftSidebar() {
   return (
     <>
-      <aside className="hidden lg:flex flex-col w-1/4 px-2 py-4 gap-4">
+      <aside className="hidden w-1/4 flex-col gap-4 px-2 py-4 lg:flex">
         <CardContainer>
           <div className="card-body p-4">
             <h2 className="card-title">
@@ -41,7 +41,7 @@ export default function DashboardLeftSidebar() {
             </ul>
 
             <div className="card-actions justify-end">
-              <button className="btn btn-xs btn-ghost">
+              <button className="btn-ghost btn-xs btn">
                 Manage Relays
                 <ChevronRightIcon width={16} />
               </button>
