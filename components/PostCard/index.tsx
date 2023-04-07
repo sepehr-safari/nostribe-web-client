@@ -90,7 +90,7 @@ const PostCard = ({ data }: { data: PostData }) => {
                   </label>
                   <ul
                     tabIndex={0}
-                    className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-32"
+                    className="dropdown-content menu p-2 shadow-black shadow-lg bg-base-100 rounded-box w-32"
                   >
                     <li>
                       <button
