@@ -18,7 +18,10 @@ const Profile = ({ params }: { params: { address: string } }) => {
       fetchFeed({ author: profileHex })
     );
 
-    return () => clearFeed();
+    return () => {
+      clearFeed();
+      document.title = `Nostribe`;
+    };
   }, [params.address, clearFeed, fetchFeed]);
 
   if (!data || !data.author || !data.posts) {
@@ -28,6 +31,12 @@ const Profile = ({ params }: { params: { address: string } }) => {
 
     return <>Profile Not Found!</>;
   }
+
+  const content = data.author.event?.content || '{}';
+  const { display_name, name } = JSON.parse(content);
+  const displayName = display_name || name;
+
+  document.title = `${displayName} | Nostribe`;
 
   return (
     <>
