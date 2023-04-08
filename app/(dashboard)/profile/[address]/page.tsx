@@ -24,7 +24,7 @@ const Profile = ({ params }: { params: { address: string } }) => {
     };
   }, [params.address, clearFeed, fetchFeed]);
 
-  if (!data || !data.author || !data.posts) {
+  if (!data || !data.author) {
     if (isFetching) {
       return <Spinner />;
     }
@@ -42,7 +42,7 @@ const Profile = ({ params }: { params: { address: string } }) => {
     <>
       <ProfileCard data={data.author} />
 
-      {data.posts.map((postEvent, index) => (
+      {data.posts?.map((postEvent, index) => (
         <PostCard key={index} data={postEvent} />
       ))}
     </>
