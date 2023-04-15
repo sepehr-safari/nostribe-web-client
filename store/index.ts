@@ -1,12 +1,12 @@
 import { create } from 'zustand';
 
 import createPoolSlice, { PoolSlice } from './PoolSlice';
-import createUserSlice, { UserSlice } from './UserSlice';
+import createAuthSlice, { AuthSlice } from './AuthSlice';
 import createFeedSlice, { FeedSlice } from './FeedSlice';
 
-const useStore = create<PoolSlice & UserSlice & FeedSlice>()((...a) => ({
+const useStore = create<PoolSlice & AuthSlice & FeedSlice>()((...a) => ({
   ...createPoolSlice(...a),
-  ...createUserSlice(...a),
+  ...createAuthSlice(...a),
   ...createFeedSlice(...a),
 }));
 
