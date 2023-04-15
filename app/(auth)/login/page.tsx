@@ -69,7 +69,7 @@ const Login = () => {
     if (pubkey) {
       loginWithPublicKey(pubkey);
     }
-  }, []);
+  }, [loginWithPublicKey]);
 
   return (
     <>
