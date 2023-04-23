@@ -2,7 +2,7 @@ import ContentLoader from 'react-content-loader';
 
 const BoxLoader = () => (
   <ContentLoader
-    speed={3}
+    speed={1.5}
     width={120}
     height={20}
     viewBox="0 0 120 10"

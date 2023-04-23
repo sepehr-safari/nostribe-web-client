@@ -8,8 +8,12 @@ import {
   HeartIcon,
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
-import { nip19 } from 'nostr-tools';
+import { Event, nip19 } from 'nostr-tools';
 import { memo } from 'react';
+
+import { useNostrSubscribe } from 'nostr-hooks';
+
+import { IAuthor } from '@/types';
 
 import {
   Avatar,
@@ -20,23 +24,34 @@ import {
   PostContent,
 } from '@/components';
 
-import { IAuthor, PostData } from '@/types';
+const relays = [
+  'wss://relay.damus.io',
+  'wss://relay.snort.social',
+  'wss://eden.nostr.land',
+  'wss://relay.nostr.info',
+  'wss://offchain.pub',
+  'wss://nostr-pub.wellorder.net',
+  'wss://nostr.fmt.wiz.biz',
+  'wss://nos.lol',
+];
 
-import useStore from '@/store';
-
-import { usePublish } from '@/hooks';
-
-const PostCard = ({ data }: { data: PostData }) => {
-  const isFetching = useStore((state) => state.feed.isFetching);
-  const publish = usePublish();
-
-  const { event, metadata, reactions = [] } = data;
-
-  const profileObject: IAuthor = JSON.parse(metadata?.content || '{}');
+const View = ({
+  noteEvent,
+  metadataEvent,
+  reactionEvents,
+  isFetching,
+}: {
+  noteEvent: Event;
+  metadataEvent: Event;
+  reactionEvents: Event[];
+  isFetching: boolean;
+}) => {
+  const profileObject: IAuthor =
+    !!metadataEvent && JSON.parse(metadataEvent.content || '{}');
 
   const displayName = profileObject.display_name || profileObject.name;
 
-  const createdAt = new Date(event.created_at * 1000);
+  const createdAt = new Date(noteEvent.created_at * 1000);
 
   return (
     <>
@@ -44,7 +59,7 @@ const PostCard = ({ data }: { data: PostData }) => {
         <div className="flex flex-col gap-4">
           <div className="flex items-center gap-4">
             <Link
-              href={`/profile/${nip19.npubEncode(event.pubkey)}`}
+              href={`/profile/${nip19.npubEncode(noteEvent.pubkey)}`}
               className="flex items-center gap-4"
             >
               {profileObject && profileObject.picture ? (
@@ -53,7 +68,9 @@ const PostCard = ({ data }: { data: PostData }) => {
                   width="w-14"
                 />
               ) : isFetching ? (
-                <AvatarLoader />
+                <div className="w-14 h-14 flex items-center">
+                  <AvatarLoader />
+                </div>
               ) : (
                 <Avatar url="/nostribe.png" width="w-14" />
               )}
@@ -100,7 +117,7 @@ const PostCard = ({ data }: { data: PostData }) => {
                       onClick={() =>
                         navigator.clipboard.writeText(
                           `${location.origin}/post/${nip19.noteEncode(
-                            event.id
+                            noteEvent.id
                           )}`
                         )
                       }
@@ -111,7 +128,7 @@ const PostCard = ({ data }: { data: PostData }) => {
                   <li>
                     <Link
                       className="text-xs"
-                      href={`/post/${nip19.noteEncode(event.id)}`}
+                      href={`/post/${nip19.noteEncode(noteEvent.id)}`}
                     >
                       Open Post
                     </Link>
@@ -119,7 +136,7 @@ const PostCard = ({ data }: { data: PostData }) => {
                   <li>
                     <Link
                       className="text-xs"
-                      href={`/profile/${nip19.npubEncode(event.pubkey)}`}
+                      href={`/profile/${nip19.npubEncode(noteEvent.pubkey)}`}
                     >
                       Open Profile
                     </Link>
@@ -130,14 +147,14 @@ const PostCard = ({ data }: { data: PostData }) => {
           </div>
 
           <div className="ml-16 mr-2 flex flex-col gap-4 break-words">
-            <PostContent data={data} />
+            <PostContent noteEvent={noteEvent} />
           </div>
         </div>
 
         {/* {reactions
           .filter((event) => event.kind === 1)
           .map((comment, index) => (
-            <PostCard key={index} data={{ event: comment }} />
+            <PostCard2 key={index} data={{ event: comment }} />
           ))} */}
 
         <hr className="-mx-4 mt-2 opacity-10" />
@@ -146,19 +163,19 @@ const PostCard = ({ data }: { data: PostData }) => {
           <button className="btn-ghost rounded-bl-box btn w-1/4 content-center gap-2 rounded-t-none rounded-br-none py-7 px-2">
             <BoltIcon width={24} />
 
-            {reactions.filter((event) => event.kind === 9735).length}
+            {reactionEvents.filter((event) => event.kind === 9735).length}
           </button>
 
           <button className="btn-ghost btn w-1/4 content-center gap-2 rounded-none py-7 px-2">
             <ChatBubbleOvalLeftIcon width={24} />
 
-            {reactions.filter((event) => event.kind === 1).length}
+            {reactionEvents.filter((event) => event.kind === 1).length}
           </button>
 
           <button className="btn-ghost btn w-1/4 content-center gap-2 rounded-none py-7 px-2">
             <HeartIcon width={24} />
 
-            {reactions.filter((event) => event.kind === 7).length}
+            {reactionEvents.filter((event) => event.kind === 7).length}
           </button>
 
           <button className="btn-ghost rounded-br-box btn w-1/4 content-center gap-2 rounded-t-none rounded-bl-none py-7 px-2">
@@ -169,6 +186,37 @@ const PostCard = ({ data }: { data: PostData }) => {
         </div>
       </CardContainer>
     </>
+  );
+};
+
+const PostCard = ({
+  noteEvent,
+  providedMetadata,
+}: {
+  noteEvent: Event;
+  providedMetadata?: Event;
+}) => {
+  const metadataFilters = [{ authors: [noteEvent.pubkey], kinds: [0] }];
+  const { events: metadataEvents, eose } = useNostrSubscribe({
+    filters: metadataFilters,
+    relays,
+    options: { batchingInterval: 500, enabled: !providedMetadata },
+  });
+
+  const reactionFilters = [{ '#e': [noteEvent.id], kinds: [1, 7, 9735] }];
+  const { events: reactionEvents } = useNostrSubscribe({
+    filters: reactionFilters,
+    relays,
+    options: { batchingInterval: 500 },
+  });
+
+  return (
+    <View
+      noteEvent={noteEvent}
+      metadataEvent={providedMetadata || metadataEvents[0]}
+      reactionEvents={reactionEvents}
+      isFetching={!eose && !metadataEvents.length && !providedMetadata}
+    />
   );
 };
 

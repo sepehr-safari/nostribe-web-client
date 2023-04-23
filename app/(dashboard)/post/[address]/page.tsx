@@ -1,39 +1,39 @@
 'use client';
 
+import { useNostrSubscribe } from 'nostr-hooks';
 import { nip19 } from 'nostr-tools';
-import { memo, useEffect } from 'react';
+import { memo } from 'react';
 
-import { PostCard, Spinner } from '@/components';
+import { PostCard } from '@/components';
 
-import useStore from '@/store';
+const relays = [
+  'wss://relay.damus.io',
+  'wss://relay.snort.social',
+  'wss://eden.nostr.land',
+  'wss://relay.nostr.info',
+  'wss://offchain.pub',
+  'wss://nostr-pub.wellorder.net',
+  'wss://nostr.fmt.wiz.biz',
+  'wss://nos.lol',
+];
 
 const Post = ({ params }: { params: { address: string } }) => {
-  const { clearFeed, data, fetchFeed, isFetching } = useStore(
-    (state) => state.feed
-  );
+  const postId = params.address.startsWith('note')
+    ? nip19.decode(params.address).data.toString()
+    : params.address;
 
-  useEffect(() => {
-    const id = params.address.startsWith('note')
-      ? nip19.decode(params.address).data.toString()
-      : params.address;
+  const filters = [{ ids: [postId] }];
 
-    fetchFeed({ id });
-
-    return () => clearFeed();
-  }, [params.address, fetchFeed, clearFeed]);
-
-  if (!data || !data.posts) {
-    if (isFetching) {
-      return <Spinner />;
-    }
-
-    return <>Post Not Found</>;
-  }
+  const { events: noteEvents } = useNostrSubscribe({
+    filters,
+    relays,
+    options: { batchingInterval: 100 },
+  });
 
   return (
     <>
-      {data.posts.map((post, index) => (
-        <PostCard key={index} data={post} />
+      {noteEvents.map((noteEvent, index) => (
+        <PostCard key={index} noteEvent={noteEvent} />
       ))}
     </>
   );

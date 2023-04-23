@@ -1,28 +1,37 @@
 'use client';
 
-import { memo, useEffect } from 'react';
+import { memo } from 'react';
+import { useNostrSubscribe } from 'nostr-hooks';
 
 import { PostCard, Spinner } from '@/components';
 
-import useStore from '@/store';
+const relays = [
+  'wss://relay.damus.io',
+  'wss://relay.snort.social',
+  'wss://eden.nostr.land',
+  'wss://relay.nostr.info',
+  'wss://offchain.pub',
+  'wss://nostr-pub.wellorder.net',
+  'wss://nostr.fmt.wiz.biz',
+  'wss://nos.lol',
+];
 
 const Feed = () => {
-  const { clearFeed, data, fetchFeed } = useStore((state) => state.feed);
+  const filters = [{ kinds: [1], limit: 6 }];
+  const { events: noteEvents, eose } = useNostrSubscribe({
+    filters,
+    relays,
+    options: { force: true },
+  });
 
-  useEffect(() => {
-    fetchFeed();
+  if (eose && !noteEvents.length) return <p>No Events</p>;
 
-    return () => clearFeed();
-  }, [fetchFeed, clearFeed]);
-
-  if (!data || !data.posts) {
-    return <Spinner />;
-  }
+  if (!noteEvents.length) return <Spinner />;
 
   return (
     <>
-      {data.posts.map((postData, index) => (
-        <PostCard key={index} data={postData} />
+      {noteEvents.map((noteEvent, index) => (
+        <PostCard key={index} noteEvent={noteEvent} />
       ))}
     </>
   );
