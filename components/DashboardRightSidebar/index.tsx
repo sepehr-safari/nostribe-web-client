@@ -1,3 +1,5 @@
+'use client';
+
 import {
   ChatBubbleLeftRightIcon,
   ChevronRightIcon,
@@ -29,6 +31,7 @@ export default function DashboardRightSidebar() {
                   href={
                     '/profile/npub18c556t7n8xa3df2q82rwxejfglw5przds7sqvefylzjh8tjne28qld0we7'
                   }
+                  prefetch={false}
                 >
                   Sepehr
                 </Link>
@@ -38,6 +41,7 @@ export default function DashboardRightSidebar() {
                   href={
                     '/profile/npub1sg6plzptd64u62a878hep2kev88swjh3tw00gjsfl8f237lmu63q0uf63m'
                   }
+                  prefetch={false}
                 >
                   Jack
                 </Link>
@@ -47,6 +51,7 @@ export default function DashboardRightSidebar() {
                   href={
                     '/profile/npub1xtscya34g58tk0z605fvr788k263gsu6cy9x0mhnm87echrgufzsevkk5s'
                   }
+                  prefetch={false}
                 >
                   jb55
                 </Link>
@@ -56,6 +61,7 @@ export default function DashboardRightSidebar() {
                   href={
                     '/profile/npub180cvv07tjdrrgpa0j7j7tmnyl2yr6yr7l8j4s3evf6u64th6gkwsyjh6w6'
                   }
+                  prefetch={false}
                 >
                   fiatjaf
                 </Link>
@@ -65,6 +71,7 @@ export default function DashboardRightSidebar() {
                   href={
                     '/profile/npub1k979np6dcpwh7mkfwk7wq3msezml48fh7wksp9hakakf8pwk3y5qhdz7te'
                   }
+                  prefetch={false}
                 >
                   Andrew
                 </Link>
@@ -91,22 +98,34 @@ export default function DashboardRightSidebar() {
 
             <ul className="-ml-2 flex flex-wrap gap-2">
               <li className="btn-ghost btn-xs btn">
-                <Link href={'#'}>Nostr Lovers</Link>
+                <Link href={'#'} prefetch={false}>
+                  Nostr Lovers
+                </Link>
               </li>
               <li className="btn-ghost btn-xs btn">
-                <Link href={'#'}>Pura Vida!</Link>
+                <Link href={'#'} prefetch={false}>
+                  Pura Vida!
+                </Link>
               </li>
               <li className="btn-ghost btn-xs btn">
-                <Link href={'#'}>Nostribians</Link>
+                <Link href={'#'} prefetch={false}>
+                  Nostribians
+                </Link>
               </li>
               <li className="btn-ghost btn-xs btn">
-                <Link href={'#'}>Satoshi</Link>
+                <Link href={'#'} prefetch={false}>
+                  Satoshi
+                </Link>
               </li>
               <li className="btn-ghost btn-xs btn">
-                <Link href={'#'}>Zap! Zap! Zap!</Link>
+                <Link href={'#'} prefetch={false}>
+                  Zap! Zap! Zap!
+                </Link>
               </li>
               <li className="btn-ghost btn-xs btn">
-                <Link href={'#'}>Nostrica</Link>
+                <Link href={'#'} prefetch={false}>
+                  Nostrica
+                </Link>
               </li>
             </ul>
 
@@ -130,22 +149,34 @@ export default function DashboardRightSidebar() {
 
             <ul className="-ml-2 flex flex-wrap gap-2">
               <li className="btn-ghost btn-xs btn">
-                <Link href={'#'}>nostr</Link>
+                <Link href={'#'} prefetch={false}>
+                  nostr
+                </Link>
               </li>
               <li className="btn-ghost btn-xs btn">
-                <Link href={'#'}>jack</Link>
+                <Link href={'#'} prefetch={false}>
+                  jack
+                </Link>
               </li>
               <li className="btn-ghost btn-xs btn">
-                <Link href={'#'}>bitcoin</Link>
+                <Link href={'#'} prefetch={false}>
+                  bitcoin
+                </Link>
               </li>
               <li className="btn-ghost btn-xs btn">
-                <Link href={'#'}>zap</Link>
+                <Link href={'#'} prefetch={false}>
+                  zap
+                </Link>
               </li>
               <li className="btn-ghost btn-xs btn">
-                <Link href={'#'}>lightning</Link>
+                <Link href={'#'} prefetch={false}>
+                  lightning
+                </Link>
               </li>
               <li className="btn-ghost btn-xs btn">
-                <Link href={'#'}>nostribe</Link>
+                <Link href={'#'} prefetch={false}>
+                  nostribe
+                </Link>
               </li>
             </ul>
 

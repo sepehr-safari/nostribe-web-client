@@ -8,12 +8,7 @@ import {
   HeartIcon,
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
-import { Event, nip19 } from 'nostr-tools';
 import { memo } from 'react';
-
-import { useNostrSubscribe } from 'nostr-hooks';
-
-import { IAuthor } from '@/types';
 
 import {
   Avatar,
@@ -24,34 +19,17 @@ import {
   PostContent,
 } from '@/components';
 
-const relays = [
-  'wss://relay.damus.io',
-  'wss://relay.snort.social',
-  'wss://eden.nostr.land',
-  'wss://relay.nostr.info',
-  'wss://offchain.pub',
-  'wss://nostr-pub.wellorder.net',
-  'wss://nostr.fmt.wiz.biz',
-  'wss://nos.lol',
-];
+import { usePostEvent, useProfileContent, usePostReactions } from '@/hooks';
 
-const View = ({
-  noteEvent,
-  metadataEvent,
-  reactionEvents,
-  isFetching,
-}: {
-  noteEvent: Event;
-  metadataEvent: Event;
-  reactionEvents: Event[];
-  isFetching: boolean;
-}) => {
-  const profileObject: IAuthor =
-    !!metadataEvent && JSON.parse(metadataEvent.content || '{}');
+const PostCard = ({ postId }: { postId: string }) => {
+  const { isFetching, postEvent, createdAt, nip19NoteId } =
+    usePostEvent(postId);
 
-  const displayName = profileObject.display_name || profileObject.name;
+  const { npub, displayName, picture, nip05 } = useProfileContent(
+    postEvent?.pubkey || ''
+  );
 
-  const createdAt = new Date(noteEvent.created_at * 1000);
+  const { reactionEvents } = usePostReactions(postId);
 
   return (
     <>
@@ -59,14 +37,12 @@ const View = ({
         <div className="flex flex-col gap-4">
           <div className="flex items-center gap-4">
             <Link
-              href={`/profile/${nip19.npubEncode(noteEvent.pubkey)}`}
+              prefetch={false}
+              href={`/profile/${npub}`}
               className="flex items-center gap-4"
             >
-              {profileObject && profileObject.picture ? (
-                <Avatar
-                  url={profileObject.picture || '/nostribe.png'}
-                  width="w-14"
-                />
+              {picture ? (
+                <Avatar url={picture || '/nostribe.png'} width="w-14" />
               ) : isFetching ? (
                 <div className="w-14 h-14 flex items-center">
                   <AvatarLoader />
@@ -76,7 +52,7 @@ const View = ({
               )}
 
               <div className="flex flex-col">
-                {profileObject && displayName ? (
+                {displayName ? (
                   <h4 className="font-bold leading-5">
                     {displayName.length > 25
                       ? displayName.slice(0, 10) +
@@ -88,8 +64,8 @@ const View = ({
                   isFetching && <BoxLoader />
                 )}
 
-                {profileObject && profileObject.nip05 ? (
-                  <Nip05View text={profileObject.nip05} />
+                {nip05 ? (
+                  <Nip05View text={nip05} />
                 ) : (
                   isFetching && <BoxLoader />
                 )}
@@ -116,9 +92,7 @@ const View = ({
                       className="text-start text-xs"
                       onClick={() =>
                         navigator.clipboard.writeText(
-                          `${location.origin}/post/${nip19.noteEncode(
-                            noteEvent.id
-                          )}`
+                          `${location.origin}/post/${nip19NoteId}`
                         )
                       }
                     >
@@ -127,16 +101,18 @@ const View = ({
                   </li>
                   <li>
                     <Link
+                      prefetch={false}
                       className="text-xs"
-                      href={`/post/${nip19.noteEncode(noteEvent.id)}`}
+                      href={`/post/${nip19NoteId}`}
                     >
                       Open Post
                     </Link>
                   </li>
                   <li>
                     <Link
+                      prefetch={false}
                       className="text-xs"
-                      href={`/profile/${nip19.npubEncode(noteEvent.pubkey)}`}
+                      href={`/profile/${npub}`}
                     >
                       Open Profile
                     </Link>
@@ -147,15 +123,9 @@ const View = ({
           </div>
 
           <div className="ml-16 mr-2 flex flex-col gap-4 break-words">
-            <PostContent noteEvent={noteEvent} />
+            <PostContent postEvent={postEvent} />
           </div>
         </div>
-
-        {/* {reactions
-          .filter((event) => event.kind === 1)
-          .map((comment, index) => (
-            <PostCard2 key={index} data={{ event: comment }} />
-          ))} */}
 
         <hr className="-mx-4 mt-2 opacity-10" />
 
@@ -189,35 +159,4 @@ const View = ({
   );
 };
 
-const PostCard = ({
-  noteEvent,
-  providedMetadata,
-}: {
-  noteEvent: Event;
-  providedMetadata?: Event;
-}) => {
-  const metadataFilters = [{ authors: [noteEvent.pubkey], kinds: [0] }];
-  const { events: metadataEvents, eose } = useNostrSubscribe({
-    filters: metadataFilters,
-    relays,
-    options: { batchingInterval: 500, enabled: !providedMetadata },
-  });
-
-  const reactionFilters = [{ '#e': [noteEvent.id], kinds: [1, 7, 9735] }];
-  const { events: reactionEvents } = useNostrSubscribe({
-    filters: reactionFilters,
-    relays,
-    options: { batchingInterval: 500 },
-  });
-
-  return (
-    <View
-      noteEvent={noteEvent}
-      metadataEvent={providedMetadata || metadataEvents[0]}
-      reactionEvents={reactionEvents}
-      isFetching={!eose && !metadataEvents.length && !providedMetadata}
-    />
-  );
-};
-
-export default memo(PostCard);
+export default PostCard;

@@ -28,19 +28,19 @@ const UserEmber = () => {
         {hasUser ? (
           <>
             <li>
-              <Link className="text-xs" href="/settings">
+              <Link className="text-xs" href="/settings" prefetch={false}>
                 Settings
               </Link>
             </li>
             <li>
-              <Link className="text-xs" href="/logout">
+              <Link className="text-xs" href="/logout" prefetch={false}>
                 Logout
               </Link>
             </li>
           </>
         ) : (
           <li>
-            <Link className="text-xs" href="/login">
+            <Link className="text-xs" href="/login" prefetch={false}>
               Login
             </Link>
           </li>

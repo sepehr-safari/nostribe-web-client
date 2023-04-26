@@ -1,42 +1,21 @@
 'use client';
 
-import { useNostrSubscribe } from 'nostr-hooks';
-import { nip19 } from 'nostr-tools';
 import { memo } from 'react';
 
-import { PostCard } from '@/components';
+import { usePostEvent, usePostHex } from '@/hooks';
 
-const relays = [
-  'wss://relay.damus.io',
-  'wss://relay.snort.social',
-  'wss://eden.nostr.land',
-  'wss://relay.nostr.info',
-  'wss://offchain.pub',
-  'wss://nostr-pub.wellorder.net',
-  'wss://nostr.fmt.wiz.biz',
-  'wss://nos.lol',
-];
+import { PostCard, Spinner } from '@/components';
 
 const Post = ({ params }: { params: { address: string } }) => {
-  const postId = params.address.startsWith('note')
-    ? nip19.decode(params.address).data.toString()
-    : params.address;
+  const postId = usePostHex(params.address);
 
-  const filters = [{ ids: [postId] }];
+  const { isFetching, isPostsEmpty } = usePostEvent(postId);
 
-  const { events: noteEvents } = useNostrSubscribe({
-    filters,
-    relays,
-    options: { batchingInterval: 100 },
-  });
+  if (isPostsEmpty) return <p>No Posts</p>;
 
-  return (
-    <>
-      {noteEvents.map((noteEvent, index) => (
-        <PostCard key={index} noteEvent={noteEvent} />
-      ))}
-    </>
-  );
+  if (isFetching) return <Spinner />;
+
+  return <>{!!postId && <PostCard key={postId} postId={postId} />}</>;
 };
 
-export default memo(Post);
+export default Post;

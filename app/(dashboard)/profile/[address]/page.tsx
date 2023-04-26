@@ -1,23 +1,41 @@
 'use client';
 
-import { memo } from 'react';
+import { memo, useEffect } from 'react';
 
-import { useProfileHex } from '@/hooks';
+import { useProfileContent, useProfilePosts } from '@/hooks';
 
-import { ProfilePage, Spinner } from '@/components';
+import { PostCard, ProfileCard, Spinner } from '@/components';
 
 const Profile = ({ params }: { params: { address: string } }) => {
-  const profileHex = useProfileHex(params.address);
+  const { displayName, isFetchingMetadata, isMetadataEmpty } =
+    useProfileContent(params.address);
 
-  if (!profileHex) {
-    return <Spinner />;
-  }
+  const { postEvents } = useProfilePosts(params.address);
+
+  useEffect(() => {
+    document.title = displayName ? `${displayName} | Nostribe` : 'Nostribe';
+
+    return () => {
+      document.title = 'Nostribe';
+    };
+  }, [displayName]);
+
+  if (isMetadataEmpty) return <p>Profile Not Found</p>;
+
+  if (isFetchingMetadata) return <Spinner />;
 
   return (
     <>
-      <ProfilePage profileHex={profileHex} />
+      <ProfileCard profileAddress={params.address} />
+
+      {postEvents.map((postEvent, index) => (
+        <PostCard
+          key={`${params.address}${postEvent.id}${index}`}
+          postId={postEvent.id}
+        />
+      ))}
     </>
   );
 };
 
-export default memo(Profile);
+export default Profile;

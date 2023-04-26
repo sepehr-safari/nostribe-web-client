@@ -1,3 +1,5 @@
+'use client';
+
 export default function Avatar({
   url,
   width = 'w-12',

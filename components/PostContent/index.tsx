@@ -1,10 +1,15 @@
+'use client';
+
 import { Event } from 'nostr-tools';
 import { memo } from 'react';
 
 import { parseImageUrls } from '@/utils';
+import Spinner from '../Spinner';
 
-const PostContent = ({ noteEvent }: { noteEvent: Event }) => {
-  const { content } = noteEvent;
+const PostContent = ({ postEvent }: { postEvent: Event }) => {
+  if (!postEvent) return <Spinner />;
+
+  const { content } = postEvent;
 
   const { imageUrlList, imagelessString } = parseImageUrls(content);
 
@@ -24,4 +29,4 @@ const PostContent = ({ noteEvent }: { noteEvent: Event }) => {
   );
 };
 
-export default memo(PostContent);
+export default PostContent;

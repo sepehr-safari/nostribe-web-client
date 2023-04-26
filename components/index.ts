@@ -9,6 +9,5 @@ export { default as Nip05View } from './Nip05View';
 export { default as PostCard } from './PostCard';
 export { default as PostContent } from './PostContent';
 export { default as ProfileCard } from './ProfileCard';
-export { default as ProfilePage } from './ProfilePage';
 export { default as Searchbar } from './Searchbar';
 export { default as Spinner } from './Spinner';

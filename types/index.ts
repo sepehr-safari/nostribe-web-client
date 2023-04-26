@@ -16,7 +16,7 @@ export interface IAuthor {
   id: string;
   picture: string;
   name: string;
-  display_name: string;
+  displayName: string;
   nip05: string;
   about: string;
   banner: string;

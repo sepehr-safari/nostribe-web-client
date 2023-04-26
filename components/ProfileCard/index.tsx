@@ -1,11 +1,9 @@
 'use client';
 
 import { PlusIcon } from '@heroicons/react/24/outline';
-import { useNostrSubscribe } from 'nostr-hooks';
-import { Event } from 'nostr-tools';
 import { memo } from 'react';
 
-import { IAuthor } from '@/types';
+import { useProfileContacts, useProfileContent } from '@/hooks';
 
 import {
   Avatar,
@@ -15,41 +13,18 @@ import {
   Nip05View,
 } from '@/components';
 
-const relays = [
-  'wss://relay.damus.io',
-  'wss://relay.snort.social',
-  'wss://eden.nostr.land',
-  'wss://relay.nostr.info',
-  'wss://offchain.pub',
-  'wss://nostr-pub.wellorder.net',
-  'wss://nostr.fmt.wiz.biz',
-  'wss://nos.lol',
-];
-
-const ProfileView = ({
-  metadataEvents,
-  contactEvents,
-  isFetching,
-}: {
-  metadataEvents: Event[];
-  contactEvents: Event[];
-  isFetching: boolean;
-}) => {
-  const profileObject: IAuthor =
-    metadataEvents.length > 0 && JSON.parse(metadataEvents[0].content || '{}');
-
+const ProfileCard = ({ profileAddress }: { profileAddress: string }) => {
   const {
     about,
     banner,
-    display_name: displayName = profileObject.name,
-    following,
-    id,
-    lud06,
-    name,
+    displayName,
     nip05,
     picture,
     website,
-  } = profileObject;
+    isFetchingMetadata,
+  } = useProfileContent(profileAddress);
+
+  const { contactEvents } = useProfileContacts(profileAddress);
 
   return (
     <>
@@ -64,7 +39,7 @@ const ProfileView = ({
 
         <div className="flex flex-col items-center gap-4 pt-36 md:flex-row">
           <div className="md:self-start w-36">
-            {isFetching ? (
+            {isFetchingMetadata ? (
               <AvatarLoader />
             ) : (
               <Avatar url={picture || '/nostribe.png'} width="w-36" />
@@ -77,13 +52,13 @@ const ProfileView = ({
                 {displayName ? (
                   <div className="text-xl font-bold">{displayName}</div>
                 ) : (
-                  isFetching && <BoxLoader />
+                  isFetchingMetadata && <BoxLoader />
                 )}
 
                 {nip05 ? (
                   <Nip05View text={nip05} />
                 ) : (
-                  isFetching && <BoxLoader />
+                  isFetchingMetadata && <BoxLoader />
                 )}
 
                 {website ? (
@@ -91,7 +66,7 @@ const ProfileView = ({
                     {website}
                   </a>
                 ) : (
-                  isFetching && <BoxLoader />
+                  isFetchingMetadata && <BoxLoader />
                 )}
               </div>
 
@@ -117,13 +92,13 @@ const ProfileView = ({
                 </div>
               </div>
             ) : (
-              isFetching && <BoxLoader />
+              isFetchingMetadata && <BoxLoader />
             )}
 
             {about ? (
               <div className="break-all text-xs">{about}</div>
             ) : (
-              isFetching && <BoxLoader />
+              isFetchingMetadata && <BoxLoader />
             )}
           </div>
         </div>
@@ -132,49 +107,4 @@ const ProfileView = ({
   );
 };
 
-const ProfileCard = ({
-  profileHex,
-  providedMetadata,
-  providedContacts,
-}: {
-  profileHex?: string | undefined;
-  providedMetadata?: Event[] | undefined;
-  providedContacts?: Event[] | undefined;
-}) => {
-  if (providedMetadata && providedContacts) {
-    return (
-      <ProfileView
-        metadataEvents={providedMetadata}
-        contactEvents={providedContacts}
-        isFetching={false}
-      />
-    );
-  }
-
-  if (!profileHex) {
-    return null;
-  }
-
-  const metadataFilters = [{ authors: [profileHex], kinds: [0] }];
-  const contactFilters = [{ authors: [profileHex], kinds: [3] }];
-  const { events: metadataEvents, eose } = useNostrSubscribe({
-    filters: metadataFilters,
-    relays,
-    options: { batchingInterval: 100, enabled: !providedMetadata?.length },
-  });
-  const { events: contactEvents } = useNostrSubscribe({
-    filters: contactFilters,
-    relays,
-    options: { batchingInterval: 100, enabled: !providedContacts?.length },
-  });
-
-  return (
-    <ProfileView
-      metadataEvents={providedMetadata || metadataEvents}
-      contactEvents={providedContacts || contactEvents}
-      isFetching={!eose && !metadataEvents.length && !providedMetadata?.length}
-    />
-  );
-};
-
-export default memo(ProfileCard);
+export default ProfileCard;
