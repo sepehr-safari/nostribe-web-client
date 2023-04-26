@@ -8,7 +8,6 @@ import {
   HeartIcon,
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
-import { memo } from 'react';
 
 import {
   Avatar,
@@ -19,7 +18,7 @@ import {
   PostContent,
 } from '@/components';
 
-import { usePostEvent, useProfileContent, usePostReactions } from '@/hooks';
+import { usePostEvent, usePostReactions, useProfileContent } from '@/hooks';
 
 const PostCard = ({ postId }: { postId: string }) => {
   const { isFetching, postEvent, createdAt, nip19NoteId } =

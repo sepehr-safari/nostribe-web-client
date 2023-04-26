@@ -14,7 +14,7 @@ const useProfilePosts = (profileAddress: string) => {
   const { events: postEvents, eose: postEose } = useNostrSubscribe({
     relays,
     filters: [{ authors: [profileHex], kinds: [1], limit: 6 }],
-    options: { enabled: !!profileHex },
+    options: { enabled: !!profileHex, invalidate: true },
   });
 
   const isFetchingPosts = !postEose && !postEvents.length;

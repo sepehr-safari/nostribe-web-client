@@ -1,7 +1,5 @@
 'use client';
 
-import { memo } from 'react';
-
 import { usePostEvent, usePostHex } from '@/hooks';
 
 import { PostCard, Spinner } from '@/components';
