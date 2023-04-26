@@ -27,19 +27,15 @@ const getLocalStorage = () => {
 };
 
 const setLocalStorage = (user: any) => {
-  if (typeof window === 'undefined') {
-    return null;
+  if (typeof window !== 'undefined') {
+    window.localStorage.setItem('user', JSON.stringify(user));
   }
-
-  window.localStorage.setItem('user', JSON.stringify(user));
 };
 
 const clearLocalStorage = () => {
-  if (typeof window === 'undefined') {
-    return null;
+  if (typeof window !== 'undefined') {
+    window.localStorage.removeItem('user');
   }
-
-  window.localStorage.removeItem('user');
 };
 
 const createAuthSlice: StateCreator<AuthSlice> = (set) => ({
