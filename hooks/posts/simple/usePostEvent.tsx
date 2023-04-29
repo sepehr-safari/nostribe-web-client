@@ -1,6 +1,6 @@
 'use client';
 
-import { useNostrSubscribe } from 'nostr-hooks';
+import { useSubscribe } from 'nostr-hooks';
 import { nip19 } from 'nostr-tools';
 
 import useStore from '@/store';
@@ -8,7 +8,7 @@ import useStore from '@/store';
 const usePostEvent = (postId: string) => {
   const relays = useStore((store) => store.relays);
 
-  const { events: postEvents, eose: postEose } = useNostrSubscribe({
+  const { events: postEvents, eose: postEose } = useSubscribe({
     relays,
     filters: [{ ids: [postId] }],
   });

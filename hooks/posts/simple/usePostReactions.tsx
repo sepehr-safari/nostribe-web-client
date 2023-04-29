@@ -1,13 +1,13 @@
 'use client';
 
-import { useNostrSubscribe } from 'nostr-hooks';
+import { useSubscribe } from 'nostr-hooks';
 
 import useStore from '@/store';
 
 const usePostReactions = (postId: string) => {
   const relays = useStore((store) => store.relays);
 
-  const { events: reactionEvents, eose: reactionEose } = useNostrSubscribe({
+  const { events: reactionEvents, eose: reactionEose } = useSubscribe({
     relays,
     filters: [{ '#e': [postId], kinds: [1, 7, 9735] }],
   });

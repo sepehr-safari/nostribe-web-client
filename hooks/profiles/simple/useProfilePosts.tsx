@@ -1,6 +1,6 @@
 'use client';
 
-import { useNostrSubscribe } from 'nostr-hooks';
+import { useSubscribe } from 'nostr-hooks';
 
 import useStore from '@/store';
 
@@ -11,7 +11,7 @@ const useProfilePosts = (profileAddress: string) => {
 
   const relays = useStore((store) => store.relays);
 
-  const { events: postEvents, eose: postEose } = useNostrSubscribe({
+  const { events: postEvents, eose: postEose } = useSubscribe({
     relays,
     filters: [{ authors: [profileHex], kinds: [1], limit: 6 }],
     options: { enabled: !!profileHex, invalidate: true },
