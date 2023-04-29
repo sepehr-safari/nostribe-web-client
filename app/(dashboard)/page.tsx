@@ -1,11 +1,13 @@
 'use client';
 
-import { useGlobalPosts } from '@/hooks';
+import { memo } from 'react';
 
 import { PostCard, Spinner } from '@/components';
 
+import { useFeedPage } from '@/hooks';
+
 const Feed = () => {
-  const { isFetching, isPostsEmpty, postEvents } = useGlobalPosts();
+  const { isFetching, isPostsEmpty, postEvents } = useFeedPage();
 
   if (isPostsEmpty) return <p>No Posts</p>;
 
@@ -20,4 +22,4 @@ const Feed = () => {
   );
 };
 
-export default Feed;
+export default memo(Feed);

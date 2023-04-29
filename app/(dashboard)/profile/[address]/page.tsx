@@ -1,24 +1,15 @@
 'use client';
 
-import { memo, useEffect } from 'react';
+import { memo } from 'react';
 
-import { useProfileContent, useProfilePosts } from '@/hooks';
+import { useProfilePage } from '@/hooks';
 
 import { PostCard, ProfileCard, Spinner } from '@/components';
 
 const Profile = ({ params }: { params: { address: string } }) => {
-  const { displayName, isFetchingMetadata, isMetadataEmpty } =
-    useProfileContent(params.address);
-
-  const { postEvents } = useProfilePosts(params.address);
-
-  useEffect(() => {
-    document.title = displayName ? `${displayName} | Nostribe` : 'Nostribe';
-
-    return () => {
-      document.title = 'Nostribe';
-    };
-  }, [displayName]);
+  const { isFetchingMetadata, isMetadataEmpty, postEvents } = useProfilePage(
+    params.address
+  );
 
   if (isMetadataEmpty) return <p>Profile Not Found</p>;
 
@@ -38,4 +29,4 @@ const Profile = ({ params }: { params: { address: string } }) => {
   );
 };
 
-export default Profile;
+export default memo(Profile);
