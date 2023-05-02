@@ -7,10 +7,10 @@ const TopHeader = () => {
       <div className="w-full max-w-screen-xl">
         <div className="flex w-full items-center justify-between">
           <div className="flex w-1/4 items-center gap-2">
-            <Avatar url="/nostribe.png" />
+            <Avatar url="/img/icon128.png" />
 
             <h1 className="text-lg font-bold normal-case md:text-xl">
-              Nostribe
+              Iris
             </h1>
           </div>
 

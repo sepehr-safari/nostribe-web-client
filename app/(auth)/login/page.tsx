@@ -75,7 +75,7 @@ const Login = () => {
     <>
       <CardContainer>
         <div className="flex items-baseline gap-2">
-          <h1 className="text-2xl font-bold md:text-4xl">Nostribe</h1>
+          <h1 className="text-2xl font-bold md:text-4xl">Iris</h1>
           <h2 className="text-xs">Join the tribe, join the vibe.</h2>
         </div>
       </CardContainer>

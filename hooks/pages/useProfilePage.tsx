@@ -8,10 +8,10 @@ const useProfilePage = (profileAddress: string) => {
   const { postEvents } = useProfilePosts(profileAddress);
 
   useEffect(() => {
-    document.title = displayName ? `${displayName} | Nostribe` : 'Nostribe';
+    document.title = displayName ? `${displayName} | Iris` : 'Iris';
 
     return () => {
-      document.title = 'Nostribe';
+      document.title = 'Iris';
     };
   }, [displayName]);
 

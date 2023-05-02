@@ -1,15 +1,17 @@
+import '@fontsource/lato/400.css';
+import '@fontsource/lato/700.css';
 import './globals.css';
 
 export const metadata = {
-  title: 'Nostribe',
+  title: 'Iris',
   description: 'Join the tribe, join the vibe.',
   keywords:
-    'Nostribe, Nostr, Nostr protocol, decentralized, censorship-resistant, social media, web client, social network',
+    'Iris, Nostr, Nostr protocol, decentralized, censorship-resistant, social media, web client, social network',
   manifest: '/manifest.json',
   robots: 'index, follow',
   openGraph: {
     type: 'website',
-    title: 'Nostribe',
+    title: 'Iris',
     description: 'Join the tribe, join the vibe.',
     images: [
       {
@@ -27,8 +29,8 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className="h-full w-full bg-gradient-to-l from-base-200 to-base-200"
-      data-theme="nostribish"
+      className="h-full w-full"
+      data-theme="iris"
     >
       <body className="overflow-y-auto overflow-x-hidden">{children}</body>
     </html>

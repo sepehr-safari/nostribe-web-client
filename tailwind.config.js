@@ -7,14 +7,13 @@ module.exports = {
   daisyui: {
     themes: [
       {
-        nostribish: {
-          'base-100': '#20112C',
-          'base-200': '#150B1D',
-          'base-content': '#ECE1F4',
+        iris: {
+          'base-100': '#000000',
+          'base-content': '#ffffff',
           primary: '#603285',
           secondary: '#8A4EBC',
           accent: '#BB97D8',
-          neutral: '#CBBA9F',
+          neutral: '#ffffff',
           info: '#3A7A92',
           success: '#235827',
           warning: '#FCBE58',
@@ -23,5 +22,5 @@ module.exports = {
       },
     ],
   },
-  plugins: [require('daisyui')],
+  plugins: [require("@tailwindcss/typography"), require('daisyui')],
 };

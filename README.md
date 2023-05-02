@@ -1,8 +1,8 @@
-# Nostribe
+# Iris
 
-Nostribe is an open-source web client for the decentralized and censorship-resistant Nostr protocol. It provides a social media platform for Nostribians to communicate freely and securely. Its mission is to foster a transparent tribe where everyone has an equal voice and a sense of belonging.
+Iris is an open-source web client for the decentralized and censorship-resistant Nostr protocol. It provides a social media platform for Nostribians to communicate freely and securely. Its mission is to foster a transparent tribe where everyone has an equal voice and a sense of belonging.
 
-<img src="https://raw.githubusercontent.com/sepehr-safari/nostribe-web-client/main/public/nostribe.png" width="300" alt="Nostribe Logo">
+<img src="https://raw.githubusercontent.com/sepehr-safari/nostribe-web-client/main/public/nostribe.png" width="300" alt="Iris Logo">
 
 ## Features
 
@@ -17,7 +17,7 @@ Nostribe is an open-source web client for the decentralized and censorship-resis
 
 ## Getting Started
 
-To get started with Nostribe, simply visit our website at [www.nostribe.com](https://www.nostribe.com/) or clone the repository and run it locally.
+To get started with Iris, simply visit our website at [www.nostribe.com](https://www.nostribe.com/) or clone the repository and run it locally.
 
 ## Contributing
 

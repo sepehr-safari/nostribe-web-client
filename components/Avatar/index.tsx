@@ -10,7 +10,7 @@ export default function Avatar({
   return (
     <>
       <div className="avatar">
-        <div className={`mask mask-squircle ${width}`}>
+        <div className={`mask mask-circle ${width}`}>
           <img src={url} />
         </div>
       </div>

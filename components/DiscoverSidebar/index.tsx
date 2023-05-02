@@ -8,14 +8,15 @@ import {
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 
-import { CardContainer } from '@/components';
+import {CardContainer, Searchbar} from '@/components';
 
 // [TODO] replace mock data with real data
 
-export default function DashboardRightSidebar() {
+export default function DiscoverSidebar() {
   return (
     <>
-      <aside className="hidden flex-col gap-4 px-2 py-4 md:flex md:w-1/4">
+      <aside className="hidden flex-col gap-4 px-2 py-4 lg:flex md:w-1/4">
+        <Searchbar />
         <CardContainer>
           <div className="card-body p-4">
             <h2 className="card-title">

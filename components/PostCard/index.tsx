@@ -63,12 +63,6 @@ const PostCard = ({ postId }: { postId: string }) => {
                   isFetching && <BoxLoader />
                 )}
 
-                {nip05 ? (
-                  <Nip05View text={nip05} />
-                ) : (
-                  isFetching && <BoxLoader />
-                )}
-
                 {createdAt && (
                   <div className="text-xs leading-5 opacity-50">
                     {createdAt.toLocaleString()}
