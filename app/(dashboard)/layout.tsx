@@ -1,7 +1,8 @@
 import {
   DashboardLeftSidebar,
   DashboardRightSidebar,
-  Header
+  Header,
+  Footer,
 } from '@/components';
 
 export default function DashboardLayout({
@@ -19,6 +20,7 @@ export default function DashboardLayout({
             {children}
           </section>
           <DashboardRightSidebar />
+          <Footer />
         </div>
       </main>
     </>
