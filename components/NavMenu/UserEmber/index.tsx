@@ -17,7 +17,7 @@ const UserEmber = () => {
   }, [userData]);
 
   return (
-    <div className="dropdown-bottom dropdown-left dropdown">
+    <div className="dropdown-top dropdown-right dropdown">
       <label tabIndex={0} className="btn-ghost btn-circle btn">
         <UserIcon width={24} />
       </label>
