@@ -24,7 +24,7 @@ const PostContent = ({ postEvent }: { postEvent: Event }) => {
         </div>
       ))}
 
-      <p>{imagelessString}</p>
+      <p className="whitespace-pre-wrap">{imagelessString}</p>
     </>
   );
 };

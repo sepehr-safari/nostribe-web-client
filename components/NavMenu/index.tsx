@@ -14,6 +14,7 @@ import {
   BellIcon as BellIconFull,
 } from '@heroicons/react/24/solid';
 import {Avatar} from "@/components";
+import UserEmber from "@/components/NavMenu/UserEmber";
 
 const APPLICATIONS = [
   { url: '/', text: 'Home', icon: HomeIcon, activeIcon: HomeIconFull },
@@ -30,8 +31,9 @@ const APPLICATIONS = [
 
 export default function NavMenu() {
   return (
-    <aside className="hidden md:w-16 lg:w-1/4 flex-col gap-4 px-2 py-4 md:flex">
-      <nav className="space-y-2">
+    <aside className="hidden md:w-16 lg:w-1/4 flex-col gap-4 px-2 py-4 md:flex justify-between">
+      <div>
+              <nav className="space-y-2">
         <div className="flex items-center gap-2 px-3 mb-4">
           <Avatar width={"w-8"} url="/img/icon128.png" />
 
@@ -59,8 +61,6 @@ export default function NavMenu() {
             </div>
           );
         })}
-
-
       </nav>
       <div className="flex lg:flex-row md:flex-col gap-2 mt-4">
         <button className="btn btn-primary rounded-full">
@@ -74,7 +74,8 @@ export default function NavMenu() {
           <QrCodeIcon className="w-6 h-6" />
         </button>
       </div>
-
+      </div>
+      <UserEmber />
     </aside>
   );
 }
