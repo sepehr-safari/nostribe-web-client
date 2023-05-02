@@ -30,36 +30,39 @@ const APPLICATIONS = [
 
 export default function NavMenu() {
   return (
-    <aside className="hidden w-1/4 flex-col gap-4 px-2 py-4 md:flex">
+    <aside className="hidden md:w-16 lg:w-1/4 flex-col gap-4 px-2 py-4 md:flex">
       <nav className="space-y-2">
         <div className="flex w-1/4 items-center gap-2">
           <Avatar url="/img/icon128.png" />
 
-          <h1 className="text-lg font-bold normal-case md:text-xl">
-            Iris
+          <h1 className="hidden lg:flex text-lg font-bold normal-case md:text-xl">
+            iris
           </h1>
         </div>
         {APPLICATIONS.map((a, index) => {
           const isActive = false; // Determine if the current route is active
           const Icon = isActive ? a.activeIcon : a.icon;
           return (
-            <a
-              key={index}
+            <div key={index}>
+              <a
               href={a.url}
-              className={`flex items-center space-x-2 ${isActive ? 'text-primary' : ''}`}
+              className={`inline-flex w-auto flex items-center space-x-3 p-3 rounded-full transition-colors duration-200 ${isActive ? 'text-primary' : ''} hover:bg-gray-900`}
             >
               <Icon className="w-6 h-6" />
-              <span>{a.text}</span>
+              <span className={`hidden lg:flex`}>{a.text}</span>
               {a.text === 'messages' && (
                 <span className="flex items-center justify-center w-5 h-5 text-xs font-semibold text-white bg-red-500 rounded-full">
                   2
                 </span>
               )}
             </a>
+            </div>
           );
         })}
+
+
       </nav>
-      <div className="flex gap-2 mt-4">
+      <div className="flex lg:flex-row md:flex-col gap-2 mt-4">
         <button className="btn btn-primary rounded-full">
           <svg className="w-6 h-6" viewBox="0 0 512 512" fill="currentColor">
             <g>
@@ -71,6 +74,7 @@ export default function NavMenu() {
           <QrCodeIcon className="w-6 h-6" />
         </button>
       </div>
+
     </aside>
   );
 }

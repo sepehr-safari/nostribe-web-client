@@ -32,7 +32,7 @@ export default function RootLayout({
       className="h-full w-full"
       data-theme="iris"
     >
-      <body className="overflow-y-auto overflow-x-hidden">{children}</body>
+      <body className="overflow-y-hidden overflow-x-hidden">{children}</body>
     </html>
   );
 }
