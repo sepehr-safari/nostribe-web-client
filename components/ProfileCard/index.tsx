@@ -32,7 +32,7 @@ const ProfileCard = ({ profileAddress }: { profileAddress: string }) => {
         <div className="absolute top-0 left-0 h-48 w-full">
           <img
             src={banner || '/nostribe.png'}
-            className="rounded-t-box h-full w-full object-cover opacity-80"
+            className="h-full w-full object-cover opacity-80"
             alt={displayName}
           />
         </div>

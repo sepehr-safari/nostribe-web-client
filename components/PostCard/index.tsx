@@ -123,7 +123,7 @@ const PostCard = ({ postId }: { postId: string }) => {
         <hr className="-mx-4 mt-2 opacity-10" />
 
         <div className="-m-4 flex flex-wrap">
-          <button className="btn-ghost rounded-bl-box btn w-1/4 content-center gap-2 rounded-t-none rounded-br-none py-7 px-2">
+          <button className="btn-ghost btn w-1/4 content-center gap-2 rounded-none py-7 px-2">
             <BoltIcon width={24} />
 
             {reactionEvents.filter((event) => event.kind === 9735).length}
@@ -141,7 +141,7 @@ const PostCard = ({ postId }: { postId: string }) => {
             {reactionEvents.filter((event) => event.kind === 7).length}
           </button>
 
-          <button className="btn-ghost rounded-br-box btn w-1/4 content-center gap-2 rounded-t-none rounded-bl-none py-7 px-2">
+          <button className="btn-ghost btn w-1/4 content-center gap-2 rounded-none py-7 px-2">
             <ArrowPathIcon width={24} />
 
             {}

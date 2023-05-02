@@ -15,7 +15,7 @@ import {CardContainer, Searchbar} from '@/components';
 export default function DiscoverSidebar() {
   return (
     <>
-      <aside className="hidden flex-col gap-4 px-2 py-4 lg:flex md:w-1/4">
+      <aside className="hidden flex-col gap-4 z-20 px-2 py-4 lg:flex md:w-1/4">
         <Searchbar />
         <CardContainer>
           <div className="card-body p-4">
