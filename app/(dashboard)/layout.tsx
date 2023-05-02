@@ -15,7 +15,7 @@ export default function DashboardLayout({
         <div className="flex w-full max-w-screen-xl justify-between relative">
           <DashboardLeftSidebar />
           <Header />
-          <section className="flex h-full pt-8 w-full max-h-screen flex-col gap-4 px-2 py-4 md:w-full lg:w-1/2 overflow-y-scroll">
+          <section className="flex h-full pt-14 w-full max-h-screen flex-col gap-4 px-2 py-4 md:w-full lg:w-1/2 overflow-y-scroll">
             {children}
           </section>
           <DashboardRightSidebar />

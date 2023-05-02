@@ -71,7 +71,7 @@ const ProfileCard = ({ profileAddress }: { profileAddress: string }) => {
               </div>
 
               <div className="ml-auto flex">
-                <button className="btn-ghost btn-sm btn gap-2">
+                <button className="btn-ghost btn-sm btn gap-2 rounded-full">
                   <PlusIcon width={16} />
                   Follow
                 </button>

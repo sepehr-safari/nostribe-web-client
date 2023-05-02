@@ -32,10 +32,10 @@ export default function NavMenu() {
   return (
     <aside className="hidden md:w-16 lg:w-1/4 flex-col gap-4 px-2 py-4 md:flex">
       <nav className="space-y-2">
-        <div className="flex w-1/4 items-center gap-2">
-          <Avatar url="/img/icon128.png" />
+        <div className="flex items-center gap-2 px-3 mb-4">
+          <Avatar width={"w-8"} url="/img/icon128.png" />
 
-          <h1 className="hidden lg:flex text-lg font-bold normal-case md:text-xl">
+          <h1 className="hidden lg:flex text-3xl">
             iris
           </h1>
         </div>
@@ -46,7 +46,7 @@ export default function NavMenu() {
             <div key={index}>
               <a
               href={a.url}
-              className={`inline-flex w-auto flex items-center space-x-3 p-3 rounded-full transition-colors duration-200 ${isActive ? 'text-primary' : ''} hover:bg-gray-900`}
+              className={`inline-flex w-auto flex items-center space-x-4 p-3 rounded-full transition-colors duration-200 ${isActive ? 'text-primary' : ''} hover:bg-gray-900`}
             >
               <Icon className="w-6 h-6" />
               <span className={`hidden lg:flex`}>{a.text}</span>
