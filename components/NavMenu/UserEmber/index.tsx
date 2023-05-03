@@ -26,7 +26,7 @@ const UserEmber = () => {
       <label tabIndex={0} className="btn-ghost btn-circle btn" onClick={toggleDropdown}>
         <Avatar pub={userData?.publicKey || ''} width="w-8" />
       </label>
-      <div className="hidden md:block ml-2">
+      <div className="hidden lg:block ml-2">
         <Name pub={userData?.publicKey || ''} />
       </div>
       <ul
