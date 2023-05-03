@@ -12,3 +12,4 @@ export { default as ProfileCard } from './ProfileCard';
 export { default as Searchbar } from './Searchbar';
 export { default as Spinner } from './Spinner';
 export { default as Footer } from './Footer';
+export { default as ProxyImg } from './ProxyImg';

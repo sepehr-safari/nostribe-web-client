@@ -19,9 +19,14 @@ type SearchResult = [
   },
   npub: string,
 ];
+
+const MAX_ABOUT_LENGTH = 50;
+
 export default function Searchbar() {
   const [searchResults, setSearchResults] = useState([] as SearchResult[]);
   const [searchTerm, setSearchTerm] = useState(''); // Add state for the search term
+  const [focusedIndex, setFocusedIndex] = useState(-1); // Add state for the focused index
+  const inputRef = useRef<HTMLInputElement>(null); // Add ref for the input element
 
   const router = useRouter();
   const resultsRef = useRef<HTMLDivElement[]>([]);
@@ -30,16 +35,15 @@ export default function Searchbar() {
     (event: KeyboardEvent) => {
       if (searchResults.length === 0) return;
 
-      const focusedIndex = resultsRef.current.findIndex((el) => el === document.activeElement);
       if (event.key === 'ArrowDown') {
         const nextIndex = (focusedIndex + 1) % searchResults.length;
-        resultsRef.current[nextIndex].focus();
+        setFocusedIndex(nextIndex);
       } else if (event.key === 'ArrowUp') {
         const prevIndex = (focusedIndex - 1 + searchResults.length) % searchResults.length;
-        resultsRef.current[prevIndex].focus();
+        setFocusedIndex(prevIndex);
       }
     },
-    [searchResults],
+    [searchResults, focusedIndex],
   );
 
   const selectResult = useCallback((index: number) => {
@@ -49,14 +53,33 @@ export default function Searchbar() {
   }, [searchResults]);
 
   useEffect(() => {
+    if (searchResults.length > 0) {
+      setFocusedIndex(0); // Set the focused index to the first result
+    } else {
+      setFocusedIndex(-1); // Reset the focused index when there are no results
+    }
+  }, [searchResults]);
+
+  useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
+      const isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0;
+      const shortcutKey = isMac ? event.metaKey : event.ctrlKey;
+
       if (event.key === 'Escape') {
         setSearchResults([]);
       } else if (event.key === 'Enter') {
-        const focusedIndex = resultsRef.current.findIndex((el) => el === document.activeElement);
         if (focusedIndex !== -1) {
           selectResult(focusedIndex);
         }
+      } else if (event.key === '/' || (event.key === 'k' && shortcutKey)) {
+        if (
+          event.target instanceof HTMLElement &&
+          ['INPUT', 'TEXTAREA', 'SELECT'].includes(event.target.tagName)
+        ) {
+          return;
+        }
+        event.preventDefault();
+        inputRef.current?.focus();
       } else {
         handleArrowKeys(event);
       }
@@ -91,9 +114,10 @@ export default function Searchbar() {
     [],
   );
 
-  return (
+    return (
     <div className="relative">
       <input
+        ref={inputRef}
         onInput={onInput}
         value={searchTerm}
         type="text"
@@ -109,19 +133,19 @@ export default function Searchbar() {
                 resultsRef.current[index] = el as HTMLDivElement;
               }}
               tabIndex={0}
-              className="p-2 hover:bg-gray-700 cursor-pointer flex items-center"
-              onFocus={() => {
-                resultsRef.current[index].classList.add('bg-gray-700');
-              }}
-              onBlur={() => {
-                resultsRef.current[index].classList.remove('bg-gray-700');
-              }}
+              className={`p-2 cursor-pointer flex items-center ${
+                index === focusedIndex ? 'bg-gray-700' : ''
+              }`}
               onClick={() => selectResult(index)}
             >
               <Avatar url={result.content.picture} />
               <div className="ml-2">
                 <div className="text-white">{result.content.name}</div>
-                <div className="text-gray-400 text-sm">{result.content.about}</div>
+                <div className="text-gray-400 text-sm">
+                  {result.content.about?.length > MAX_ABOUT_LENGTH
+                    ? result.content.about.slice(0, MAX_ABOUT_LENGTH) + '...'
+                    : result.content.about}
+                </div>
               </div>
             </div>
           ))}

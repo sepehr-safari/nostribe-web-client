@@ -1,5 +1,7 @@
 'use client';
 
+import ProxyImg from '@/components/ProxyImg';
+
 export default function Avatar({
   url,
   width = 'w-12',
@@ -11,7 +13,7 @@ export default function Avatar({
     <>
       <div className="avatar">
         <div className={`mask mask-circle ${width}`}>
-          <img src={url} />
+          <ProxyImg square={true} width={144} src={url} />
         </div>
       </div>
     </>
