@@ -3,6 +3,8 @@
 import React, { useState } from 'react';
 import { Avatar, CardContainer } from '@/components';
 import useStore from "@/store";
+import {nip19} from "nostr-tools";
+import Link from "next/link";
 
 interface Props {}
 
@@ -20,13 +22,15 @@ const NewPostForm: React.FC<Props> = () => {
     setPostText('');
   };
 
+  const myNpub = userData?.publicKey ? nip19.npubEncode(userData?.publicKey) : '';
+
   return (
     <CardContainer>
       <form onSubmit={handleSubmit} className="w-full">
         <div className="flex items-start">
-          <div className="mr-4">
+          <Link href={`/profile/${myNpub}`} className="mr-4">
             <Avatar width="w-14" pub={userData?.publicKey || ''} /> {/* Render the Avatar component here */}
-          </div>
+          </Link>
           <div className="flex-grow">
             <textarea
               id="postText"
