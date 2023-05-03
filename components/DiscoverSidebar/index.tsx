@@ -31,7 +31,7 @@ const TrendingPosts = () => {
 
         <hr className="opacity-10" />
 
-        <div className="-ml-2 flex flex-wrap gap-6 text-xs">
+        <div className="-ml-2 flex flex-wrap gap-6 text-xs overflow-y-scroll max-h-screen">
           {trendingPosts.map((post) => (
             <Link href={`/post/${post.id}`} key={post.id} className="flex gap-2 w-full break-words">
               <Avatar pub={post.event?.pubkey} width="w-8" />
@@ -52,7 +52,7 @@ const TrendingPosts = () => {
 export default function DiscoverSidebar() {
   return (
     <>
-      <aside className="hidden flex-col gap-4 z-20 px-2 py-4 lg:flex md:w-1/4 h-screen max-h-screen overflow-y-scroll">
+      <aside className="hidden flex-col gap-4 z-20 px-2 py-4 lg:flex md:w-1/4 h-screen max-h-screen">
         <Searchbar />
         <TrendingPosts />
       </aside>
