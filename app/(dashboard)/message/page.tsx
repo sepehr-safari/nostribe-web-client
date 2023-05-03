@@ -4,8 +4,7 @@ import { useMemo, memo } from "react";
 import Link from "next/link";
 import { nip19 } from "nostr-tools";
 import { Avatar, Name } from "@/components";
-import { useSubscribe } from 'nostr-hooks';
-import useStore from "@/store";
+import useDirectMessages from "@/hooks/posts/simple/useDirectMessages";
 
 const MessageThread = memo(({ hexPub }: { hexPub: string }) => {
   const npub = nip19.npubEncode(hexPub);
@@ -19,24 +18,11 @@ const MessageThread = memo(({ hexPub }: { hexPub: string }) => {
 MessageThread.displayName = 'MessageThread';
 
 export default function Message() {
-  const userData = useStore((state) => state.auth.user.data);
-  const { events, eose } = useSubscribe({
-    relays: ['wss://relay.damus.io', 'wss://relay.snort.social'],
-    filters: [
-      { authors: [userData?.publicKey || ''], kinds: [4], limit: 10 },
-      { kinds: [4], "#p": [userData?.publicKey || '']}
-    ],
-    options: {
-      force: false,
-      batchingInterval: 500,
-      invalidate: false,
-      closeAfterEose: true,
-    },
-  });
+  const { directMessageEvents, directMessageEose, isDirectMessagesEmpty } = useDirectMessages();
 
   const threads = useMemo(() => {
     const threadSet = new Set<string>();
-    events.forEach((event) => {
+    directMessageEvents.forEach((event) => {
       threadSet.add(event.pubkey);
       event.tags?.forEach((tag) => {
         if (tag[0] === 'p') {
@@ -45,12 +31,20 @@ export default function Message() {
       });
     });
     return threadSet;
-  }, [eose]);
+  }, [directMessageEose]);
 
-  if (!eose) {
+  if (!directMessageEose) {
     return (
       <div>
         <p>Loading...</p>
+      </div>
+    );
+  }
+
+  if (isDirectMessagesEmpty) {
+    return (
+      <div>
+        <p>No messages found.</p>
       </div>
     );
   }
