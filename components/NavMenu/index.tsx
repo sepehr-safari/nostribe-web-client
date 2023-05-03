@@ -18,7 +18,7 @@ import UserEmber from "@/components/NavMenu/UserEmber";
 
 const APPLICATIONS = [
   { url: '/', text: 'Home', icon: HomeIcon, activeIcon: HomeIconFull },
-  { url: '/chat', text: 'Messages', icon: PaperAirplaneIcon, activeIcon: PaperAirplaneIconFull },
+  { url: '/message', text: 'Messages', icon: PaperAirplaneIcon, activeIcon: PaperAirplaneIconFull },
   { url: '/notifications', text: 'Notifications', icon: BellIcon, activeIcon: BellIconFull },
   { url: '/settings', text: 'Settings', icon: Cog8ToothIcon, activeIcon: Cog8ToothIconFull },
   {
@@ -34,13 +34,13 @@ export default function NavMenu() {
     <aside className="z-20 hidden md:w-16 lg:w-1/4 flex-col gap-4 px-2 py-4 md:flex justify-between">
       <div>
         <nav className="space-y-2">
-          <div className="flex items-center gap-3 px-2 mb-4">
+          <a href="/" className="flex items-center gap-3 px-2 mb-4">
             <img className="rounded-full w-8" src="/img/icon128.png" />
 
             <h1 className="hidden lg:flex text-3xl">
               iris
             </h1>
-          </div>
+          </a>
           {APPLICATIONS.map((a, index) => {
             const isActive = false; // Determine if the current route is active
             const Icon = isActive ? a.activeIcon : a.icon;
