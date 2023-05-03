@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { memo, useEffect, useState } from 'react';
 
-import { UserIcon } from '@heroicons/react/24/outline';
+import { Avatar, Name } from '@/components';
 
 import useStore from '@/store';
 
@@ -17,13 +17,16 @@ const UserEmber = () => {
   }, [userData]);
 
   return (
-    <div className="dropdown-top dropdown-right dropdown">
+    <div className="flex items-center dropdown-top dropdown-right dropdown">
       <label tabIndex={0} className="btn-ghost btn-circle btn">
-        <UserIcon width={24} />
+        <Avatar pub={userData?.publicKey || ''} width="w-8" />
       </label>
+      <div className="hidden md:block ml-2">
+        <Name pub={userData?.publicKey || ''} />
+      </div>
       <ul
         tabIndex={0}
-        className="dropdown-content menu rounded-box w-32 bg-base-100 p-2 shadow-lg shadow-black"
+        className="z-30 dropdown-content menu rounded-box w-32 bg-base-100 p-2 shadow-lg shadow-black"
       >
         {hasUser ? (
           <>

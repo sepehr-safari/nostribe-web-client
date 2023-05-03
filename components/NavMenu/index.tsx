@@ -1,3 +1,7 @@
+"use client";
+
+import { nip19 } from 'nostr-tools';
+
 import {
   Cog8ToothIcon,
   HomeIcon,
@@ -15,27 +19,30 @@ import {
   BellIcon as BellIconFull,
   UserIcon as UserIconFull,
 } from '@heroicons/react/24/solid';
-import {Avatar} from "@/components";
 import Link from 'next/link';
 import UserEmber from "@/components/NavMenu/UserEmber";
-
-const APPLICATIONS = [
-  { url: '/', text: 'Home', icon: HomeIcon, activeIcon: HomeIconFull },
-  { url: '/message', text: 'Messages', icon: PaperAirplaneIcon, activeIcon: PaperAirplaneIconFull },
-  { url: '/notifications', text: 'Notifications', icon: BellIcon, activeIcon: BellIconFull },
-  { url: '/settings', text: 'Settings', icon: Cog8ToothIcon, activeIcon: Cog8ToothIconFull },
-  { url: '/profile', text: 'Profile', icon: UserIcon, activeIcon: UserIconFull },
-  {
-    url: '/about',
-    text: 'About',
-    icon: InformationCircleIcon,
-    activeIcon: InformationCircleIconFull,
-  },
-];
+import useStore from "@/store";
 
 export default function NavMenu() {
+  const userData = useStore((state) => state.auth.user.data);
+  const npub = userData?.publicKey ? nip19.npubEncode(userData.publicKey) : '';
+
+  const APPLICATIONS = [
+    { url: '/', text: 'Home', icon: HomeIcon, activeIcon: HomeIconFull },
+    { url: '/message', text: 'Messages', icon: PaperAirplaneIcon, activeIcon: PaperAirplaneIconFull },
+    { url: '/notifications', text: 'Notifications', icon: BellIcon, activeIcon: BellIconFull },
+    { url: '/settings', text: 'Settings', icon: Cog8ToothIcon, activeIcon: Cog8ToothIconFull },
+    { url: `/profile/${npub}`, text: 'Profile', icon: UserIcon, activeIcon: UserIconFull },
+    {
+      url: '/about',
+      text: 'About',
+      icon: InformationCircleIcon,
+      activeIcon: InformationCircleIconFull,
+    },
+  ];
+
   return (
-    <aside className="z-20 hidden md:w-16 lg:w-1/4 flex-col gap-4 px-2 py-4 md:flex justify-between">
+    <aside className="z-20 h-screen max-h-screen overflow-y-scroll hidden md:w-16 lg:w-1/4 flex-col gap-4 px-2 py-4 md:flex justify-between">
       <div>
         <nav className="space-y-2">
           <Link href="/" className="flex items-center gap-3 px-2 mb-4">
