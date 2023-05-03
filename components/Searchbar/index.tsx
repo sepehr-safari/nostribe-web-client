@@ -4,7 +4,7 @@ import { useState, useRef, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { FormEvent } from 'react';
 import { throttle } from 'lodash';
-import { BaseAvatar } from '@/components/Name';
+import { BaseAvatar } from '@/components/Avatar';
 
 type SearchResult = [
   followerCount: number,
