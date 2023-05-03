@@ -2,7 +2,7 @@
 
 import { useMemo, memo } from "react";
 import Link from "next/link";
-import { nip19 } from "nostr-tools";
+import { nip19, Event } from "nostr-tools";
 import { Avatar, Name } from "@/components";
 import useDirectMessages from "@/hooks/posts/simple/useDirectMessages";
 
@@ -21,16 +21,28 @@ export default function Message() {
   const { directMessageEvents, directMessageEose, isDirectMessagesEmpty } = useDirectMessages();
 
   const threads = useMemo(() => {
-    const threadSet = new Set<string>();
+    const threadMap = new Map<string, Event>();
+    const addIfLatest = (threadId: string, event: Event) => {
+      if (!threadMap.has(threadId)) {
+        threadMap.set(threadId, event);
+      } else {
+        const existingEvent = threadMap.get(threadId);
+        if ((existingEvent?.created_at || 0) < event.created_at) {
+          threadMap.set(threadId, event);
+        }
+      }
+    }
     directMessageEvents.forEach((event) => {
-      threadSet.add(event.pubkey);
+      addIfLatest(event.pubkey, event);
       event.tags?.forEach((tag) => {
         if (tag[0] === 'p') {
-          threadSet.add(tag[1]);
+          addIfLatest(tag[1], event);
         }
       });
     });
-    return threadSet;
+    return Array.from(threadMap.entries())
+      .sort((a, b) => b[1].created_at - a[1].created_at)
+      .map((entry) => entry[0]);
   }, [directMessageEose]);
 
   if (!directMessageEose) {
