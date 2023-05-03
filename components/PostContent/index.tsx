@@ -18,9 +18,9 @@ const PostContent = ({ postEvent }: { postEvent: Event }) => {
       {imageUrlList.map((imgUrl, index) => (
         <div
           key={index}
-          className="relative w-2/3 overflow-hidden object-contain"
+          className="relative w-full overflow-hidden object-contain"
         >
-          <img src={imgUrl} alt={imagelessString.slice(0, 20)} />
+          <img className="rounded max-h-96" src={imgUrl} alt={imagelessString.slice(0, 20)} />
         </div>
       ))}
 
