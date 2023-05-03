@@ -2,7 +2,7 @@
 
 import { memo } from 'react';
 
-import { PostCard, Spinner } from '@/components';
+import { PostCard, Spinner, NewPostForm } from '@/components';
 
 import { useFeedPage } from '@/hooks';
 
@@ -15,6 +15,7 @@ const Feed = () => {
 
   return (
     <>
+      <NewPostForm />
       {postEvents.map((postEvent, index) => (
         <PostCard key={`global${postEvent.id}${index}`} postId={postEvent.id} />
       ))}
