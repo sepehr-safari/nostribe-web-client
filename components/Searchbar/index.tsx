@@ -140,7 +140,7 @@ export default function Searchbar() {
             >
               <Avatar url={result.content.picture} />
               <div className="ml-2">
-                <div className="text-white">{result.content.name}</div>
+                <div className="text-white">{result.content.display_name || result.content.name}</div>
                 <div className="text-gray-400 text-sm">
                   {result.content.about?.length > MAX_ABOUT_LENGTH
                     ? result.content.about.slice(0, MAX_ABOUT_LENGTH) + '...'
