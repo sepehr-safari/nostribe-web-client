@@ -32,21 +32,21 @@ const PostCard = ({ postId }: { postId: string }) => {
   return (
     <>
       <CardContainer>
-        <div className="flex flex-col gap-4">
-          <div className="flex items-center gap-4">
+        <div className="flex flex-col gap-2">
+          <div className="flex items-center gap-2">
             <Link
               prefetch={false}
               href={`/profile/${npub}`}
-              className="flex items-center gap-4"
+              className="flex items-center gap-2"
             >
               {picture ? (
-                <BaseAvatar url={picture || '/nostribe.png'} width="w-14" />
+                <BaseAvatar url={picture || '/nostribe.png'} width="w-12" />
               ) : isFetching ? (
-                <div className="w-14 h-14 flex items-center">
+                <div className="w-12 h-12 flex items-center">
                   <AvatarLoader />
                 </div>
               ) : (
-                <BaseAvatar url="/nostribe.png" width="w-14" />
+                <BaseAvatar url="/nostribe.png" width="w-12" />
               )}
 
               <div className="flex flex-col">
@@ -114,7 +114,7 @@ const PostCard = ({ postId }: { postId: string }) => {
             </div>
           </div>
 
-          <div className="ml-16 mr-2 flex flex-col gap-4 break-words">
+          <div className="ml-16 mr-2 flex flex-col gap-2 break-words">
             <PostContent postEvent={postEvent} />
           </div>
         </div>
@@ -122,26 +122,26 @@ const PostCard = ({ postId }: { postId: string }) => {
         <hr className="-mx-4 mt-2 opacity-10" />
 
         <div className="-m-4 flex flex-wrap">
-          <button className="btn-ghost hover:bg-transparent hover:text-iris-orange btn w-1/4 content-center gap-2 rounded-none py-7 px-2">
-            <BoltIcon width={24} />
+          <button className="btn-ghost hover:bg-transparent text-gray-500 hover:text-iris-orange btn w-1/4 content-center gap-2 rounded-none p-2">
+            <BoltIcon width={18} />
 
             {reactionEvents.filter((event) => event.kind === 9735).length}
           </button>
 
-          <button className="btn-ghost hover:bg-transparent hover:text-iris-blue btn w-1/4 content-center gap-2 rounded-none py-7 px-2">
-            <ChatBubbleOvalLeftIcon width={24} />
+          <button className="btn-ghost hover:bg-transparent text-gray-500 hover:text-iris-blue btn w-1/4 content-center gap-2 rounded-none p-2">
+            <ChatBubbleOvalLeftIcon width={18} />
 
             {reactionEvents.filter((event) => event.kind === 1).length}
           </button>
 
-          <button className="btn-ghost hover:bg-transparent hover:text-iris-red btn w-1/4 content-center gap-2 rounded-none py-7 px-2">
-            <HeartIcon width={24} />
+          <button className="btn-ghost hover:bg-transparent text-gray-500 hover:text-iris-red btn w-1/4 content-center gap-2 rounded-none p-2">
+            <HeartIcon width={18} />
 
             {reactionEvents.filter((event) => event.kind === 7).length}
           </button>
 
-          <button className="btn-ghost hover:bg-transparent hover:text-iris-green btn w-1/4 content-center gap-2 rounded-none py-7 px-2">
-            <ArrowPathIcon width={24} />
+          <button className="btn-ghost hover:bg-transparent text-gray-500 hover:text-iris-green btn w-1/4 content-center gap-2 rounded-none p-2">
+            <ArrowPathIcon width={18} />
 
             {}
           </button>

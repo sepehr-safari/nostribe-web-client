@@ -26,10 +26,10 @@ const NewPostForm: React.FC<Props> = () => {
 
   return (
     <CardContainer>
-      <form onSubmit={handleSubmit} className="w-full">
+      <form onSubmit={handleSubmit} className="w-full mb-4">
         <div className="flex items-start">
           <Link href={`/profile/${myNpub}`} className="mr-4">
-            <Avatar width="w-14" pub={userData?.publicKey || ''} /> {/* Render the Avatar component here */}
+            <Avatar width="w-12" pub={userData?.publicKey || ''} /> {/* Render the Avatar component here */}
           </Link>
           <div className="flex-grow">
             <textarea
