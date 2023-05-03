@@ -1,11 +1,6 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import reactStringReplace from 'react-string-replace';
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-import { bech32 } from 'bech32';
-import $ from 'jquery';
-import throttle from 'lodash/throttle';
+import { bech32 } from 'bech32'; // TODO @scure/base
 import { nip19 } from 'nostr-tools';
-import { route } from 'preact-router';
 
 import EventComponent from './components/events/EventComponent';
 import Name from './components/Name';
@@ -614,7 +609,7 @@ export default {
             onClick={(e) => {
               if (isIris) {
                 e.preventDefault();
-                route(url);
+                window.location.pathname = url; // TODO router.push(url)
               }
             }}
             href={url}
@@ -824,43 +819,7 @@ export default {
     });
   },
 
-  scrollToMessageListBottom: throttle(() => {
-    if ($('#message-view')[0]) {
-      $('#message-view').scrollTop(
-        $('#message-view')[0].scrollHeight - $('#message-view')[0].clientHeight,
-      );
-    }
-  }, 100),
-
   setImgSrc,
-
-  animateScrollTop: (selector: string): void => {
-    const el = $(selector);
-    el.css({ overflow: 'hidden' });
-    setTimeout(() => {
-      el.css({ overflow: '' });
-      el.on('scroll mousedown wheel DOMMouseScroll mousewheel keyup touchstart', (e) => {
-        if (
-          (e.which && e.which > 0) ||
-          e.type === 'mousedown' ||
-          e.type === 'mousewheel' ||
-          e.type === 'touchstart'
-        ) {
-          el.stop(true);
-        }
-      });
-      el.stop().animate(
-        { scrollTop: 0 },
-        {
-          duration: 400,
-          queue: false,
-          always: () => {
-            el.off('scroll mousedown wheel DOMMouseScroll mousewheel keyup touchstart');
-          },
-        },
-      );
-    }, 10);
-  },
 
   getMyProfileLink(): string {
     const user = existingIrisToAddress.name || Key.toNostrBech32Address(Key.getPubKey(), 'npub');
