@@ -14,6 +14,7 @@ import {
   BellIcon as BellIconFull,
 } from '@heroicons/react/24/solid';
 import {Avatar} from "@/components";
+import Link from 'next/link';
 import UserEmber from "@/components/NavMenu/UserEmber";
 
 const APPLICATIONS = [
@@ -34,19 +35,19 @@ export default function NavMenu() {
     <aside className="z-20 hidden md:w-16 lg:w-1/4 flex-col gap-4 px-2 py-4 md:flex justify-between">
       <div>
         <nav className="space-y-2">
-          <a href="/" className="flex items-center gap-3 px-2 mb-4">
+          <Link href="/" className="flex items-center gap-3 px-2 mb-4">
             <img className="rounded-full w-8" src="/img/icon128.png" />
 
             <h1 className="hidden lg:flex text-3xl">
               iris
             </h1>
-          </a>
+          </Link>
           {APPLICATIONS.map((a, index) => {
             const isActive = false; // Determine if the current route is active
             const Icon = isActive ? a.activeIcon : a.icon;
             return (
               <div key={index}>
-                <a
+                <Link
                 href={a.url}
                 className={`inline-flex w-auto flex items-center space-x-4 p-3 rounded-full transition-colors duration-200 ${isActive ? 'text-primary' : ''} hover:bg-gray-900`}
               >
@@ -57,7 +58,7 @@ export default function NavMenu() {
                     2
                   </span>
                 )}
-              </a>
+              </Link>
               </div>
             );
           })}
