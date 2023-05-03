@@ -34,7 +34,7 @@ export default function NavMenu() {
     <aside className="z-20 hidden md:w-16 lg:w-1/4 flex-col gap-4 px-2 py-4 md:flex justify-between">
       <div>
         <nav className="space-y-2">
-          <div className="flex items-center gap-2 px-2 mb-4">
+          <div className="flex items-center gap-3 px-2 mb-4">
             <img className="rounded-full w-8" src="/img/icon128.png" />
 
             <h1 className="hidden lg:flex text-3xl">
