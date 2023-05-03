@@ -1,7 +1,7 @@
 export default function About() {
   const t = (s: string) => s; // TODO translate fn
   return (
-    <>
+    <article className="prose">
       <h2>{t('about')}</h2>
         <p>Iris is like the social networking apps we're used to, but better:</p>
         <ul>
@@ -94,6 +94,6 @@ export default function About() {
           <a href="https://github.com/irislib/iris-messenger">Github</a>.
         </p>
         <br />
-    </>
+    </article>
   );
 }
