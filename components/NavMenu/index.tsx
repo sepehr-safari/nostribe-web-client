@@ -29,7 +29,7 @@ export default function NavMenu() {
 
   const APPLICATIONS = [
     { url: '/', text: 'Home', icon: HomeIcon, activeIcon: HomeIconFull },
-    { url: '/message', text: 'Messages', icon: PaperAirplaneIcon, activeIcon: PaperAirplaneIconFull },
+    { url: '/messages', text: 'Messages', icon: PaperAirplaneIcon, activeIcon: PaperAirplaneIconFull },
     { url: '/notifications', text: 'Notifications', icon: BellIcon, activeIcon: BellIconFull },
     { url: '/settings', text: 'Settings', icon: Cog8ToothIcon, activeIcon: Cog8ToothIconFull },
     { url: `/profile/${npub}`, text: 'Profile', icon: UserIcon, activeIcon: UserIconFull },
