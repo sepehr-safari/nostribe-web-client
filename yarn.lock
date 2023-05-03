@@ -2001,7 +2001,7 @@ normalize-range@^0.1.2:
   resolved "https://registry.yarnpkg.com/normalize-range/-/normalize-range-0.1.2.tgz#2d10c06bdfd312ea9777695a4d28439456b75942"
   integrity sha512-bdok/XvKII3nUpklnV6P2hxtMNrCboOjAcyBuQnWEhO665FwrSNRxU+AqpsyvO6LgGYPspN+lu5CLtw4jPRKNA==
 
-nostr-hooks@^1.6.0:
+nostr-hooks@^1.6.4:
   version "1.6.4"
   resolved "https://registry.yarnpkg.com/nostr-hooks/-/nostr-hooks-1.6.4.tgz#6a4b84ea4b7c961f6ac41d6fb894431770e41189"
   integrity sha512-Snx5B0JeDCSkvlsjuBh+0ALyFEIG2xTE6ROm0MxPunf7oainog2stHxlVar6YkGv8YTQDSZrgasdKYrTnLu0vw==
