@@ -4,7 +4,7 @@ import './globals.css';
 
 export const metadata = {
   title: 'Iris',
-  description: 'The Connecting Link',
+  description: 'Connecting People',
   keywords:
     'Iris, Nostr, Nostr protocol, decentralized, censorship-resistant, social media, web client, social network',
   manifest: '/manifest.json',
@@ -12,7 +12,7 @@ export const metadata = {
   openGraph: {
     type: 'website',
     title: 'Iris',
-    description: 'The Connecting Link',
+    description: 'Connecting People',
     images: [
       {
         url: 'https://raw.githubusercontent.com/sepehr-safari/nostribe-web-client/main/public/nostribe.png',

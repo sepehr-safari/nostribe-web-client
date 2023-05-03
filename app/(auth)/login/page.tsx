@@ -76,7 +76,7 @@ const Login = () => {
       <CardContainer>
         <div className="flex items-baseline gap-2">
           <h1 className="text-2xl font-bold md:text-4xl">iris</h1>
-          <h2 className="text-xs">The Connecting Link</h2>
+          <h2 className="text-xs">Connecting People</h2>
         </div>
       </CardContainer>
 

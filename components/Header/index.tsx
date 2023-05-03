@@ -16,9 +16,9 @@ const navigateBack = (e: React.MouseEvent<HTMLAnchorElement>) => {
 const NotLoggedInHeader = () => {
   return (
     <>
-      <div className="flex items-center md:hidden gap-2 p-3">
+      <div className="flex items-center md:hidden gap-2 p-3 text-2xl">
         <img src="/img/icon128.png" className="w-8 rounded-full" />
-        Iris
+        iris
       </div>
       <div className="w-full flex items-center justify-end gap-2 p-3 h-14">
         <Link href="/login" className="btn btn-sm btn-primary rounded-full capitalize">Log in</Link>
@@ -31,11 +31,11 @@ const NotLoggedInHeader = () => {
 const HomeHeader = () => {
   return (
     <>
-      <div className="flex items-center md:hidden gap-2 p-3">
+      <div className="flex items-center md:hidden gap-2 p-3 text-2xl">
         <img src="/img/icon128.png" className="w-8 rounded-full" />
-        Iris
+        iris
       </div>
-      <div className="w-full flex items-center justify-center gap-2 p-3 sm:mr-40 md:mr-0 h-14">
+      <div className="w-full flex items-center justify-center gap-2 p-3 mr-16 md:mr-0 h-14">
         Home
       </div>
     </>
