@@ -2001,10 +2001,10 @@ normalize-range@^0.1.2:
   resolved "https://registry.yarnpkg.com/normalize-range/-/normalize-range-0.1.2.tgz#2d10c06bdfd312ea9777695a4d28439456b75942"
   integrity sha512-bdok/XvKII3nUpklnV6P2hxtMNrCboOjAcyBuQnWEhO665FwrSNRxU+AqpsyvO6LgGYPspN+lu5CLtw4jPRKNA==
 
-nostr-hooks@^1.6.0:
-  version "1.6.0"
-  resolved "https://registry.yarnpkg.com/nostr-hooks/-/nostr-hooks-1.6.0.tgz#1967dab72c8ec511fc188b242a0c541fd0fa3a72"
-  integrity sha512-vhBkW0Cq5qhEHCJvZc/aWWBIrZVbiV9o5G3bwvsyv0MUiFg+VyIi/+xQ8WMxj060ztAe5U+adMaPdZ5Sq6jy+w==
+nostr-hooks@^1.6.2:
+  version "1.6.2"
+  resolved "https://registry.yarnpkg.com/nostr-hooks/-/nostr-hooks-1.6.2.tgz#e5cef0dcdca12ad3b7d8990cae052e0b62997516"
+  integrity sha512-FgMuwXRZMmBsV6jtimeEkEwE13jSuDGxOq23bTaRcCk/mTjBWLE2gQA/v/NjWyVdXVRTGzU8rVRmWQgEBNpFKQ==
   dependencies:
     lodash "^4.17.21"
     nostr-tools "^1.9.0"
