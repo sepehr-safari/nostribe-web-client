@@ -122,25 +122,25 @@ const PostCard = ({ postId }: { postId: string }) => {
         <hr className="-mx-4 mt-2 opacity-10" />
 
         <div className="-m-4 flex flex-wrap">
-          <button className="btn-ghost btn w-1/4 content-center gap-2 rounded-none py-7 px-2">
+          <button className="btn-ghost hover:bg-transparent hover:text-iris-orange btn w-1/4 content-center gap-2 rounded-none py-7 px-2">
             <BoltIcon width={24} />
 
             {reactionEvents.filter((event) => event.kind === 9735).length}
           </button>
 
-          <button className="btn-ghost btn w-1/4 content-center gap-2 rounded-none py-7 px-2">
+          <button className="btn-ghost hover:bg-transparent hover:text-iris-blue btn w-1/4 content-center gap-2 rounded-none py-7 px-2">
             <ChatBubbleOvalLeftIcon width={24} />
 
             {reactionEvents.filter((event) => event.kind === 1).length}
           </button>
 
-          <button className="btn-ghost btn w-1/4 content-center gap-2 rounded-none py-7 px-2">
+          <button className="btn-ghost hover:bg-transparent hover:text-iris-red btn w-1/4 content-center gap-2 rounded-none py-7 px-2">
             <HeartIcon width={24} />
 
             {reactionEvents.filter((event) => event.kind === 7).length}
           </button>
 
-          <button className="btn-ghost btn w-1/4 content-center gap-2 rounded-none py-7 px-2">
+          <button className="btn-ghost hover:bg-transparent hover:text-iris-green btn w-1/4 content-center gap-2 rounded-none py-7 px-2">
             <ArrowPathIcon width={24} />
 
             {}
