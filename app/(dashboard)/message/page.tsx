@@ -1,5 +1,8 @@
 "use client";
 
+import Link from "next/link";
+import { nip19 } from "nostr-tools";
+import { Avatar, Name } from "@/components";
 import { useSubscribe } from 'nostr-hooks';
 import useStore from "@/store";
 
@@ -31,10 +34,15 @@ export default function Message() {
 
   return (
     <div>
-      <h2>Messages</h2>
-      {Array.from(threads).map((thread) => (
-        <div key={thread}>{thread}</div>
-      ))}
+      {Array.from(threads).map((thread) => {
+        const npub = nip19.npubEncode(thread);
+        return (
+          <Link href={`/profile/${npub}`} key={thread} className="flex items-center p-2 gap-4">
+            <Avatar pub={thread} width="w-12" />
+            <Name pub={thread} />
+          </Link>
+        );
+      })}
     </div>
   );
 }
