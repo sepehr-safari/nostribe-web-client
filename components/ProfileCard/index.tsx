@@ -76,7 +76,11 @@ const ProfileCard = ({ profileAddress }: { profileAddress: string }) => {
 
                 {website ? (
                   <a className="text-xs text-info" href={website}>
-                    {website.replace('https://', '').replace('http://', '')}
+                    {website
+                      .replace('https://', '')
+                      .replace('http://', '')
+                      .replace(/\/$/, '')
+                    }
                   </a>
                 ) : (
                   isFetchingMetadata && <BoxLoader />
