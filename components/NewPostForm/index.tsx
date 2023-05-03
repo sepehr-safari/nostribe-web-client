@@ -2,7 +2,6 @@
 
 import React, { useState } from 'react';
 import { Avatar, CardContainer } from '@/components';
-import { useProfileContent } from '@/hooks';
 import useStore from "@/store";
 
 interface Props {}
@@ -10,7 +9,6 @@ interface Props {}
 const NewPostForm: React.FC<Props> = () => {
   const [postText, setPostText] = useState('');
   const userData = useStore((state) => state.auth.user.data);
-  const { picture } = useProfileContent(userData?.publicKey || '');
 
   const handlePostTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setPostText(e.target.value);
@@ -27,7 +25,7 @@ const NewPostForm: React.FC<Props> = () => {
       <form onSubmit={handleSubmit} className="w-full">
         <div className="flex items-start">
           <div className="mr-4">
-            <Avatar width="w-14" url={picture} /> {/* Render the Avatar component here */}
+            <Avatar width="w-14" pub={userData?.publicKey || ''} /> {/* Render the Avatar component here */}
           </div>
           <div className="flex-grow">
             <textarea
@@ -35,7 +33,7 @@ const NewPostForm: React.FC<Props> = () => {
               name="postText"
               value={postText}
               onChange={handlePostTextChange}
-              className="p-2 mt-1 mb-4 w-full h-10 bg-black focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-700 rounded-md text-white"
+              className="p-2 mt-1 mb-4 w-full h-10 bg-black focus:ring-blue-500 focus:border-blue-500 block w-full text-lg border-gray-700 rounded-md text-white"
               placeholder="What's on your mind?"
               required
             />

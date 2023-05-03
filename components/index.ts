@@ -1,4 +1,4 @@
-export { default as Avatar } from './Avatar';
+export { default as Avatar, BaseAvatar } from './Avatar';
 export { default as AvatarLoader } from './AvatarLoader';
 export { default as BoxLoader } from './BoxLoader';
 export { default as CardContainer } from './CardContainer';

@@ -4,7 +4,7 @@ import { useState, useRef, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { FormEvent } from 'react';
 import { throttle } from 'lodash';
-import Avatar from '@/components/Avatar';
+import { BaseAvatar } from '@/components/Avatar';
 
 type SearchResult = [
   followerCount: number,
@@ -138,7 +138,7 @@ export default function Searchbar() {
               }`}
               onClick={() => selectResult(index)}
             >
-              <Avatar url={result.content.picture} />
+              <BaseAvatar url={result.content.picture} />
               <div className="ml-2">
                 <div className="text-white">{result.content.display_name || result.content.name}</div>
                 <div className="text-gray-400 text-sm">

@@ -10,11 +10,10 @@ import {
 import Link from 'next/link';
 
 import {
-  Avatar,
+  BaseAvatar,
   AvatarLoader,
   BoxLoader,
   CardContainer,
-  Nip05View,
   PostContent,
 } from '@/components';
 
@@ -24,7 +23,7 @@ const PostCard = ({ postId }: { postId: string }) => {
   const { isFetching, postEvent, createdAt, nip19NoteId } =
     usePostEvent(postId);
 
-  const { npub, displayName, picture, nip05 } = useProfileContent(
+  const { npub, displayName, picture } = useProfileContent(
     postEvent?.pubkey || ''
   );
 
@@ -41,13 +40,13 @@ const PostCard = ({ postId }: { postId: string }) => {
               className="flex items-center gap-4"
             >
               {picture ? (
-                <Avatar url={picture || '/nostribe.png'} width="w-14" />
+                <BaseAvatar url={picture || '/nostribe.png'} width="w-14" />
               ) : isFetching ? (
                 <div className="w-14 h-14 flex items-center">
                   <AvatarLoader />
                 </div>
               ) : (
-                <Avatar url="/nostribe.png" width="w-14" />
+                <BaseAvatar url="/nostribe.png" width="w-14" />
               )}
 
               <div className="flex flex-col">

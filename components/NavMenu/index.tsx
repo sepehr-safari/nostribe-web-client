@@ -4,6 +4,7 @@ import {
   InformationCircleIcon,
   PaperAirplaneIcon,
   QrCodeIcon,
+  UserIcon,
   BellIcon,
 } from '@heroicons/react/24/outline';
 import {
@@ -12,6 +13,7 @@ import {
   InformationCircleIcon as InformationCircleIconFull,
   PaperAirplaneIcon as PaperAirplaneIconFull,
   BellIcon as BellIconFull,
+  UserIcon as UserIconFull,
 } from '@heroicons/react/24/solid';
 import {Avatar} from "@/components";
 import Link from 'next/link';
@@ -22,6 +24,7 @@ const APPLICATIONS = [
   { url: '/message', text: 'Messages', icon: PaperAirplaneIcon, activeIcon: PaperAirplaneIconFull },
   { url: '/notifications', text: 'Notifications', icon: BellIcon, activeIcon: BellIconFull },
   { url: '/settings', text: 'Settings', icon: Cog8ToothIcon, activeIcon: Cog8ToothIconFull },
+  { url: '/profile', text: 'Profile', icon: UserIcon, activeIcon: UserIconFull },
   {
     url: '/about',
     text: 'About',

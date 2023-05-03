@@ -1,5 +1,8 @@
 export default function About() {
-  const t = (s: string) => s; // TODO translate fn
+  const t = (s: string) => {
+    // TODO translate fn
+    return s.charAt(0).toUpperCase() + s.slice(1);
+  };
   return (
     <article className="prose">
       <h2>{t('about')}</h2>

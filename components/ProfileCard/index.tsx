@@ -1,17 +1,18 @@
 'use client';
 
 import { PlusIcon } from '@heroicons/react/24/outline';
-import { memo } from 'react';
+import {nip19} from 'nostr-tools'
 
 import { useProfileContacts, useProfileContent } from '@/hooks';
 
 import {
-  Avatar,
+  BaseAvatar,
   AvatarLoader,
   BoxLoader,
   CardContainer,
   Nip05View,
 } from '@/components';
+import {useEffect, useState} from "react";
 
 const ProfileCard = ({ profileAddress }: { profileAddress: string }) => {
   const {
@@ -25,6 +26,18 @@ const ProfileCard = ({ profileAddress }: { profileAddress: string }) => {
   } = useProfileContent(profileAddress);
 
   const { contactEvents } = useProfileContacts(profileAddress);
+  const [followerCount, setFollowerCount] = useState(0);
+
+  useEffect(() => {
+    const hex = nip19.decode(profileAddress).data;
+    fetch(`https://eu.rbr.bio/${hex}/info.json`).then((res) => {
+      res.json().then((data) => {
+        setFollowerCount(data.followerCount);
+      });
+    }).catch((err) => {
+      console.log(err);
+    });
+  }, [profileAddress]);
 
   return (
     <>
@@ -42,7 +55,7 @@ const ProfileCard = ({ profileAddress }: { profileAddress: string }) => {
             {isFetchingMetadata ? (
               <AvatarLoader />
             ) : (
-              <Avatar url={picture || '/nostribe.png'} width="w-36" />
+              <BaseAvatar url={picture || '/nostribe.png'} width="w-36" />
             )}
           </div>
 
@@ -87,7 +100,7 @@ const ProfileCard = ({ profileAddress }: { profileAddress: string }) => {
                   {` `}Following
                 </div>
                 <div>
-                  <b>{`*`}</b>
+                  <b>{followerCount}</b>
                   {` `}Followers
                 </div>
               </div>
