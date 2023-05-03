@@ -10,6 +10,8 @@ const Footer = () => {
   const userData = useStore((state) => state.auth.user.data);
   const { npub } = useProfileContent(userData?.publicKey || '');
 
+  if (!userData?.publicKey) return null;
+
   return (
     <div className="fixed md:hidden bottom-0 z-10 w-full bg-base-200">
       <div className="flex w-full h-full items-stretch p-4">
