@@ -8,8 +8,13 @@ import { Avatar, Name } from '@/components';
 import useStore from '@/store';
 
 const UserEmber = () => {
+  const [dropdownVisible, setDropdownVisible] = useState(false);
   const userData = useStore((state) => state.auth.user.data);
   const [hasUser, setHasUser] = useState(false);
+
+  const toggleDropdown = () => {
+    setDropdownVisible(!dropdownVisible);
+  };
 
   // zustand has a bug with persisting data
   useEffect(() => {
@@ -18,7 +23,7 @@ const UserEmber = () => {
 
   return (
     <div className="flex items-center dropdown-top dropdown-right dropdown">
-      <label tabIndex={0} className="btn-ghost btn-circle btn">
+      <label tabIndex={0} className="btn-ghost btn-circle btn" onClick={toggleDropdown}>
         <Avatar pub={userData?.publicKey || ''} width="w-8" />
       </label>
       <div className="hidden md:block ml-2">
@@ -26,7 +31,9 @@ const UserEmber = () => {
       </div>
       <ul
         tabIndex={0}
-        className="z-30 dropdown-content menu rounded-box w-32 bg-base-100 p-2 shadow-lg shadow-black"
+        className={`z-50 dropdown-content menu rounded-box w-32 bg-base-100 p-2 shadow-lg shadow-black ${
+          dropdownVisible ? '' : 'hidden'
+        }`}
       >
         {hasUser ? (
           <>
