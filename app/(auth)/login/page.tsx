@@ -75,8 +75,8 @@ const Login = () => {
     <>
       <CardContainer>
         <div className="flex items-baseline gap-2">
-          <h1 className="text-2xl font-bold md:text-4xl">Iris</h1>
-          <h2 className="text-xs">Join the tribe, join the vibe.</h2>
+          <h1 className="text-2xl font-bold md:text-4xl">iris</h1>
+          <h2 className="text-xs">The Connecting Link</h2>
         </div>
       </CardContainer>
 
@@ -117,7 +117,7 @@ const Login = () => {
               />
 
               <p className="mt-6 mb-2 text-warning">
-                <strong>Warning:</strong>
+                <strong>Warning:</strong>{` `}
                 {`Do not share your private key with anyone.
                 It is important that you keep it safe.
                 It is the only way to access your account.
