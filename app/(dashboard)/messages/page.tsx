@@ -6,16 +6,16 @@ import { nip19, Event } from "nostr-tools";
 import { Avatar, Name } from "@/components";
 import useDirectMessages from "@/hooks/posts/simple/useDirectMessages";
 
-const MessageThread = memo(({ hexPub }: { hexPub: string }) => {
+const MessageListItem = memo(({ hexPub }: { hexPub: string }) => {
   const npub = nip19.npubEncode(hexPub);
   return (
-    <Link href={`/profile/${npub}`} key={hexPub} className="flex items-center p-2 gap-4">
+    <Link href={`/messages/${npub}`} key={hexPub} className="flex items-center p-2 gap-4">
       <Avatar pub={hexPub} width="w-12" />
       <Name pub={hexPub} />
     </Link>
   );
 });
-MessageThread.displayName = 'MessageThread';
+MessageListItem.displayName = 'MessageListItem';
 
 export default function Message() {
   const { directMessageEvents, directMessageEose, isDirectMessagesEmpty } = useDirectMessages();
@@ -63,7 +63,7 @@ export default function Message() {
 
   return (
     <div>
-      {Array.from(threads).map((hexPub) => <MessageThread key={hexPub} hexPub={hexPub} />)}
+      {Array.from(threads).map((hexPub) => <MessageListItem key={hexPub} hexPub={hexPub} />)}
     </div>
   );
 }
