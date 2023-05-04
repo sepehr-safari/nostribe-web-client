@@ -3,14 +3,16 @@
 import React, { useState } from 'react';
 import { Avatar, CardContainer } from '@/components';
 import useStore from "@/store";
-import {nip19} from "nostr-tools";
+import {nip19, Event} from "nostr-tools";
 import Link from "next/link";
 
 import usePublish from "@/hooks/usePublish";
 
-interface Props {}
+interface Props {
+  onPublish?: (event: Event) => void;
+}
 
-const NewPostForm: React.FC<Props> = () => {
+const NewPostForm: React.FC<Props> = ({ onPublish }) => {
   const [postText, setPostText] = useState('');
   const userData = useStore((state) => state.auth.user.data);
 
@@ -20,14 +22,15 @@ const NewPostForm: React.FC<Props> = () => {
     setPostText(e.target.value);
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log('Posting:', postText);
-    publish({
+    const event = await publish({
       kind: 1,
       content: postText,
     });
     setPostText('');
+    onPublish?.(event);
   };
 
   const myNpub = userData?.publicKey ? nip19.npubEncode(userData?.publicKey) : '';
