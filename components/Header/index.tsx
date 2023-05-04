@@ -7,6 +7,7 @@ import {
 import { usePathname, useParams } from 'next/navigation';
 import { Name } from '@/components';
 import useStore from "@/store";
+import {MouseEventHandler} from "react";
 
 const navigateBack = (e: React.MouseEvent<HTMLAnchorElement>) => {
   e.preventDefault();
@@ -64,6 +65,13 @@ const BackNavHeader = () => {
   )
 }
 
+const scrollUp: MouseEventHandler = (e) => {
+  // if event target does not have a link parent, scroll thi
+  if (!(e.target as HTMLElement).closest('a')) {
+    window.scrollTo(0, 0);
+  }
+}
+
 const Header = () => {
   const pathname = usePathname();
   const userData = useStore((state) => state.auth.user.data);
@@ -78,7 +86,7 @@ const Header = () => {
   }
 
   return (
-    <div className="absolute top-0 z-10 w-full">
+    <div className="absolute top-0 z-10 w-full cursor-pointer" onClick={scrollUp}>
       <div className="md:ml-16 lg:w-1/2 lg:mx-auto bg-base-200 bg-opacity-50 shadow-lg backdrop-blur-lg">
         <div className="flex w-full items-center justify-between">
           {content}
