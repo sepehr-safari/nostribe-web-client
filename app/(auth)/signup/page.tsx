@@ -20,22 +20,27 @@ const Login = () => {
   );
   const publish = usePublish();
 
-  const [displayName, setDisplayName] = useState<string>('');
+  const [name, setName] = useState<string>('');
 
   useEffect(() => {
     if (data) {
+      if (name) {
+        publish({
+          kind: 0,
+          content: { name }
+        }).catch(console.error);
+      }
       router.replace('/');
     }
   }, [data, router]);
 
   const handleDisplayNameInput = useCallback((event: any) => {
-    setDisplayName(event.target.value);
+    setName(event.target.value);
   }, []);
 
   const handleSignupButton = useCallback(() => {
     const privateKey = generatePrivateKey();
     loginWithPrivateKey(privateKey);
-    // TODO publish profile event
   }, []);
 
   return (
@@ -54,7 +59,7 @@ const Login = () => {
             type="text"
             placeholder="What's your name?"
             className="input-bordered input-primary input w-full rounded-full"
-            value={displayName}
+            value={name}
             onChange={handleDisplayNameInput}
           />
         </div>
