@@ -6,11 +6,15 @@ import useStore from "@/store";
 import {nip19} from "nostr-tools";
 import Link from "next/link";
 
+import usePublish from "@/hooks/usePublish";
+
 interface Props {}
 
 const NewPostForm: React.FC<Props> = () => {
   const [postText, setPostText] = useState('');
   const userData = useStore((state) => state.auth.user.data);
+
+  const publish = usePublish();
 
   const handlePostTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setPostText(e.target.value);
@@ -18,7 +22,11 @@ const NewPostForm: React.FC<Props> = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log('Posted:', postText);
+    console.log('Posting:', postText);
+    publish({
+      kind: 1,
+      content: postText,
+    });
     setPostText('');
   };
 

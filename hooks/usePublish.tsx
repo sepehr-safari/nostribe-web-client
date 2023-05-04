@@ -5,7 +5,7 @@ import useStore from '@/store';
 interface Options {
   kind: number;
   tags?: string[][];
-  content?: Record<string, string>;
+  content?: string | Record<string, string>;
 }
 const usePublish = () => {
   const userData = useStore((state) => state.auth.user.data);
@@ -22,10 +22,12 @@ const usePublish = () => {
         reject(new Error('No public key provided'));
       }
 
+
+
       const unsignedEvent: UnsignedEvent = {
         pubkey,
         created_at: Math.floor(Date.now() / 1000),
-        content: JSON.stringify(content) || '',
+        content: typeof content === 'string' ? content : (JSON.stringify(content) || ''),
         tags: tags || [],
         kind,
       };
