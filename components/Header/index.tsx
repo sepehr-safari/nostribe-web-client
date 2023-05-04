@@ -47,7 +47,7 @@ const BackNavHeader = () => {
   const pathname = usePathname();
   const params = useParams();
 
-  const title = params.address ?
+  const title = pathname.startsWith('/profile') && params.address ?
     <Name key={params.address} pub={params.address} /> :
     <span className="capitalize">{pathname.split('/')[1]}</span>;
 
