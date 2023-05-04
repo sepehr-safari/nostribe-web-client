@@ -47,7 +47,7 @@ export default function Message() {
 
   if (!directMessageEose) {
     return (
-      <div>
+      <div className="p-2">
         <p>Loading...</p>
       </div>
     );
@@ -55,14 +55,14 @@ export default function Message() {
 
   if (isDirectMessagesEmpty) {
     return (
-      <div>
+      <div className="p-2">
         <p>No messages found.</p>
       </div>
     );
   }
 
   return (
-    <div>
+    <div className="p-2">
       {Array.from(threads).map((hexPub) => <MessageListItem key={hexPub} hexPub={hexPub} />)}
     </div>
   );

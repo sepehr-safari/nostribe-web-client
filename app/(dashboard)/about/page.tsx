@@ -4,7 +4,7 @@ export default function About() {
     return s.charAt(0).toUpperCase() + s.slice(1);
   };
   return (
-    <article className="prose">
+    <article className="prose p-2">
       <h2>{t('about')}</h2>
         <p>Iris is like the social networking apps we're used to, but better:</p>
         <ul>

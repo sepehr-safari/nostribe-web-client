@@ -29,7 +29,7 @@ const MessageThread = ({ params }: { params: { address: string } }) => {
   if (!events.length) return <p>Empty</p>;
 
   return (
-    <div className="flex flex-col gap-4 my-2">
+    <div className="flex flex-col gap-4 p-2">
       {events.map((event, index) => (
         <div key={event.id} className="flex flex-row gap-2">
           <div className="flex items-center gap-2">
