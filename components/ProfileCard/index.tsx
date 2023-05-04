@@ -2,6 +2,7 @@
 
 import { PlusIcon } from '@heroicons/react/24/outline';
 import {nip19} from 'nostr-tools'
+import Link from 'next/link';
 
 import { useProfileContacts, useProfileContent } from '@/hooks';
 
@@ -75,7 +76,7 @@ const ProfileCard = ({ profileAddress }: { profileAddress: string }) => {
                 )}
 
                 {website ? (
-                  <a className="text-xs text-info" href={website}>
+                  <a className="text-xs text-info" target="_blank" href={website}>
                     {website
                       .replace('https://', '')
                       .replace('http://', '')
@@ -97,16 +98,16 @@ const ProfileCard = ({ profileAddress }: { profileAddress: string }) => {
 
             {contactEvents ? (
               <div className="flex flex-wrap gap-3 text-xs">
-                <div>
+                <Link href={`/following/${profileAddress}`}>
                   <b>
                     {contactEvents.length ? contactEvents[0].tags.length : 0}
                   </b>
                   {` `}Following
-                </div>
-                <div>
+                </Link>
+                <Link href={`/followers/${profileAddress}`}>
                   <b>{followerCount}</b>
                   {` `}Followers
-                </div>
+                </Link>
               </div>
             ) : (
               isFetchingMetadata && <BoxLoader />
