@@ -2,11 +2,13 @@
 
 import {
   PlusCircleIcon,
+  Cog8ToothIcon,
   HomeIcon,
   PaperAirplaneIcon,
 } from '@heroicons/react/24/outline';
 import {
   PlusCircleIcon as PlusCircleIconFull,
+  Cog8ToothIcon as Cog8ToothIconFull,
   HomeIcon as HomeIconFull,
   PaperAirplaneIcon as PaperAirplaneIconFull,
 } from '@heroicons/react/24/solid';import Link from 'next/link';
@@ -30,6 +32,9 @@ const Footer = () => {
         </Link>
         <Link href="/messages" className="flex-grow flex items-center justify-center">
           {pathname === "/messages" ? <PaperAirplaneIconFull className="h-6 w-6"/> : <PaperAirplaneIcon className="h-6 w-6"/>}
+        </Link>
+        <Link href="/settings" className="flex-grow flex items-center justify-center">
+          {pathname.startsWith("/settings") ? <Cog8ToothIconFull className="h-6 w-6"/> : <Cog8ToothIcon className="h-6 w-6"/>}
         </Link>
         {/*
         <Link href="/post/new" className="flex-grow flex items-center justify-center">
