@@ -1,6 +1,6 @@
 'use client';
 
-import { PlusIcon } from '@heroicons/react/24/outline';
+import { EllipsisHorizontalIcon } from '@heroicons/react/24/outline';
 import {nip19} from 'nostr-tools'
 import Link from 'next/link';
 
@@ -92,10 +92,46 @@ const ProfileCard = ({ profileAddress }: { profileAddress: string }) => {
                 )}
               </div>
 
-              <div className="ml-auto flex">
-                <button className="btn btn-sm btn gap-2 rounded-full capitalize">
+              <div className="ml-auto flex gap-2">
+                <button className="btn btn-sm gap-2 rounded-full capitalize">
                   {isMyProfile ? 'Edit profile' : 'Follow'}
                 </button>
+
+                <div className="dropdown-left dropdown">
+                <label tabIndex={0} className="btn-ghost btn-circle btn btn-sm text-gray-500">
+                  <EllipsisHorizontalIcon width={24} />
+                </label>
+                <ul
+                  tabIndex={0}
+                  className="dropdown-content menu rounded-box w-32 bg-base-100 p-2 shadow-lg shadow-black"
+                >
+                  <li>
+                    <button
+                      className="text-start text-xs"
+                      onClick={() =>
+                        navigator.clipboard.writeText(
+                          `${location.origin}/profile/${profileAddress}`
+                        )
+                      }
+                    >
+                      Copy Link
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      className="text-start text-xs"
+                      onClick={() =>
+                        navigator.clipboard.writeText(
+                          `${location.origin}/profile/${profileAddress}`
+                        )
+                      }
+                    >
+                      Copy User ID
+                    </button>
+                  </li>
+                </ul>
+              </div>
+
               </div>
             </div>
 
