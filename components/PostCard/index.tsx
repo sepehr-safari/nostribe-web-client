@@ -9,6 +9,8 @@ import {
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 
+import { nip19 } from 'nostr-tools';
+
 import {
   BaseAvatar,
   AvatarLoader,
@@ -24,9 +26,10 @@ const PostCard = ({ postId }: { postId: string }) => {
   const { isFetching, postEvent, createdAt, nip19NoteId } =
     usePostEvent(postId);
 
-  const { npub, displayName, picture } = useProfileContent(
+  const { displayName, picture } = useProfileContent(
     postEvent?.pubkey || ''
   );
+  const npub = nip19.npubEncode(postEvent?.pubkey || '');
 
   const { reactionEvents } = usePostReactions(postId);
 

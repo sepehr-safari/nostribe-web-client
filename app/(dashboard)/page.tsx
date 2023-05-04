@@ -9,9 +9,9 @@ import { useFeedPage } from '@/hooks';
 const Feed = () => {
   const { isFetching, isPostsEmpty, postEvents } = useFeedPage();
 
-  if (isPostsEmpty) return <p>No Posts</p>;
-
   if (isFetching) return <Spinner />;
+
+  if (isPostsEmpty) return <p>No Posts</p>;
 
   return (
     <>

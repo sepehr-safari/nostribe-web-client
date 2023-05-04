@@ -23,7 +23,7 @@ const NotLoggedInHeader = () => {
       </div>
       <div className="w-full flex items-center justify-end gap-2 p-3 h-14">
         <Link href="/login" className="btn btn-sm btn-primary rounded-full capitalize">Log in</Link>
-        <Link href="/login" className="btn btn-sm rounded-full capitalize">Sign up</Link>
+        <Link href="/signup" className="btn btn-sm rounded-full capitalize">Sign up</Link>
       </div>
     </>
   )

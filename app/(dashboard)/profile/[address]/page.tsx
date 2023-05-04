@@ -7,13 +7,9 @@ import { useProfilePage } from '@/hooks';
 import { PostCard, ProfileCard, Spinner } from '@/components';
 
 const Profile = ({ params }: { params: { address: string } }) => {
-  const { isFetchingMetadata, isMetadataEmpty, postEvents } = useProfilePage(
+  const { postEvents } = useProfilePage(
     params.address
   );
-
-  if (isMetadataEmpty) return <p>Profile Not Found</p>;
-
-  if (isFetchingMetadata) return <Spinner />;
 
   return (
     <>
