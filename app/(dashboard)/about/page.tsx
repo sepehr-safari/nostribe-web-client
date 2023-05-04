@@ -66,7 +66,7 @@ export default function About() {
 
         <h3>Iris docs</h3>
         <p>
-          Visit Iris <a href="https://docs.iris.to">docs</a> for features, explanations and
+          Visit Iris <a href="https://docs.iris.to" target="_blank">docs</a> for features, explanations and
           troubleshooting.
         </p>
 
@@ -85,7 +85,7 @@ export default function About() {
       */}
 
         <p>
-          <a href="https://t.me/irismessenger">Telegram</a> channel.
+          <a href="https://t.me/irismessenger" target="_blank">Telegram</a> channel.
         </p>
 
         <a href="https://opencollective.com/iris-social/donate" target="_blank">
@@ -94,7 +94,7 @@ export default function About() {
 
         <p>
           Released under MIT license. Code:{' '}
-          <a href="https://github.com/irislib/iris-messenger">Github</a>.
+          <a href="https://github.com/mmalmi/iris-nextjs" target="_blank">Github</a>.
         </p>
         <br />
     </article>
