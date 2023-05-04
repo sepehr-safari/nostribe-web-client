@@ -3,6 +3,7 @@
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useCallback, useEffect } from 'react';
+import { nip19 } from 'nostr-tools';
 
 import { CardContainer } from '@/components';
 
@@ -23,7 +24,19 @@ const Login = () => {
   }, [data, router]);
 
   const handlePrivateKeyInput = useCallback((event: any) => {
-    loginWithPrivateKey(event.target.value);
+    const key = event.target.value;
+
+    const { data, type } = nip19.decode(key);
+
+    if (type === 'npub') {
+      loginWithPublicKey(data);
+      return;
+    } else if (type === 'nsec') {
+      loginWithPrivateKey(data);
+      return;
+    } else {
+      loginWithPrivateKey(key);
+    }
   }, []);
 
   const handleLoginWithExtension = useCallback(async () => {
@@ -61,17 +74,19 @@ const Login = () => {
           </label>
           <input
             type="password"
-            placeholder="private key"
+            placeholder="Private key"
             className="input-bordered rounded-full input-primary input w-full md:input-primary"
             onChange={handlePrivateKeyInput}
           />
         </div>
       </CardContainer>
       <CardContainer>
-        <div className="flex items-center justify-center gap-2">
-          <p className="text-sm">Don't have an account?</p>
+        <p className="text-sm">
+          Don't have an account?
+        </p>
+        <p>
           <Link href="/signup" className="btn btn-sm rounded-full capitalize">Sign up</Link>
-        </div>
+        </p>
       </CardContainer>
     </>
   );

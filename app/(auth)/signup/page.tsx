@@ -33,7 +33,9 @@ const Login = () => {
   }, []);
 
   const handleSignupButton = useCallback(() => {
-    loginWithPrivateKey(generatePrivateKey());
+    const privateKey = generatePrivateKey();
+    loginWithPrivateKey(privateKey);
+    // TODO publish profile event
   }, []);
 
   return (
@@ -65,10 +67,10 @@ const Login = () => {
       </CardContainer>
 
       <CardContainer>
-        <div className="flex items-center justify-center gap-2">
-          <p className="text-sm">Already have an account?</p>
+        <p className="text-sm">Already have an account?</p>
+        <p>
           <Link href="/login" className="btn btn-sm rounded-full capitalize">Log in</Link>
-        </div>
+        </p>
       </CardContainer>
     </>
   );
