@@ -9,6 +9,7 @@ import { CardContainer, Spinner } from '@/components';
 import useStore from '@/store';
 
 import { usePublish } from '@/hooks';
+import Link from "next/link";
 
 const Login = () => {
   const router = useRouter();
@@ -46,25 +47,28 @@ const Login = () => {
 
       <CardContainer>
         <div className="form-control w-full">
-          <label className="label mt-4">
-            <span className="label-text">
-              What do you want to be called on Nostr?
-            </span>
-          </label>
           <input
+            autoFocus={true}
             type="text"
-            placeholder="display name"
-            className="input-bordered input-primary input input-sm w-full md:input-primary md:input"
+            placeholder="What's your name?"
+            className="input-bordered input-primary input w-full rounded-full"
             value={displayName}
             onChange={handleDisplayNameInput}
           />
         </div>
         <button
-          className="btn-primary btn-sm btn"
+          className="btn-primary btn rounded-full capitalize"
           onClick={handleSignupButton}
         >
           Go
         </button>
+      </CardContainer>
+
+      <CardContainer>
+        <div className="flex items-center justify-center gap-2">
+          <p className="text-sm">Already have an account?</p>
+          <Link href="/login" className="btn btn-sm rounded-full capitalize">Log in</Link>
+        </div>
       </CardContainer>
     </>
   );

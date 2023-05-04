@@ -1,6 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { useCallback, useEffect } from 'react';
 
 import { CardContainer } from '@/components';
@@ -47,7 +48,7 @@ const Login = () => {
       <CardContainer>
         <div className="form-control w-full">
           <button
-            className="btn-sm btn mt-2 md:btn"
+            className="btn btn-primary mt-2 rounded-full capitalize"
             onClick={handleLoginWithExtension}
           >
             Login with extension
@@ -61,9 +62,15 @@ const Login = () => {
           <input
             type="password"
             placeholder="private key"
-            className="input-bordered input-primary input input-sm w-full md:input-primary md:input"
+            className="input-bordered rounded-full input-primary input w-full md:input-primary"
             onChange={handlePrivateKeyInput}
           />
+        </div>
+      </CardContainer>
+      <CardContainer>
+        <div className="flex items-center justify-center gap-2">
+          <p className="text-sm">Don't have an account?</p>
+          <Link href="/signup" className="btn btn-sm rounded-full capitalize">Sign up</Link>
         </div>
       </CardContainer>
     </>
