@@ -96,6 +96,16 @@ const PostCard = ({ postId }: { postId: string }) => {
                     </button>
                   </li>
                   <li>
+                    <button
+                      className="text-start text-xs"
+                      onClick={() =>
+                        navigator.clipboard.writeText(nip19NoteId)
+                      }
+                    >
+                      Copy ID
+                    </button>
+                  </li>
+                  <li>
                     <Link
                       prefetch={false}
                       className="text-xs"
