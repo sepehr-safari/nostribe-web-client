@@ -9,7 +9,6 @@ import {
   InformationCircleIcon,
   PaperAirplaneIcon,
   QrCodeIcon,
-  UserIcon,
   BellIcon,
 } from '@heroicons/react/24/outline';
 import {
@@ -18,11 +17,10 @@ import {
   InformationCircleIcon as InformationCircleIconFull,
   PaperAirplaneIcon as PaperAirplaneIconFull,
   BellIcon as BellIconFull,
-  UserIcon as UserIconFull,
 } from '@heroicons/react/24/solid';
 import Link from 'next/link';
-import UserEmber from "@/components/NavMenu/UserEmber";
 import useStore from "@/store";
+import {Avatar, Name} from "@/components";
 
 export default function NavMenu() {
   const userData = useStore((state) => state.auth.user.data);
@@ -34,7 +32,6 @@ export default function NavMenu() {
     { url: '/messages', text: 'Messages', icon: PaperAirplaneIcon, activeIcon: PaperAirplaneIconFull },
     { url: '/notifications', text: 'Notifications', icon: BellIcon, activeIcon: BellIconFull },
     { url: '/settings', text: 'Settings', icon: Cog8ToothIcon, activeIcon: Cog8ToothIconFull },
-    { url: `/profile/${npub}`, text: 'Profile', icon: UserIcon, activeIcon: UserIconFull },
     {
       url: '/about',
       text: 'About',
@@ -88,7 +85,14 @@ export default function NavMenu() {
           </button>
         </div>
       </div>
-      <UserEmber />
+      <div>
+        <Link href={`/profile/${npub}`} className="inline-flex w-auto flex items-center space-x-4 p-3 rounded-full transition-colors duration-200 hover:bg-gray-900">
+          <Avatar pub={userData?.publicKey || ''} width="w-8" />
+          <div className="hidden lg:block ml-2">
+            <Name pub={userData?.publicKey || ''} />
+          </div>
+        </Link>
+      </div>
     </aside>
   );
 }
