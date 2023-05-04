@@ -32,7 +32,9 @@ const useProfileContent = (profileAddress: string) => {
     displayName: profileObject.display_name || profileObject.name,
   };
 
-  const npub = nip19.npubEncode(profileAddress);
+  const npub = metadataEvents.length
+    ? nip19.npubEncode(metadataEvents[0].pubkey)
+    : '';
 
   return {
     ...author,
