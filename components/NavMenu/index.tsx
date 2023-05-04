@@ -1,6 +1,7 @@
 "use client";
 
 import { nip19 } from 'nostr-tools';
+import { usePathname } from 'next/navigation';
 
 import {
   Cog8ToothIcon,
@@ -26,6 +27,7 @@ import useStore from "@/store";
 export default function NavMenu() {
   const userData = useStore((state) => state.auth.user.data);
   const npub = userData?.publicKey ? nip19.npubEncode(userData.publicKey) : '';
+  const pathname = usePathname();
 
   const APPLICATIONS = [
     { url: '/', text: 'Home', icon: HomeIcon, activeIcon: HomeIconFull },
@@ -53,13 +55,13 @@ export default function NavMenu() {
             </h1>
           </Link>
           {APPLICATIONS.map((a, index) => {
-            const isActive = false; // Determine if the current route is active
+            const isActive = a.url === pathname;
             const Icon = isActive ? a.activeIcon : a.icon;
             return (
               <div key={index}>
                 <Link
                 href={a.url}
-                className={`inline-flex w-auto flex items-center space-x-4 p-3 rounded-full transition-colors duration-200 ${isActive ? 'text-primary' : ''} hover:bg-gray-900`}
+                className={`inline-flex w-auto flex items-center space-x-4 p-3 rounded-full transition-colors duration-200 hover:bg-gray-900`}
               >
                 <Icon className="w-6 h-6" />
                 <span className={`hidden lg:flex`}>{a.text}</span>

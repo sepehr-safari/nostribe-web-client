@@ -15,3 +15,4 @@ export { default as Footer } from './Footer';
 export { default as ProxyImg } from './ProxyImg';
 export { default as NewPostForm } from './NewPostForm';
 export { default as Name } from './Name';
+export { default as RelativeTime } from './RelativeTime';

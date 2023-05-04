@@ -15,6 +15,7 @@ import {
   BoxLoader,
   CardContainer,
   PostContent,
+  RelativeTime,
 } from '@/components';
 
 import { usePostEvent, usePostReactions, useProfileContent } from '@/hooks';
@@ -64,7 +65,7 @@ const PostCard = ({ postId }: { postId: string }) => {
 
                 {createdAt && (
                   <div className="text-xs leading-5 opacity-50">
-                    {createdAt.toLocaleString()}
+                    <RelativeTime date={new Date(createdAt)} />
                   </div>
                 )}
               </div>
@@ -72,7 +73,7 @@ const PostCard = ({ postId }: { postId: string }) => {
 
             <div className="ml-auto">
               <div className="dropdown-left dropdown">
-                <label tabIndex={0} className="btn-ghost btn-circle btn m-1">
+                <label tabIndex={0} className="btn-ghost btn-circle btn m-1 text-gray-500">
                   <EllipsisHorizontalIcon width={24} />
                 </label>
                 <ul
