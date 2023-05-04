@@ -41,7 +41,7 @@ export default function NavMenu() {
   ];
 
   return (
-    <aside className="z-20 h-screen max-h-screen hidden md:w-16 lg:w-1/4 flex-col px-2 py-4 md:flex justify-between">
+    <aside className="sticky top-0 z-20 h-screen max-h-screen hidden md:w-16 lg:w-64 flex-col px-2 py-4 md:flex justify-between">
       <div>
         <nav className="space-y-2 lg:space-y-1">
           <Link href="/" className="flex items-center gap-3 px-2 mb-4">

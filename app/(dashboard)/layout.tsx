@@ -1,6 +1,6 @@
 import {
-  DashboardLeftSidebar,
-  DashboardRightSidebar,
+  NavSidebar,
+  DiscoverSidebar,
   Header,
   Footer,
 } from '@/components';
@@ -14,12 +14,12 @@ export default function DashboardLayout({
     <>
       <main className="flex justify-center">
         <div className="flex w-full max-w-screen-xl justify-between relative">
-          <DashboardLeftSidebar />
-          <Header />
-          <section className="flex h-full pt-14 w-full max-h-screen flex-col gap-4 px-2 py-4 md:w-full lg:w-1/2 overflow-y-scroll">
+          <NavSidebar />
+          <section className="relative flex h-full w-full flex-col md:w-full lg:w-1/2">
+            <Header />
             {children}
           </section>
-          <DashboardRightSidebar />
+          <DiscoverSidebar />
           <Footer />
         </div>
       </main>
