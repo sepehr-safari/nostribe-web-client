@@ -118,7 +118,7 @@ const PostCard = ({ postId }: { postId: string }) => {
             </div>
           </div>
 
-          <div className="ml-16 mr-2 flex flex-col gap-2 break-words">
+          <div className="flex flex-col gap-2 break-words">
             <PostContent postEvent={postEvent} />
           </div>
         </div>
