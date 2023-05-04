@@ -35,7 +35,7 @@ const HomeHeader = () => {
         <img src="/img/icon128.png" className="w-8 rounded-full" />
         iris
       </div>
-      <div className="w-full flex items-center justify-center gap-2 p-3 mr-16 md:mr-0 h-14">
+      <div className="hidden md:flex w-full flex items-center justify-center gap-2 p-3 mr-16 md:mr-0 h-14">
         Home
       </div>
     </>
