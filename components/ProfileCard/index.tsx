@@ -14,6 +14,7 @@ import {
   Nip05View,
 } from '@/components';
 import {useEffect, useState} from "react";
+import useStore from "@/store";
 
 const ProfileCard = ({ profileAddress }: { profileAddress: string }) => {
   const {
@@ -26,11 +27,14 @@ const ProfileCard = ({ profileAddress }: { profileAddress: string }) => {
     isFetchingMetadata,
   } = useProfileContent(profileAddress);
 
+  const [isMyProfile, setIsMyProfile] = useState(false);
+  const userData = useStore((state) => state.auth.user.data);
   const { contactEvents } = useProfileContacts(profileAddress);
   const [followerCount, setFollowerCount] = useState(0);
 
   useEffect(() => {
     const hex = nip19.decode(profileAddress).data;
+    setIsMyProfile(userData?.publicKey === hex);
     fetch(`https://eu.rbr.bio/${hex}/info.json`).then((res) => {
       res.json().then((data) => {
         setFollowerCount(data.followerCount);
@@ -89,9 +93,8 @@ const ProfileCard = ({ profileAddress }: { profileAddress: string }) => {
               </div>
 
               <div className="ml-auto flex">
-                <button className="btn-ghost btn-sm btn gap-2 rounded-full">
-                  <PlusIcon width={16} />
-                  Follow
+                <button className="btn btn-sm btn gap-2 rounded-full capitalize">
+                  {isMyProfile ? 'Edit profile' : 'Follow'}
                 </button>
               </div>
             </div>
