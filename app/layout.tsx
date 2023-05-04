@@ -15,7 +15,7 @@ export const metadata = {
     description: 'Connecting People',
     images: [
       {
-        url: 'https://raw.githubusercontent.com/sepehr-safari/nostribe-web-client/main/public/nostribe.png',
+        url: 'https://raw.githubusercontent.com/mmalmi/iris-nextjs/main/public/img/irisconnects.png',
       },
     ],
   },
