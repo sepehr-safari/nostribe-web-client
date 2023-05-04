@@ -19,7 +19,7 @@ const Profile = ({ params }: { params: { address: string } }) => {
     <>
       <ProfileCard profileAddress={params.address} />
 
-      {postEvents.map((postEvent, index) => (
+      {postEvents.sort((a, b) => b.created_at - a.created_at).map((postEvent, index) => (
         <PostCard
           key={`${params.address}${postEvent.id}${index}`}
           postId={postEvent.id}

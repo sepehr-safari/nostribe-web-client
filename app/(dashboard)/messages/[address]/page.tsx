@@ -30,7 +30,7 @@ const MessageThread = ({ params }: { params: { address: string } }) => {
 
   return (
     <div className="flex flex-col gap-4 p-2">
-      {events.map((event, index) => (
+      {events.sort((a, b) => b.created_at - a.created_at).map((event, index) => (
         <div key={event.id} className="flex flex-row gap-2">
           <div className="flex items-center gap-2">
             <Link
@@ -49,7 +49,7 @@ const MessageThread = ({ params }: { params: { address: string } }) => {
               </div>
             </Link>
           </div>
-          <div className="flex flex-1 justify-end">
+          <div className="flex flex-1 justify-end text-gray-500">
             encrypted message
           </div>
         </div>

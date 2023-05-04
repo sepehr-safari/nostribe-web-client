@@ -11,7 +11,7 @@ const useGlobalPosts = () => {
 
   const { events: postEvents, eose: postEose } = useSubscribe({
     relays,
-    filters: [{ kinds: [1], limit: 6, until: oneHourAgo }],
+    filters: [{ kinds: [1], limit: 20, until: oneHourAgo }],
     options: { invalidate: true },
   });
 

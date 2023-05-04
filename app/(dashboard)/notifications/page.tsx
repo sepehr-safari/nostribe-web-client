@@ -12,7 +12,7 @@ export default function Notifications() {
 
   return (
     <>
-      {notificationEvents.map((notificationEvent, index) => (
+      {notificationEvents.sort((a, b) => b.created_at - a.created_at).map((notificationEvent, index) => (
         <PostCard key={`notification${notificationEvent.id}${index}`} postId={notificationEvent.id} />
       ))}
     </>

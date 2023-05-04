@@ -10,8 +10,14 @@ const useProfileContent = (profileAddress: string) => {
   const { isFetchingMetadata, isMetadataEmpty, metadataEose, metadataEvents } =
     useProfileMetadata(profileAddress);
 
-  const profileObject =
-    metadataEvents.length && JSON.parse(metadataEvents[0].content || '{}');
+  let profileObject;
+  try {
+    profileObject =
+      metadataEvents.length && JSON.parse(metadataEvents[0].content || '{}');
+  } catch (error) {
+    profileObject = {};
+    console.log(error);
+  }
 
   const author: IAuthor = {
     about: profileObject.about || '',
@@ -26,9 +32,7 @@ const useProfileContent = (profileAddress: string) => {
     displayName: profileObject.display_name || profileObject.name,
   };
 
-  const npub = metadataEvents.length
-    ? nip19.npubEncode(metadataEvents[0].pubkey)
-    : '';
+  const npub = nip19.npubEncode(profileAddress);
 
   return {
     ...author,

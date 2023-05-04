@@ -16,7 +16,7 @@ const Feed = () => {
   return (
     <>
       <NewPostForm />
-      {postEvents.map((postEvent, index) => (
+      {postEvents.sort((a, b) => b.created_at - a.created_at).map((postEvent, index) => (
         <PostCard key={`global${postEvent.id}${index}`} postId={postEvent.id} />
       ))}
     </>
