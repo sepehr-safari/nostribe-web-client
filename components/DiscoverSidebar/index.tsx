@@ -18,7 +18,7 @@ const TrendingPosts = () => {
       .then((data) => {
         data.notes && setTrendingPosts(data.notes);
       });
-  });
+  }, []);
 
   return (
     <div className="card-body p-4">
