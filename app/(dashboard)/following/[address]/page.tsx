@@ -6,7 +6,7 @@ import Link from 'next/link';
 
 import { nip19 } from 'nostr-tools';
 
-import {useProfileContacts, useProfilePage} from '@/hooks';
+import {useProfileContacts} from '@/hooks';
 
 import { Avatar, Name, Spinner } from '@/components';
 
