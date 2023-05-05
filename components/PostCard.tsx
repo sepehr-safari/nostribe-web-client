@@ -151,7 +151,7 @@ const PostCard = ({ postId, showReplies, standalone }: Props) => {
             {reactionEvents.filter((event) => event.kind === 1).length}
           </button>
 
-          <button className="btn-ghost hover:bg-transparent text-gray-500 hover:text-iris-red btn w-1/4 content-center gap-2 rounded-none p-2">
+          <button className="btn-ghost hover:bg-transparent text-gray-500 hover:text-iris-purple btn w-1/4 content-center gap-2 rounded-none p-2">
             <HeartIcon width={18} />
 
             {reactionEvents.filter((event) => event.kind === 7).length}
