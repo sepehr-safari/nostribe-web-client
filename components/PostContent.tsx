@@ -36,7 +36,7 @@ const PostContent = ({ postEvent }: { postEvent: Event }) => {
           key={index}
           className="relative w-full overflow-hidden object-contain"
         >
-          <img className="rounded max-h-96" src={imgUrl} alt={imagelessString.slice(0, 20)} />
+          <img className="rounded md:max-h-96" src={imgUrl} alt={imagelessString.slice(0, 20)} />
         </div>
       ))}
 
