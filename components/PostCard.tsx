@@ -19,8 +19,11 @@ import PostContent from '@/components/PostContent';
 import RelativeTime from '@/components/RelativeTime';
 
 import { usePostEvent, usePostReactions, useProfileContent } from '@/hooks';
+import { useRouter } from 'next/navigation';
+import {MouseEventHandler} from "react";
 
 const PostCard = ({ postId }: { postId: string }) => {
+  const router = useRouter();
   const { isFetching, postEvent, createdAt, nip19NoteId } =
     usePostEvent(postId);
 
@@ -31,10 +34,18 @@ const PostCard = ({ postId }: { postId: string }) => {
 
   const { reactionEvents } = usePostReactions(postId);
 
+  const onClick: MouseEventHandler = (e) => {
+    if (!(e.target as HTMLElement).closest('a')) {
+      console.log('hi');
+      e.preventDefault();
+      router.push(`/post/${nip19NoteId}`);
+    }
+  }
+
   return (
     <>
       <CardContainer>
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2 cursor-pointer" onClick={onClick}>
           <div className="flex items-center gap-2">
             <Link
               prefetch={false}
@@ -102,24 +113,6 @@ const PostCard = ({ postId }: { postId: string }) => {
                     >
                       Copy ID
                     </button>
-                  </li>
-                  <li>
-                    <Link
-                      prefetch={false}
-                      className="text-xs"
-                      href={`/post/${nip19NoteId}`}
-                    >
-                      Open Post
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      prefetch={false}
-                      className="text-xs"
-                      href={`/profile/${npub}`}
-                    >
-                      Open Profile
-                    </Link>
                   </li>
                 </ul>
               </div>
