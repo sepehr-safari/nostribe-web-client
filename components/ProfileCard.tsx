@@ -44,12 +44,14 @@ const ProfileCard = ({ profileAddress }: { profileAddress: string }) => {
     });
   }, [profileAddress]);
 
+  const proxiedBanner = banner && `https://imgproxy.iris.to/insecure/plain/${banner}`;
+
   return (
     <>
       <CardContainer>
         <div className="absolute top-0 left-0 h-48 w-full">
           <img
-            src={banner || '/nostribe.png'}
+            src={proxiedBanner || '/nostribe.png'}
             className="h-full w-full object-cover opacity-80"
             alt={displayName}
           />
