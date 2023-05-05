@@ -41,7 +41,7 @@ const HomeHeader = () => {
 
   return (
     <>
-      <div className="flex items-center md:hidden gap-2 p-3 text-2xl">
+      <div className="flex items-center md:hidden gap-2 p-3 text-2xl mr-3">
         <img src="/img/icon128.png" className="w-8 rounded-full" />
         iris
       </div>

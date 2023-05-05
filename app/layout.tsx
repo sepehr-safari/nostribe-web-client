@@ -1,6 +1,7 @@
 import '@fontsource/lato/400.css';
 import '@fontsource/lato/700.css';
 import './globals.css';
+import Head from 'next/head';
 
 export const metadata = {
   title: 'Iris',
@@ -32,6 +33,12 @@ export default function RootLayout({
       className="h-full w-full"
       data-theme="iris"
     >
+      <Head>
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+        />
+      </Head>
       <body>{children}</body>
     </html>
   );
