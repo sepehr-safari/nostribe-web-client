@@ -1,12 +1,14 @@
 "use client";
 
 import {
+  MagnifyingGlassIcon,
   PlusCircleIcon,
   Cog8ToothIcon,
   HomeIcon,
   PaperAirplaneIcon,
 } from '@heroicons/react/24/outline';
 import {
+  MagnifyingGlassIcon as MagnifyingGlassIconFull,
   PlusCircleIcon as PlusCircleIconFull,
   Cog8ToothIcon as Cog8ToothIconFull,
   HomeIcon as HomeIconFull,
@@ -34,6 +36,9 @@ const Footer = () => {
         </Link>
         <Link href="/messages" className="flex-grow flex items-center justify-center p-2">
           {pathname === "/messages" ? <PaperAirplaneIconFull className="h-6 w-6"/> : <PaperAirplaneIcon className="h-6 w-6"/>}
+        </Link>
+        <Link href="/search" className="flex-grow flex items-center justify-center p-2">
+          {pathname === "/search" ? <MagnifyingGlassIconFull className="h-6 w-6"/> : <MagnifyingGlassIconFull className="h-6 w-6"/>}
         </Link>
         <Link href="/settings" className="flex-grow flex items-center justify-center p-2">
           {pathname.startsWith("/settings") ? <Cog8ToothIconFull className="h-6 w-6"/> : <Cog8ToothIcon className="h-6 w-6"/>}

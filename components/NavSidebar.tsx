@@ -10,6 +10,7 @@ import {
   PaperAirplaneIcon,
   QrCodeIcon,
   BellIcon,
+  MagnifyingGlassIcon,
 } from '@heroicons/react/24/outline';
 import {
   Cog8ToothIcon as Cog8ToothIconFull,
@@ -17,6 +18,7 @@ import {
   InformationCircleIcon as InformationCircleIconFull,
   PaperAirplaneIcon as PaperAirplaneIconFull,
   BellIcon as BellIconFull,
+  MagnifyingGlassIcon as MagnifyingGlassIconFull,
 } from '@heroicons/react/24/solid';
 import Link from 'next/link';
 import useStore from "@/store";
@@ -30,6 +32,7 @@ export default function NavSidebar() {
 
   const APPLICATIONS = [
     { url: '/', text: 'Home', icon: HomeIcon, activeIcon: HomeIconFull },
+    { url: '/search', text: 'Search', icon: MagnifyingGlassIcon, activeIcon: MagnifyingGlassIconFull, className: 'lg:hidden' },
     { url: '/messages', text: 'Messages', icon: PaperAirplaneIcon, activeIcon: PaperAirplaneIconFull },
     { url: '/notifications', text: 'Notifications', icon: BellIcon, activeIcon: BellIconFull },
     { url: '/settings', text: 'Settings', icon: Cog8ToothIcon, activeIcon: Cog8ToothIconFull },
@@ -59,7 +62,7 @@ export default function NavSidebar() {
               <div key={index}>
                 <Link
                 href={a.url}
-                className={`inline-flex w-auto flex items-center space-x-4 p-3 rounded-full transition-colors duration-200 hover:bg-gray-900`}
+                className={`${a.className || ''} inline-flex w-auto flex items-center space-x-4 p-3 rounded-full transition-colors duration-200 hover:bg-gray-900`}
               >
                 <Icon className="w-6 h-6" />
                 <span className={`hidden lg:flex`}>{a.text}</span>

@@ -3,14 +3,11 @@
 import Link from 'next/link';
 import {
   ArrowLeftIcon,
-  MagnifyingGlassIcon,
-  XMarkIcon,
 } from '@heroicons/react/24/solid';
 import { usePathname, useParams } from 'next/navigation';
 import Name from "@/components/Name";
 import useStore from "@/store";
-import React, {MouseEventHandler, useState} from "react";
-import SearchBar from "@/components/SearchBar";
+import React, {MouseEventHandler} from "react";
 
 const navigateBack = (e: React.MouseEvent<HTMLAnchorElement>) => {
   e.preventDefault();
@@ -33,12 +30,6 @@ const NotLoggedInHeader = () => {
 }
 
 const HomeHeader = () => {
-  const [showSearch, setShowSearch] = useState(false);
-  const onClickSearch = (e: React.MouseEvent, value: boolean) => {
-    e.stopPropagation();
-    setShowSearch(value);
-  }
-
   return (
     <>
       <div className="flex items-center md:hidden gap-2 p-3 text-2xl mr-3">
@@ -47,17 +38,6 @@ const HomeHeader = () => {
       </div>
       <div className="hidden md:flex w-full flex items-center justify-center gap-2 p-3 mr-16 md:mr-0 h-14">
         Home
-      </div>
-      <div className="flex md:hidden p-3 w-full gap-3 justify-end items-center">
-        {showSearch ? <div className="w-full"><SearchBar /></div> : ''}
-        {showSearch ?
-          (<div onClick={(e) => onClickSearch(e, false)}>
-            <XMarkIcon width={28} />
-          </div>) :
-          (<div onClick={(e) => onClickSearch(e, true)}>
-            <MagnifyingGlassIcon width={28} />
-          </div>)
-        }
       </div>
     </>
   )

@@ -53,13 +53,11 @@ const TrendingPosts = () => {
   )
 }
 
-export default function DiscoverSidebar() {
+export default function Discover() {
   return (
     <>
-      <aside className="hidden sticky top-0 right-0 flex-col gap-4 z-20 px-2 py-4 lg:flex lg:w-80 h-screen max-h-screen">
-        <SearchBar />
-        <TrendingPosts />
-      </aside>
+      <SearchBar />
+      <TrendingPosts />
     </>
   );
 }

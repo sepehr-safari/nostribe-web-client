@@ -1,5 +1,5 @@
 import NavSidebar from '@/components/NavSidebar';
-import DiscoverSidebar from '@/components/DiscoverSidebar';
+import Discover from '@/components/Discover';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 
@@ -17,7 +17,9 @@ export default function DashboardLayout({
             <Header />
             {children}
           </section>
-          <DiscoverSidebar />
+          <aside className="hidden sticky top-0 right-0 flex-col gap-4 z-20 px-2 py-4 lg:flex lg:w-80 h-screen max-h-screen">
+            <Discover />
+          </aside>
           <Footer />
         </div>
       </main>
