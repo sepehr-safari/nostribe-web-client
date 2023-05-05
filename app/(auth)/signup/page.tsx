@@ -58,13 +58,13 @@ const Login = () => {
             autoFocus={true}
             type="text"
             placeholder="What's your name?"
-            className="input-bordered input-primary input w-full rounded-full"
+            className="input-bordered input-primary input w-full"
             value={name}
             onChange={handleDisplayNameInput}
           />
         </div>
         <button
-          className="btn-primary btn rounded-full capitalize"
+          className="btn-primary btn"
           onClick={handleSignupButton}
         >
           Go
@@ -74,7 +74,7 @@ const Login = () => {
       <CardContainer>
         <p className="text-sm">Already have an account?</p>
         <p>
-          <Link href="/login" className="btn btn-sm rounded-full capitalize">Log in</Link>
+          <Link href="/login" className="btn btn-sm">Log in</Link>
         </p>
       </CardContainer>
     </>

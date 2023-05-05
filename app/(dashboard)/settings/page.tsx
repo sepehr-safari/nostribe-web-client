@@ -5,7 +5,7 @@ export default function Settings() {
     <div className="prose p-2">
       <h2>Account</h2>
       <p>
-        <Link href="/logout" className="btn btn-primary rounded-full capitalize">
+        <Link href="/logout" className="btn btn-primary">
           Log out
         </Link>
       </p>

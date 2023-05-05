@@ -61,7 +61,7 @@ const Login = () => {
       <CardContainer>
         <div className="form-control w-full">
           <button
-            className="btn btn-primary mt-2 rounded-full capitalize"
+            className="btn btn-primary mt-2"
             onClick={handleLoginWithExtension}
           >
             Login with extension
@@ -75,7 +75,7 @@ const Login = () => {
           <input
             type="password"
             placeholder="Private key"
-            className="input-bordered rounded-full input-primary input w-full md:input-primary"
+            className="input-bordered input-primary input w-full md:input-primary"
             onChange={handlePrivateKeyInput}
           />
         </div>
@@ -85,7 +85,7 @@ const Login = () => {
           Don't have an account?
         </p>
         <p>
-          <Link href="/signup" className="btn btn-sm rounded-full capitalize">Sign up</Link>
+          <Link href="/signup" className="btn btn-sm">Sign up</Link>
         </p>
       </CardContainer>
     </>

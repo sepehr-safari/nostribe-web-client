@@ -93,7 +93,7 @@ const ProfileCard = ({ profileAddress }: { profileAddress: string }) => {
               </div>
 
               <div className="ml-auto flex gap-2">
-                <button className="btn btn-sm gap-2 rounded-full capitalize">
+                <button className="btn btn-sm gap-2">
                   {isMyProfile ? 'Edit profile' : 'Follow'}
                 </button>
 

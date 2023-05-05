@@ -86,7 +86,7 @@ export default function NavMenu() {
         </div>
       </div>
       <div>
-        <Link href={`/profile/${npub}`} className="inline-flex w-auto flex items-center space-x-4 p-3 rounded-full transition-colors duration-200 hover:bg-gray-900">
+        <Link href={`/profile/${npub}`} className="btn btn-ghost md:max-lg:btn-circle">
           <Avatar pub={userData?.publicKey || ''} width="w-8" />
           <div className="hidden lg:block ml-2">
             <Name pub={userData?.publicKey || ''} />

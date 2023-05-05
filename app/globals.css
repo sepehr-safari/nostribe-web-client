@@ -5,3 +5,11 @@
 * {
     font-family: 'Lato', sans-serif;
 }
+
+.btn {
+  @apply rounded-full capitalize;
+}
+
+input[type="text"] {
+  @apply rounded-full;
+}

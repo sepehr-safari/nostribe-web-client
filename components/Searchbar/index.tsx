@@ -122,7 +122,7 @@ export default function Searchbar() {
         value={searchTerm}
         type="text"
         placeholder="Search ..."
-        className="input-bordered rounded-full input input-sm w-full"
+        className="input-bordered input input-sm w-full"
       />
       {searchResults.length > 0 && searchTerm.length > 0 && (
         <div className="absolute z-20 left-0 mt-2 w-full bg-gray-800 border border-gray-700 divide-y divide-gray-600 rounded shadow-lg">
