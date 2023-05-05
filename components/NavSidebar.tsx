@@ -8,7 +8,7 @@ import {
   HomeIcon,
   InformationCircleIcon,
   PaperAirplaneIcon,
-  BellIcon,
+  HeartIcon,
   MagnifyingGlassIcon,
 } from '@heroicons/react/24/outline';
 import {
@@ -16,7 +16,7 @@ import {
   HomeIcon as HomeIconFull,
   InformationCircleIcon as InformationCircleIconFull,
   PaperAirplaneIcon as PaperAirplaneIconFull,
-  BellIcon as BellIconFull,
+  HeartIcon as HeartIconFull,
   MagnifyingGlassIcon as MagnifyingGlassIconFull, PlusIcon,
 } from '@heroicons/react/24/solid';
 import Link from 'next/link';
@@ -33,7 +33,7 @@ export default function NavSidebar() {
     { url: '/', text: 'Home', icon: HomeIcon, activeIcon: HomeIconFull },
     { url: '/search', text: 'Search', icon: MagnifyingGlassIcon, activeIcon: MagnifyingGlassIconFull, className: 'lg:hidden' },
     { url: '/messages', text: 'Messages', icon: PaperAirplaneIcon, activeIcon: PaperAirplaneIconFull },
-    { url: '/notifications', text: 'Notifications', icon: BellIcon, activeIcon: BellIconFull },
+    { url: '/notifications', text: 'Notifications', icon: HeartIcon, activeIcon: HeartIconFull },
     { url: '/settings', text: 'Settings', icon: Cog8ToothIcon, activeIcon: Cog8ToothIconFull },
     {
       url: '/about',

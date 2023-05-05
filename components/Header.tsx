@@ -2,8 +2,12 @@
 
 import Link from 'next/link';
 import {
+  HeartIcon
+} from '@heroicons/react/24/outline';
+import {
   ArrowLeftIcon,
   Cog8ToothIcon,
+  HeartIcon as HeartFullIcon,
 } from '@heroicons/react/24/solid';
 import { usePathname, useParams } from 'next/navigation';
 import Name from "@/components/Name";
@@ -34,13 +38,16 @@ const NotLoggedInHeader = () => {
 const HomeHeader = () => {
   return (
     <>
-      <div className="flex items-center md:hidden gap-2 p-3 text-2xl mr-3">
+      <div className="flex items-center md:hidden gap-2 px-4 p-3 text-2xl mr-3">
         <img src="/img/icon128.png" className="w-8 rounded-full" />
         iris
       </div>
       <div className="hidden md:flex w-full flex items-center justify-center gap-2 p-3 mr-16 md:mr-0 h-14">
         Home
       </div>
+      <Link href="/notifications" className="md:hidden items-center py-3 px-4">
+        <HeartIcon width={28} />
+      </Link>
     </>
   )
 }
