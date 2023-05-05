@@ -1,6 +1,6 @@
 function ColoredText({ text }: { text: string }) {
   return (
-    <div className="bg-gradient-to-r from-warning to-info bg-clip-text text-xs font-bold leading-5 text-transparent">
+    <div className="text-iris-green bg-clip-text text-xs font-bold leading-5">
       {text}
     </div>
   );
