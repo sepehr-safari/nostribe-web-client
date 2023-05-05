@@ -22,7 +22,7 @@ type SearchResult = [
 
 const MAX_ABOUT_LENGTH = 50;
 
-export default function Searchbar() {
+export default function SearchBar() {
   const [searchResults, setSearchResults] = useState([] as SearchResult[]);
   const [searchTerm, setSearchTerm] = useState(''); // Add state for the search term
   const [focusedIndex, setFocusedIndex] = useState(-1); // Add state for the focused index
@@ -135,7 +135,7 @@ export default function Searchbar() {
         className="input-bordered input input-sm w-full"
       />
       {searchResults.length > 0 && searchTerm.length > 0 && (
-        <div className="absolute z-20 left-0 mt-2 w-full bg-gray-800 border border-gray-700 divide-y divide-gray-600 rounded shadow-lg">
+        <div className="absolute z-20 left-0 mt-2 w-full bg-black border border-gray-700 rounded shadow-lg">
           {searchResults.map(([_, result, npub], index) => (
             <div
               key={result.id}
