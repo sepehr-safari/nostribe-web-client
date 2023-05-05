@@ -11,6 +11,7 @@ import AvatarLoader from "@/components/Avatar/AvatarLoader";
 import BoxLoader from "@/components/BoxLoader";
 import CardContainer from "@/components/CardContainer";
 import Nip05View from "@/components/Nip05View";
+import FollowButton from "@/components/FollowButton";
 
 import {useEffect, useState} from "react";
 import useStore from "@/store";
@@ -92,9 +93,11 @@ const ProfileCard = ({ profileAddress }: { profileAddress: string }) => {
               </div>
 
               <div className="ml-auto flex gap-2">
-                <button className="btn btn-sm gap-2">
-                  {isMyProfile ? 'Edit profile' : 'Follow'}
-                </button>
+                {isMyProfile ? (
+                  <button className="btn btn-sm gap-2">
+                    Edit profile
+                  </button>
+                ) : <FollowButton pub={profileAddress} />}
 
                 <div className="dropdown-left dropdown">
                 <label tabIndex={0} className="btn-ghost btn-circle btn btn-sm text-gray-500">
