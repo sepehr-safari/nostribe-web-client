@@ -20,7 +20,7 @@ import RelativeTime from '@/components/RelativeTime';
 
 import { usePostEvent, usePostReactions, useProfileContent } from '@/hooks';
 import { useRouter } from 'next/navigation';
-import {MouseEventHandler} from "react";
+import {MouseEventHandler, useMemo} from "react";
 
 type Props = { postId: string, showReplies?: number, standalone?: boolean };
 
@@ -35,6 +35,11 @@ const PostCard = ({ postId, showReplies, standalone }: Props) => {
   const npub = nip19.npubEncode(postEvent?.pubkey || '');
 
   const { reactionEvents } = usePostReactions(postId);
+
+  // don't re-sort on every render, only when reactionEvents changed
+  const sortedReactions = useMemo(() => {
+    return reactionEvents.sort((a, b) => a.created_at - b.created_at);
+  }, [reactionEvents]);
 
   const onClick: MouseEventHandler = (e) => {
     const target = e.target as HTMLElement;
@@ -160,7 +165,7 @@ const PostCard = ({ postId, showReplies, standalone }: Props) => {
         </div>
       </CardContainer>
       {showReplies && (
-        reactionEvents.filter((event) => event.kind === 1).map((event) => (
+        sortedReactions.filter((event) => event.kind === 1).map((event) => (
           <PostCard postId={event.id} key={event.id} showReplies={1} />
         ))
       )}
