@@ -103,7 +103,7 @@ const Header = () => {
 
   return (
     <div className="sticky top-0 z-10 w-full cursor-pointer" onClick={scrollUp}>
-      <div className="w-full bg-base-200 bg-opacity-50 shadow-lg backdrop-blur-lg">
+      <div className="w-full bg-base-200 bg-black md:bg-opacity-50 md:shadow-lg md:backdrop-blur-lg">
         <div className="flex w-full items-center justify-between">
           {content}
         </div>
