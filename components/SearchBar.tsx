@@ -100,8 +100,18 @@ export default function Searchbar() {
   const throttledSearch = useCallback(
     throttle(async (value: string) => {
       try {
-        const res = await fetch(`https://eu.rbr.bio/search/${value}.json`);
-        const data = await res.json();
+        let data: any = await Promise.race([
+          new Promise(async (resolve) => {
+            const r = await fetch(`https://eu.rbr.bio/search/${value}.json`);
+            const data = await r.json();
+            resolve(data);
+          }),
+          new Promise((resolve) => setTimeout(() => resolve(null), 1000)),
+        ]);
+        if (data === null) {
+          const res = await fetch(`https://us.rbr.bio/search/${value}.json`);
+          data = await res.json();
+        }
         data.forEach((result: SearchResult) => {
           const [_, event, __] = result;
           event.content = JSON.parse(event.content);
