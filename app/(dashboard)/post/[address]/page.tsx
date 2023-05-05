@@ -14,7 +14,7 @@ const Post = ({ params }: { params: { address: string } }) => {
 
   if (isFetching) return <Spinner />;
 
-  return <>{!!postId && <PostCard key={postId} postId={postId} />}</>;
+  return <>{!!postId && <PostCard key={postId} postId={postId} showReplies={Infinity} />}</>;
 };
 
 export default memo(Post);

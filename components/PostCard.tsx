@@ -22,7 +22,7 @@ import { usePostEvent, usePostReactions, useProfileContent } from '@/hooks';
 import { useRouter } from 'next/navigation';
 import {MouseEventHandler} from "react";
 
-const PostCard = ({ postId }: { postId: string }) => {
+const PostCard = ({ postId, showReplies }: { postId: string, showReplies?: number }) => {
   const router = useRouter();
   const { isFetching, postEvent, createdAt, nip19NoteId } =
     usePostEvent(postId);
@@ -152,6 +152,11 @@ const PostCard = ({ postId }: { postId: string }) => {
           </button>
         </div>
       </CardContainer>
+      {showReplies && (
+        reactionEvents.filter((event) => event.kind === 1).map((event) => (
+          <PostCard postId={event.id} key={event.id} showReplies={1} />
+        ))
+      )}
     </>
   );
 };
