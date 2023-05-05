@@ -6,7 +6,9 @@ import Link from 'next/link';
 
 import { nip19 } from 'nostr-tools';
 
-import {Avatar, Name, RelativeTime} from '@/components';
+import Avatar from "@/components/Avatar";
+import Name from "@/components/Name";
+import RelativeTime from "@/components/RelativeTime";
 import {useSubscribe} from "nostr-hooks";
 import useStore from "@/store";
 

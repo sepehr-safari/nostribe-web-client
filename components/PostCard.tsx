@@ -39,7 +39,7 @@ const PostCard = ({ postId, showReplies, standalone }: Props) => {
   const onClick: MouseEventHandler = (e) => {
     const target = e.target as HTMLElement;
     const selectors = ['a', 'button', '.btn'];
-  
+
     const isMatch = selectors.some((selector) => target.closest(selector));
 
     if (!isMatch) {
