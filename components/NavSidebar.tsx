@@ -23,7 +23,7 @@ import useStore from "@/store";
 import Avatar from "@/components/Avatar";
 import Name from "@/components/Name";
 
-export default function NavMenu() {
+export default function NavSidebar() {
   const userData = useStore((state) => state.auth.user.data);
   const npub = userData?.publicKey ? nip19.npubEncode(userData.publicKey) : '';
   const pathname = usePathname();

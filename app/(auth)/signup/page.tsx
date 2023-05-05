@@ -32,7 +32,7 @@ const Login = () => {
       }
       router.replace('/');
     }
-  }, [data, router]);
+  }, [data, router, name, publish]);
 
   const handleDisplayNameInput = useCallback((event: any) => {
     setName(event.target.value);
