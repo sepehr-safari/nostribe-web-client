@@ -22,7 +22,9 @@ import { usePostEvent, usePostReactions, useProfileContent } from '@/hooks';
 import { useRouter } from 'next/navigation';
 import {MouseEventHandler} from "react";
 
-const PostCard = ({ postId, showReplies }: { postId: string, showReplies?: number }) => {
+type Props = { postId: string, showReplies?: number, standalone?: boolean };
+
+const PostCard = ({ postId, showReplies, standalone }: Props) => {
   const router = useRouter();
   const { isFetching, postEvent, createdAt, nip19NoteId } =
     usePostEvent(postId);
@@ -35,12 +37,17 @@ const PostCard = ({ postId, showReplies }: { postId: string, showReplies?: numbe
   const { reactionEvents } = usePostReactions(postId);
 
   const onClick: MouseEventHandler = (e) => {
-    if (!(e.target as HTMLElement).closest('a')) {
-      console.log('hi');
+    const target = e.target as HTMLElement;
+    const selectors = ['a', 'button', '.btn'];
+  
+    const isMatch = selectors.some((selector) => target.closest(selector));
+
+    if (!isMatch) {
       e.preventDefault();
       router.push(`/post/${nip19NoteId}`);
     }
   }
+
 
   return (
     <>
@@ -120,7 +127,7 @@ const PostCard = ({ postId, showReplies }: { postId: string, showReplies?: numbe
           </div>
 
           <div className="flex flex-col gap-2 break-words">
-            <PostContent postEvent={postEvent} />
+            <PostContent postEvent={postEvent} standalone={standalone || false} />
           </div>
         </div>
 

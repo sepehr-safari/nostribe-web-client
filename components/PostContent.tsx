@@ -17,15 +17,15 @@ const isTooLong = (event: Event, attachments: string[]) => {
   );
 };
 
-const PostContent = ({ postEvent }: { postEvent: Event }) => {
-  const [isExpanded, setIsExpanded] = useState(false);
+const PostContent = ({ postEvent, standalone }: { postEvent: Event, standalone: boolean }) => {
+  const [isExpanded, setIsExpanded] = useState(standalone);
 
   if (!postEvent) return <Spinner />;
 
   const { content } = postEvent;
   const { imageUrlList, imagelessString } = parseImageUrls(content);
 
-  const tooLong = isTooLong(postEvent, imageUrlList);
+  const tooLong = !standalone && isTooLong(postEvent, imageUrlList);
   const displayedContent = isExpanded || !tooLong ?
     imagelessString : imagelessString.slice(0, MSG_TRUNCATE_LENGTH) + '...';
 
