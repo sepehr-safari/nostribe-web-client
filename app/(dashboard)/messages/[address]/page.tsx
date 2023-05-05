@@ -26,9 +26,9 @@ const MessageThread = ({ params }: { params: { address: string } }) => {
     ],
   });
 
-  if (!eose) return <p>Loading...</p>;
+  if (!eose) return <div className="p-2">Loading...</div>;
 
-  if (!events.length) return <p>Empty</p>;
+  if (!events.length) return <div className="p-2">Empty</div>;
 
   return (
     <div className="flex flex-col gap-4 p-2">

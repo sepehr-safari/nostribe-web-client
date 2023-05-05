@@ -3,11 +3,13 @@
 import Link from 'next/link';
 import {
   ArrowLeftIcon,
+  Cog8ToothIcon,
 } from '@heroicons/react/24/solid';
 import { usePathname, useParams } from 'next/navigation';
 import Name from "@/components/Name";
 import useStore from "@/store";
 import React, {MouseEventHandler} from "react";
+import {toHexKey} from "@/utils/HexKey";
 
 const navigateBack = (e: React.MouseEvent<HTMLAnchorElement>) => {
   e.preventDefault();
@@ -21,7 +23,7 @@ const NotLoggedInHeader = () => {
         <img src="/img/icon128.png" className="w-8 rounded-full" />
         iris
       </div>
-      <div className="w-full flex items-center justify-end gap-2 p-3 h-14">
+      <div className="w-full flex items-center justify-end gap-2 p-2 h-14">
         <Link href="/login" className="btn btn-sm btn-primary">Log in</Link>
         <Link href="/signup" className="btn btn-sm">Sign up</Link>
       </div>
@@ -46,10 +48,13 @@ const HomeHeader = () => {
 const BackNavHeader = () => {
   const pathname = usePathname();
   const params = useParams();
+  const userData = useStore((state) => state.auth.user.data);
 
   const title = pathname.startsWith('/profile') && params.address ?
     <Name key={params.address} pub={params.address} /> :
     <span className="capitalize">{pathname.split('/')[1]}</span>;
+
+  const isMyProfile = pathname.startsWith('/profile') && toHexKey(params.address) === userData?.publicKey;
 
   return (
     <>
@@ -58,9 +63,16 @@ const BackNavHeader = () => {
           <ArrowLeftIcon width={24} />
         </a>
       </div>
-      <div className="w-full flex items-center justify-center gap-2 p-3 mr-10 h-14">
+      <div className={`w-full flex items-center justify-center gap-2 p-3 h-14 md:mr-10 ${isMyProfile ? 'sm:max-md:ml-2' : 'mr-10'}`}>
         {title}
       </div>
+      {isMyProfile && (
+        <div className="md:hidden flex items-center gap-2 p-3">
+          <Link href="/settings">
+            <Cog8ToothIcon width={28} />
+          </Link>
+        </div>
+      )}
     </>
   )
 }
