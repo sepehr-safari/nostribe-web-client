@@ -3,15 +3,12 @@
 import { memo } from 'react';
 
 import PostCard from '@/components/PostCard';
-import Spinner from '@/components/Spinner';
 import NewPostForm from '@/components/NewPostForm';
 
 import { useFeedPage } from '@/hooks';
 
 const Feed = () => {
-  const { isFetching, isPostsEmpty, postEvents } = useFeedPage();
-
-  if (isFetching) return <Spinner />;
+  const {  isPostsEmpty, postEvents } = useFeedPage();
 
   if (isPostsEmpty) return <p>No Posts</p>;
 

@@ -10,20 +10,18 @@ import {useProfileContacts} from '@/hooks';
 
 import Avatar from '@/components/Avatar';
 import Name from '@/components/Name';
-import Spinner from '@/components/Spinner';
 
 const Profile = ({ params }: { params: { address: string } }) => {
   const {
-    isFetchingContacts,
     isContactsEmpty,
     contactEvents,
   } = useProfileContacts(params.address);
 
   if (isContactsEmpty) return <p>Contacts list not found</p>;
 
-  if (isFetchingContacts) return <Spinner />;
-
   const event = contactEvents[0];
+
+  // TODO sort
 
   return (
     <div className="flex flex-col gap-4 p-2">

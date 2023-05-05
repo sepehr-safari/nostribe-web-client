@@ -5,6 +5,7 @@ import Link from "next/link";
 import { nip19, Event } from "nostr-tools";
 import Avatar from "@/components/Avatar";
 import Name from "@/components/Name";
+import Spinner from "@/components/Spinner";
 import useDirectMessages from "@/hooks/posts/simple/useDirectMessages";
 import useStore from "@/store";
 
@@ -58,8 +59,8 @@ export default function Message() {
 
   if (!directMessageEose) {
     return (
-      <div className="p-2">
-        <p>Loading...</p>
+      <div className="flex p-2 justify-center">
+        <Spinner />
       </div>
     );
   }
