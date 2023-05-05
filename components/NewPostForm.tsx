@@ -1,7 +1,8 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Avatar, CardContainer } from '@/components';
+import Avatar from "@/components/Avatar";
+import CardContainer from "@/components/CardContainer";
 import useStore from "@/store";
 import {nip19, Event} from "nostr-tools";
 import Link from "next/link";

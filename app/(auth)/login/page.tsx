@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useCallback, useEffect } from 'react';
 import { nip19 } from 'nostr-tools';
 
-import { CardContainer } from '@/components';
+import CardContainer from '@/components/CardContainer';
 
 import useStore from '@/store';
 

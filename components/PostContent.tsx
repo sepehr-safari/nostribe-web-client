@@ -4,7 +4,7 @@ import { Event } from 'nostr-tools';
 import { useState } from 'react';
 
 import { parseImageUrls } from '@/utils';
-import Spinner from '../Spinner';
+import Spinner from './Spinner';
 
 const MSG_TRUNCATE_LENGTH = 500;
 const MSG_TRUNCATE_LINES = 8;

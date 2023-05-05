@@ -4,7 +4,8 @@ import { memo } from 'react';
 
 import { usePostPage } from '@/hooks';
 
-import { PostCard, Spinner } from '@/components';
+import PostCard from '@/components/PostCard';
+import Spinner from '@/components/Spinner';
 
 const Post = ({ params }: { params: { address: string } }) => {
   const { postId, isFetching, isPostsEmpty } = usePostPage(params.address);

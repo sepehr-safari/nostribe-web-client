@@ -11,8 +11,10 @@ import {
   Cog8ToothIcon as Cog8ToothIconFull,
   HomeIcon as HomeIconFull,
   PaperAirplaneIcon as PaperAirplaneIconFull,
-} from '@heroicons/react/24/solid';import Link from 'next/link';
-import { Avatar } from '@/components';
+} from '@heroicons/react/24/solid';
+
+import Link from 'next/link';
+import Avatar from "@/components/Avatar";
 import useStore from "@/store";
 import {useProfileContent} from "@/hooks";
 import { usePathname } from "next/navigation";

@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import { generatePrivateKey } from 'nostr-tools';
 import { useCallback, useEffect, useState } from 'react';
 
-import { CardContainer, Spinner } from '@/components';
+import CardContainer from '@/components/CardContainer';
 
 import useStore from '@/store';
 

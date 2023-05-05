@@ -3,7 +3,8 @@
 import { useMemo, memo } from "react";
 import Link from "next/link";
 import { nip19, Event } from "nostr-tools";
-import { Avatar, Name } from "@/components";
+import Avatar from "@/components/Avatar";
+import Name from "@/components/Name";
 import useDirectMessages from "@/hooks/posts/simple/useDirectMessages";
 
 const MessageListItem = memo(({ hexPub }: { hexPub: string }) => {

@@ -4,7 +4,8 @@ import { memo } from 'react';
 
 import { useProfilePage } from '@/hooks';
 
-import { PostCard, ProfileCard, Spinner } from '@/components';
+import PostCard from '@/components/PostCard';
+import ProfileCard from '@/components/ProfileCard';
 
 const Profile = ({ params }: { params: { address: string } }) => {
   const { postEvents } = useProfilePage(

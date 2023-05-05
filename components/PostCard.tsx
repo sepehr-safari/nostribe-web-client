@@ -11,14 +11,12 @@ import Link from 'next/link';
 
 import { nip19 } from 'nostr-tools';
 
-import {
-  BaseAvatar,
-  AvatarLoader,
-  BoxLoader,
-  CardContainer,
-  PostContent,
-  RelativeTime,
-} from '@/components';
+import { BaseAvatar } from '@/components/Avatar';
+import AvatarLoader from '@/components/Avatar/AvatarLoader';
+import BoxLoader from '@/components/BoxLoader';
+import CardContainer from '@/components/CardContainer';
+import PostContent from '@/components/PostContent';
+import RelativeTime from '@/components/RelativeTime';
 
 import { usePostEvent, usePostReactions, useProfileContent } from '@/hooks';
 

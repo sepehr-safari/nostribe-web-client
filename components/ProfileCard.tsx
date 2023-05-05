@@ -6,13 +6,12 @@ import Link from 'next/link';
 
 import { useProfileContacts, useProfileContent } from '@/hooks';
 
-import {
-  BaseAvatar,
-  AvatarLoader,
-  BoxLoader,
-  CardContainer,
-  Nip05View,
-} from '@/components';
+import { BaseAvatar } from "@/components/Avatar";
+import AvatarLoader from "@/components/Avatar/AvatarLoader";
+import BoxLoader from "@/components/BoxLoader";
+import CardContainer from "@/components/CardContainer";
+import Nip05View from "@/components/Nip05View";
+
 import {useEffect, useState} from "react";
 import useStore from "@/store";
 

@@ -6,7 +6,10 @@ import {
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
-import {CardContainer, Searchbar, Avatar, Name, RelativeTime} from '@/components';
+import SearchBar from "@/components/SearchBar";
+import Avatar from "@/components/Avatar";
+import Name from "@/components/Name";
+import RelativeTime from "@/components/RelativeTime";
 import {nip19} from "nostr-tools";
 
 const TrendingPosts = () => {
@@ -54,7 +57,7 @@ export default function DiscoverSidebar() {
   return (
     <>
       <aside className="hidden sticky top-0 right-0 flex-col gap-4 z-20 px-2 py-4 lg:flex lg:w-80 h-screen max-h-screen">
-        <Searchbar />
+        <SearchBar />
         <TrendingPosts />
       </aside>
     </>

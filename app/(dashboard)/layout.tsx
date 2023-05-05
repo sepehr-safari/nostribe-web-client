@@ -1,9 +1,7 @@
-import {
-  NavSidebar,
-  DiscoverSidebar,
-  Header,
-  Footer,
-} from '@/components';
+import NavSidebar from '@/components/NavSidebar';
+import DiscoverSidebar from '@/components/DiscoverSidebar';
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
 
 export default function DashboardLayout({
   children,

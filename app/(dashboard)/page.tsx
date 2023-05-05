@@ -2,7 +2,9 @@
 
 import { memo } from 'react';
 
-import { PostCard, Spinner, NewPostForm } from '@/components';
+import PostCard from '@/components/PostCard';
+import Spinner from '@/components/Spinner';
+import NewPostForm from '@/components/NewPostForm';
 
 import { useFeedPage } from '@/hooks';
 

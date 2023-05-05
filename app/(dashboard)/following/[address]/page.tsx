@@ -8,7 +8,9 @@ import { nip19 } from 'nostr-tools';
 
 import {useProfileContacts} from '@/hooks';
 
-import { Avatar, Name, Spinner } from '@/components';
+import Avatar from '@/components/Avatar';
+import Name from '@/components/Name';
+import Spinner from '@/components/Spinner';
 
 const Profile = ({ params }: { params: { address: string } }) => {
   const {

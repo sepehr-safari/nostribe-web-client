@@ -20,7 +20,8 @@ import {
 } from '@heroicons/react/24/solid';
 import Link from 'next/link';
 import useStore from "@/store";
-import {Avatar, Name} from "@/components";
+import Avatar from "@/components/Avatar";
+import Name from "@/components/Name";
 
 export default function NavMenu() {
   const userData = useStore((state) => state.auth.user.data);

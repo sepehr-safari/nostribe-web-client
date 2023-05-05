@@ -7,7 +7,8 @@ import Link from 'next/link';
 import { nip19 } from 'nostr-tools';
 import { useState, useEffect } from 'react';
 
-import { Avatar, Name } from '@/components';
+import Avatar from '@/components/Avatar';
+import Name from '@/components/Name';
 
 const Profile = ({ params }: { params: { address: string } }) => {
   const [followers, setFollowers] = useState([]);

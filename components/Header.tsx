@@ -5,7 +5,7 @@ import {
   ArrowLeftIcon,
 } from '@heroicons/react/24/solid';
 import { usePathname, useParams } from 'next/navigation';
-import { Name } from '@/components';
+import Name from "@/components/Name";
 import useStore from "@/store";
 import {MouseEventHandler} from "react";
 
@@ -54,7 +54,7 @@ const BackNavHeader = () => {
   return (
     <>
       <div className="p-2">
-        <a href="#" onClick={navigateBack}>
+        <a href="components/Header#" onClick={navigateBack}>
           <ArrowLeftIcon width={24} />
         </a>
       </div>
