@@ -53,7 +53,6 @@ const PostCard = ({ postId, showReplies, standalone }: Props) => {
     }
   }
 
-
   return (
     <>
       <CardContainer>
@@ -159,8 +158,10 @@ const PostCard = ({ postId, showReplies, standalone }: Props) => {
 
           <button className="btn-ghost hover:bg-transparent text-gray-500 hover:text-iris-green btn w-1/4 content-center gap-2 rounded-none p-2">
             <ArrowPathIcon width={18} />
-
-            {}
+            {reactionEvents.filter((event) => {
+              // @ts-ignore nostr-tools doesn't like kind 6 reposts. but should check also kind 1 reposts.
+              return event.kind === 6;
+            }).length}
           </button>
         </div>
       </CardContainer>
