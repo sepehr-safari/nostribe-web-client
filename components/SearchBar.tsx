@@ -99,6 +99,7 @@ export default function SearchBar() {
 
   const throttledSearch = useCallback(
     throttle(async (value: string) => {
+      value = value.trim().toLowerCase();
       try {
         let data: any = await Promise.race([
           new Promise(async (resolve) => {
