@@ -19,6 +19,8 @@ const createPoolSlice: StateCreator<PoolSlice> = (set, get) => ({
     publish: (event: Event) => _pool.publish(get().relays, event),
   },
   relays: [
+    'wss://eu.rbr.bio',
+    'wss://us.rbr.bio',
     'wss://relay.damus.io',
     'wss://relay.snort.social',
     'wss://eden.nostr.land',
