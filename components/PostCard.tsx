@@ -42,6 +42,7 @@ const PostCard = ({ postId, showReplies, standalone }: Props) => {
   }, [reactionEvents]);
 
   const onClick: MouseEventHandler = (e) => {
+    if (standalone) return;
     const target = e.target as HTMLElement;
     const selectors = ['a', 'button', '.btn'];
 
@@ -56,7 +57,7 @@ const PostCard = ({ postId, showReplies, standalone }: Props) => {
   return (
     <>
       <CardContainer>
-        <div className="flex flex-col gap-2 cursor-pointer" onClick={onClick}>
+        <div className={`flex flex-col gap-2 ${standalone ? '' : 'cursor-pointer'}`} onClick={onClick}>
           <div className="flex items-center gap-2">
             <Link
               prefetch={false}
