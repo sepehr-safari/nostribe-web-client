@@ -6,6 +6,7 @@ import { nip19, Event } from "nostr-tools";
 import Avatar from "@/components/Avatar";
 import Name from "@/components/Name";
 import useDirectMessages from "@/hooks/posts/simple/useDirectMessages";
+import useStore from "@/store";
 
 const MessageListItem = memo(({ hexPub }: { hexPub: string }) => {
   const npub = nip19.npubEncode(hexPub);
@@ -20,10 +21,19 @@ MessageListItem.displayName = 'MessageListItem';
 
 export default function Message() {
   const { directMessageEvents, directMessageEose, isDirectMessagesEmpty } = useDirectMessages();
+  const userData = useStore((state) => state.auth.user.data);
 
   const threads = useMemo(() => {
     const threadMap = new Map<string, Event>();
     const addIfLatest = (threadId: string, event: Event) => {
+      if (threadId === userData?.publicKey) {
+        const isNoteToSelf = !event.tags
+          || event.tags.length === 0
+          || (event.tags.length === 1 && event.tags[0][0] === 'p' && event.tags[0][1] === userData?.publicKey);
+        if (!isNoteToSelf) {
+          return;
+        }
+      }
       if (!threadMap.has(threadId)) {
         threadMap.set(threadId, event);
       } else {
@@ -44,7 +54,7 @@ export default function Message() {
     return Array.from(threadMap.entries())
       .sort((a, b) => b[1].created_at - a[1].created_at)
       .map((entry) => entry[0]);
-  }, [directMessageEose]);
+  }, [directMessageEose, userData]);
 
   if (!directMessageEose) {
     return (
