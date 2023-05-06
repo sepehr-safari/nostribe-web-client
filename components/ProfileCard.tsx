@@ -29,7 +29,7 @@ const ProfileCard = ({ profileAddress }: { profileAddress: string }) => {
 
   const [isMyProfile, setIsMyProfile] = useState(false);
   const userData = useStore((state) => state.auth.user.data);
-  const { contactEvents } = useProfileContacts(profileAddress);
+  const { latestContactEvent } = useProfileContacts(profileAddress);
   const [followerCount, setFollowerCount] = useState(0);
 
   useEffect(() => {
@@ -139,11 +139,11 @@ const ProfileCard = ({ profileAddress }: { profileAddress: string }) => {
               </div>
             </div>
 
-            {contactEvents ? (
+            {latestContactEvent ? (
               <div className="flex flex-wrap gap-3 text-xs">
                 <Link href={`/following/${profileAddress}`}>
                   <b>
-                    {contactEvents.length ? contactEvents[0].tags.length : 0}
+                    {latestContactEvent.tags?.length || 0}
                   </b>
                   {` `}Following
                 </Link>

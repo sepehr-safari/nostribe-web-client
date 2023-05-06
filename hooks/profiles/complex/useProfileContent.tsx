@@ -7,13 +7,12 @@ import { IAuthor } from '@/types';
 import { useProfileMetadata } from '@/hooks';
 
 const useProfileContent = (profileAddress: string) => {
-  const { isFetchingMetadata, isMetadataEmpty, metadataEose, metadataEvents } =
+  const { isFetchingMetadata, isMetadataEmpty, metadataEose, latestMetadataEvent } =
     useProfileMetadata(profileAddress);
 
   let profileObject;
   try {
-    profileObject =
-      metadataEvents.length && JSON.parse(metadataEvents[0].content || '{}');
+    profileObject = JSON.parse(latestMetadataEvent?.content || '{}');
   } catch (error) {
     profileObject = {};
     console.log(error);
@@ -32,8 +31,8 @@ const useProfileContent = (profileAddress: string) => {
     displayName: profileObject.display_name || profileObject.name,
   };
 
-  const npub = metadataEvents.length
-    ? nip19.npubEncode(metadataEvents[0].pubkey)
+  const npub = latestMetadataEvent
+    ? nip19.npubEncode(latestMetadataEvent.pubkey)
     : '';
 
   return {
@@ -42,7 +41,7 @@ const useProfileContent = (profileAddress: string) => {
     isFetchingMetadata,
     isMetadataEmpty,
     metadataEose,
-    metadataEvents,
+    latestMetadataEvent,
   };
 };
 

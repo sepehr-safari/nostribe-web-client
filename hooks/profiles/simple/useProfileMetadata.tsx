@@ -5,6 +5,7 @@ import { useSubscribe } from 'nostr-hooks';
 import useStore from '@/store';
 
 import { useProfileHex } from '@/hooks';
+import {Event} from "nostr-tools";
 
 const useProfileMetadata = (profileAddress: string) => {
   const profileHex = useProfileHex(profileAddress);
@@ -20,10 +21,16 @@ const useProfileMetadata = (profileAddress: string) => {
   const isFetchingMetadata = !metadataEose && !metadataEvents.length;
   const isMetadataEmpty = metadataEose && !metadataEvents.length;
 
+  const latestMetadataEvent = metadataEvents?.reduce((prev, curr) => {
+    if (!prev) return curr;
+    if (curr.created_at > prev.created_at) return curr;
+    return prev;
+  }, null as Event | null);
+
   return {
     isFetchingMetadata,
     isMetadataEmpty,
-    metadataEvents,
+    latestMetadataEvent,
     metadataEose,
   };
 };

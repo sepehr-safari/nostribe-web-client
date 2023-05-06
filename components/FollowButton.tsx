@@ -1,46 +1,64 @@
+import {memo, useMemo, useState} from 'react';
 import useStore from "@/store";
 import { useProfileContacts } from "@/hooks";
 import { toHexKey } from "@/utils/HexKey";
 import usePublish from "@/hooks/usePublish";
-import { Event } from "nostr-tools";
 
-export default function FollowButton({ pub }: { pub: string }) {
+const FollowButton = memo(({ pub }: { pub: string }) => {
+  const [hovering, setHovering] = useState(false);
   const userData = useStore((state) => state.auth.user.data);
-  const { contactEvents } = useProfileContacts(userData?.publicKey || "");
+  const { latestContactEvent } = useProfileContacts(userData?.publicKey || "");
   const publish = usePublish();
 
-  const event = contactEvents?.reduce((prev, curr) => {
-    if (!prev) return curr;
-    if (curr.created_at > prev.created_at) return curr;
-    return prev;
-  }, null as Event | null);
+  const { isFollowing, hexPub } = useMemo(() => {
+    const hexPub = toHexKey(pub);
+    const isFollowing = latestContactEvent?.tags?.some((tag) => tag[0] === 'p' && tag[1] === hexPub);
+    return { isFollowing, hexPub };
+  }, [pub, latestContactEvent]);
 
-  const hexPub = toHexKey(pub);
-  const isFollowing = event?.tags?.some((tag) => tag[0] === "p" && tag[1] === hexPub);
-  console.log("hexPub", hexPub, "event", event, "isFollowing", isFollowing);
+  // this is re-rendering too much
+  // console.log('event', event);
 
   const onClick = () => {
     let newTags;
     if (isFollowing) {
-      newTags = (event?.tags || []).filter((tag) => tag[0] !== "p" || tag[1] !== hexPub);
+      newTags = (latestContactEvent?.tags || []).filter((tag) => tag[0] !== "p" || tag[1] !== hexPub);
     } else {
-      newTags = (event?.tags || []).concat([["p", hexPub]]);
+      newTags = (latestContactEvent?.tags || []).concat([["p", hexPub]]);
     }
     publish({
       tags: newTags,
-      content: event?.content || '',
+      content: latestContactEvent?.content || '',
       kind: 3,
     });
     console.log('publishing', {
       tags: newTags,
-      content: event?.content,
+      content: latestContactEvent?.content,
       kind: 3,
     });
   };
 
+  const onMouseOver = () => {
+    if (isFollowing) {
+      setHovering(true);
+    }
+  };
+
+  const onMouseOut = () => {
+    setHovering(false);
+  };
+
   return (
-    <button className="btn btn-sm gap-2" onClick={onClick}>
-      {isFollowing ? "Unfollow" : "Follow"}
+    <button
+      className={`btn btn-sm gap-2 w-24 ${isFollowing ? "btn-primary" : ""}`}
+      onClick={onClick}
+      onMouseOver={onMouseOver}
+      onMouseOut={onMouseOut}
+    >
+      {hovering && isFollowing ? "Unfollow" : isFollowing ? "Following" : "Follow"}
     </button>
   );
-}
+});
+
+FollowButton.displayName = 'FollowButton';
+export default FollowButton;
