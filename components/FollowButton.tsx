@@ -50,7 +50,7 @@ const FollowButton = memo(({ pub }: { pub: string }) => {
 
   return (
     <button
-      className={`btn btn-sm gap-2 w-24 ${isFollowing ? "btn-primary" : ""}`}
+      className={`btn btn-sm gap-2 w-24 ${isFollowing ? "btn-ghost" : ""}`}
       onClick={onClick}
       onMouseOver={onMouseOver}
       onMouseOut={onMouseOut}
