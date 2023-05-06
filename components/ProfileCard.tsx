@@ -4,7 +4,7 @@ import { EllipsisHorizontalIcon } from '@heroicons/react/24/outline';
 import {nip19} from 'nostr-tools'
 import Link from 'next/link';
 
-import { useProfileContacts, useProfileContent } from '@/hooks';
+import { useProfileContacts, useProfileContent, useProfileHex } from '@/hooks';
 
 import { BaseAvatar } from "@/components/Avatar";
 import AvatarLoader from "@/components/Avatar/AvatarLoader";
@@ -15,6 +15,7 @@ import FollowButton from "@/components/FollowButton";
 
 import {useEffect, useState} from "react";
 import useStore from "@/store";
+import {toHexKey} from "@/utils/HexKey";
 
 const ProfileCard = ({ profileAddress }: { profileAddress: string }) => {
   const {
@@ -31,9 +32,13 @@ const ProfileCard = ({ profileAddress }: { profileAddress: string }) => {
   const userData = useStore((state) => state.auth.user.data);
   const { latestContactEvent } = useProfileContacts(profileAddress);
   const [followerCount, setFollowerCount] = useState(0);
+  const hex = useProfileHex(profileAddress)
+  const followsYou = !isMyProfile &&
+    latestContactEvent?.tags?.some(
+      (tag) => tag[0] === 'p' && tag[1] === toHexKey(userData?.publicKey || '')
+    );
 
   useEffect(() => {
-    const hex = nip19.decode(profileAddress).data;
     setIsMyProfile(userData?.publicKey === hex);
     fetch(`https://eu.rbr.bio/${hex}/info.json`).then((res) => {
       res.json().then((data) => {
@@ -140,18 +145,25 @@ const ProfileCard = ({ profileAddress }: { profileAddress: string }) => {
             </div>
 
             {latestContactEvent ? (
-              <div className="flex flex-wrap gap-3 text-xs">
-                <Link href={`/following/${profileAddress}`}>
-                  <b>
-                    {latestContactEvent.tags?.length || 0}
-                  </b>
-                  {` `}Following
-                </Link>
-                <Link href={`/followers/${profileAddress}`}>
-                  <b>{followerCount}</b>
-                  {` `}Followers
-                </Link>
-              </div>
+              <>
+                <div className="flex flex-wrap gap-3 text-xs">
+                  <Link href={`/following/${profileAddress}`}>
+                    <b>
+                      {latestContactEvent.tags?.length || 0}
+                    </b>
+                    {` `}Following
+                  </Link>
+                  <Link href={`/followers/${profileAddress}`}>
+                    <b>{followerCount}</b>
+                    {` `}Followers
+                  </Link>
+                </div>
+                {followsYou && (
+                  <div className="text-xs text-gray-500">
+                    Follows you
+                  </div>
+                )}
+              </>
             ) : (
               isFetchingMetadata && <BoxLoader />
             )}
