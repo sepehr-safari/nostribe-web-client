@@ -1,7 +1,6 @@
 import {memo, useMemo, useState} from 'react';
 import useStore from "@/store";
-import { useProfileContacts } from "@/hooks";
-import { toHexKey } from "@/utils/HexKey";
+import { useProfileContacts, useProfileHex } from "@/hooks";
 import usePublish from "@/hooks/usePublish";
 
 const FollowButton = memo(({ pub }: { pub: string }) => {
@@ -9,22 +8,24 @@ const FollowButton = memo(({ pub }: { pub: string }) => {
   const userData = useStore((state) => state.auth.user.data);
   const { latestContactEvent } = useProfileContacts(userData?.publicKey || "");
   const publish = usePublish();
+  const hex = useProfileHex(pub);
 
-  const { isFollowing, hexPub } = useMemo(() => {
-    const hexPub = toHexKey(pub);
-    const isFollowing = latestContactEvent?.tags?.some((tag) => tag[0] === 'p' && tag[1] === hexPub);
-    return { isFollowing, hexPub };
+  const isFollowing = useMemo(() => {
+    const isFollowing = latestContactEvent?.tags?.some((tag) => tag[0] === 'p' && tag[1] === hex);
+    return isFollowing;
   }, [pub, latestContactEvent]);
 
   // this is re-rendering too much
   // console.log('event', event);
+  
+  if (hex === userData?.publicKey) return null;
 
   const onClick = () => {
     let newTags;
     if (isFollowing) {
-      newTags = (latestContactEvent?.tags || []).filter((tag) => tag[0] !== "p" || tag[1] !== hexPub);
+      newTags = (latestContactEvent?.tags || []).filter((tag) => tag[0] !== "p" || tag[1] !== hex);
     } else {
-      newTags = (latestContactEvent?.tags || []).concat([["p", hexPub]]);
+      newTags = (latestContactEvent?.tags || []).concat([["p", hex]]);
     }
     publish({
       tags: newTags,

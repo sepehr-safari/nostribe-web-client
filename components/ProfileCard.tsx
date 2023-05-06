@@ -32,7 +32,7 @@ const ProfileCard = ({ profileAddress }: { profileAddress: string }) => {
   const userData = useStore((state) => state.auth.user.data);
   const { latestContactEvent } = useProfileContacts(profileAddress);
   const [followerCount, setFollowerCount] = useState(0);
-  const hex = useProfileHex(profileAddress)
+  const hex = useProfileHex(profileAddress);
   const followsYou = !isMyProfile &&
     latestContactEvent?.tags?.some(
       (tag) => tag[0] === 'p' && tag[1] === toHexKey(userData?.publicKey || '')
@@ -40,14 +40,14 @@ const ProfileCard = ({ profileAddress }: { profileAddress: string }) => {
 
   useEffect(() => {
     setIsMyProfile(userData?.publicKey === hex);
-    fetch(`https://eu.rbr.bio/${hex}/info.json`).then((res) => {
+    hex && fetch(`https://eu.rbr.bio/${hex}/info.json`).then((res) => {
       res.json().then((data) => {
         setFollowerCount(data.followerCount);
       });
     }).catch((err) => {
       console.log(err);
     });
-  }, [profileAddress]);
+  }, [hex]);
 
   const proxiedBanner = banner && `https://imgproxy.iris.to/insecure/plain/${banner}`;
 
