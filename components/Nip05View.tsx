@@ -7,6 +7,10 @@ function ColoredText({ text }: { text: string }) {
 }
 
 export default function Nip05View({ text }: { text: string }) {
+  if (text.startsWith('_@')) {
+    text = text.slice(2);
+  }
+
   if (text.length < 26) {
     return <ColoredText text={text} />;
   }

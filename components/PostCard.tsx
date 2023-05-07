@@ -188,11 +188,11 @@ const PostCard = ({ postId, showReplies, standalone, asReply, asRepliedMessage, 
                 {reactionEvents.filter((event) => event.kind === 9735).length}
               </button>
 
-              <button className="btn-ghost hover:bg-transparent text-gray-500 hover:text-iris-blue btn w-1/4 content-center gap-2 rounded-none p-2">
+              <Link href={`/post/${nip19NoteId}`} className="btn-ghost hover:bg-transparent text-gray-500 hover:text-iris-blue btn w-1/4 content-center gap-2 rounded-none p-2">
                 <ChatBubbleOvalLeftIcon width={18} />
 
                 {reactionEvents.filter((event) => event.kind === 1).length}
-              </button>
+              </Link>
 
               <button className="btn-ghost hover:bg-transparent text-gray-500 hover:text-iris-purple btn w-1/4 content-center gap-2 rounded-none p-2">
                 <HeartIcon width={18} />
@@ -209,7 +209,11 @@ const PostCard = ({ postId, showReplies, standalone, asReply, asRepliedMessage, 
         ) : ''}
       </CardContainer>
       {showReplies ? (
-        sortedReactions.filter((event) => event.kind === 1).map((event) => (
+        sortedReactions.filter((event) => {
+          if (event.kind !== 1) return false;
+          const isMention = event.tags?.find((tag) => tag[0] === 'e' && tag[1] === postEvent.id && tag[3] === 'mention');
+          return !isMention;
+        }).map((event) => (
           <PostCard postId={event.id} key={event.id} showReplies={1} asReply={true} />
         ))
       ) : ''}
