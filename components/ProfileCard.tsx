@@ -35,7 +35,7 @@ const ProfileCard = ({ profileAddress }: { profileAddress: string }) => {
   const { latestContactEvent } = useProfileContacts(profileAddress);
   const [followerCount, setFollowerCount] = useState(0);
   const hex = useProfileHex(profileAddress);
-  const followsYou = !isMyProfile &&
+  const followsYou = userData?.publicKey && !isMyProfile &&
     latestContactEvent?.tags?.some(
       (tag) => tag[0] === 'p' && tag[1] === toHexKey(userData?.publicKey || '')
     );
