@@ -29,7 +29,7 @@ const PostContent = ({ postEvent, standalone }: { postEvent: Event, standalone: 
   return (
     <>
       <p className="whitespace-pre-wrap">
-        <HyperText>
+        <HyperText event={postEvent}>
           {displayedContent}
         </HyperText>
       </p>

@@ -24,9 +24,16 @@ import { useRouter } from 'next/navigation';
 import {MouseEventHandler, useMemo} from "react";
 import {getReplyingToEvent, getThreadRoot, isRepost} from "@/utils/event";
 
-type Props = { postId: string, showReplies?: number, standalone?: boolean, asReply?: boolean, asRepliedMessage?: boolean };
+type Props = {
+  postId: string,
+  showReplies?: number,
+  standalone?: boolean,
+  asReply?: boolean,
+  asRepliedMessage?: boolean,
+  asInlineQuote?: boolean,
+};
 
-const PostCard = ({ postId, showReplies, standalone, asReply, asRepliedMessage }: Props) => {
+const PostCard = ({ postId, showReplies, standalone, asReply, asRepliedMessage, asInlineQuote }: Props) => {
   const router = useRouter();
   const { isFetching, postEvent, createdAt, nip19NoteId } =
     usePostEvent(postId);
@@ -56,18 +63,21 @@ const PostCard = ({ postId, showReplies, standalone, asReply, asRepliedMessage }
     }
   }
 
-  const replyingTo = postEvent && getReplyingToEvent(postEvent);
-  const threadRoot = replyingTo && getThreadRoot(postEvent);
+  const replyingToEvent = postEvent && getReplyingToEvent(postEvent);
+  const replyingToUsers = postEvent?.tags?.filter(
+    (tag) => tag[0] === "p" && tag[3] !== "mention"
+  );
+  const threadRoot = replyingToEvent && getThreadRoot(postEvent);
 
   return (
     <>
-      {postEvent && !asReply && !asRepliedMessage && threadRoot && (threadRoot !== replyingTo) ? (
+      {postEvent && !asInlineQuote && !asReply && !asRepliedMessage && threadRoot && (threadRoot !== replyingToEvent) ? (
         <Link href={`/post/${threadRoot}`} className="-mb-2 mt-2 text-sm opacity-50 flex items-center gap-2 px-4">
           Show thread
         </Link>
       ) : ''}
-      {(standalone && replyingTo) ? (
-        <PostCard postId={replyingTo} asRepliedMessage={true} showReplies={0} />
+      {(standalone && replyingToEvent) ? (
+        <PostCard postId={replyingToEvent} asRepliedMessage={true} showReplies={0} />
       ) : ''}
       <CardContainer>
         <div className={`flex flex-col gap-2 ${standalone ? '' : 'cursor-pointer'}`} onClick={onClick}>
@@ -144,10 +154,10 @@ const PostCard = ({ postId, showReplies, standalone, asReply, asRepliedMessage }
             </div>
           </div>
 
-          {replyingTo ? (
+          {replyingToEvent && replyingToUsers ? (
             <small className="opacity-50 flex items-center gap-1">
               Replying to
-              {postEvent?.tags?.filter((tag) => tag[0] === "p").map((tag) => (
+              {replyingToUsers.slice(0, 3).map((tag) => (
                 <Link
                   prefetch={false}
                   href={`/profile/${tag[1]}`}
@@ -156,6 +166,9 @@ const PostCard = ({ postId, showReplies, standalone, asReply, asRepliedMessage }
                   <Name pub={tag[1]} />
                 </Link>
               ))}
+              {replyingToUsers.length > 3 ? (
+                <span className="opacity-50"> and {replyingToUsers.length - 3} more</span>
+              ) : ''}
             </small>
           ) : ''}
 
@@ -164,32 +177,36 @@ const PostCard = ({ postId, showReplies, standalone, asReply, asRepliedMessage }
           </div>
         </div>
 
-        <hr className="-mx-4 mt-2 opacity-10" />
+        {!asInlineQuote ? (
+          <>
+            <hr className="-mx-4 mt-2 opacity-10" />
 
-        <div className="-m-4 flex flex-wrap">
-          <button className="btn-ghost hover:bg-transparent text-gray-500 hover:text-iris-orange btn w-1/4 content-center gap-2 rounded-none p-2">
-            <BoltIcon width={18} />
+            <div className="-m-4 flex flex-wrap">
+              <button className="btn-ghost hover:bg-transparent text-gray-500 hover:text-iris-orange btn w-1/4 content-center gap-2 rounded-none p-2">
+                <BoltIcon width={18} />
 
-            {reactionEvents.filter((event) => event.kind === 9735).length}
-          </button>
+                {reactionEvents.filter((event) => event.kind === 9735).length}
+              </button>
 
-          <button className="btn-ghost hover:bg-transparent text-gray-500 hover:text-iris-blue btn w-1/4 content-center gap-2 rounded-none p-2">
-            <ChatBubbleOvalLeftIcon width={18} />
+              <button className="btn-ghost hover:bg-transparent text-gray-500 hover:text-iris-blue btn w-1/4 content-center gap-2 rounded-none p-2">
+                <ChatBubbleOvalLeftIcon width={18} />
 
-            {reactionEvents.filter((event) => event.kind === 1).length}
-          </button>
+                {reactionEvents.filter((event) => event.kind === 1).length}
+              </button>
 
-          <button className="btn-ghost hover:bg-transparent text-gray-500 hover:text-iris-purple btn w-1/4 content-center gap-2 rounded-none p-2">
-            <HeartIcon width={18} />
+              <button className="btn-ghost hover:bg-transparent text-gray-500 hover:text-iris-purple btn w-1/4 content-center gap-2 rounded-none p-2">
+                <HeartIcon width={18} />
 
-            {reactionEvents.filter((event) => event.kind === 7).length}
-          </button>
+                {reactionEvents.filter((event) => event.kind === 7).length}
+              </button>
 
-          <button className="btn-ghost hover:bg-transparent text-gray-500 hover:text-iris-green btn w-1/4 content-center gap-2 rounded-none p-2">
-            <ArrowPathIcon width={18} />
-            {reactionEvents.filter((event) => isRepost(event)).length}
-          </button>
-        </div>
+              <button className="btn-ghost hover:bg-transparent text-gray-500 hover:text-iris-green btn w-1/4 content-center gap-2 rounded-none p-2">
+                <ArrowPathIcon width={18} />
+                {reactionEvents.filter((event) => isRepost(event)).length}
+              </button>
+            </div>
+          </>
+        ) : ''}
       </CardContainer>
       {showReplies ? (
         sortedReactions.filter((event) => event.kind === 1).map((event) => (

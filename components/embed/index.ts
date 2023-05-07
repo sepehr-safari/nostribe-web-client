@@ -1,11 +1,15 @@
+import { Event } from "nostr-tools";
 import Image from "./Image";
 import Video from "./Video";
-import NostrUser from "./NostrUser";
-import NostrEvent from "./NostrEvent";
+import NostrNpub from "./NostrNpub";
+import NostrEvent from "./NostrNote";
+import Nip19 from "./Nip19";
+import InlineMention from "@/components/embed/InlineMention";
 
 export type EmbedProps = {
   match: string,
-  index: number
+  index?: number,
+  event?: Event,
 }
 
 type Embed = {
@@ -16,8 +20,10 @@ type Embed = {
 export const allEmbeds = [
   Image,
   Video,
-  NostrUser,
+  NostrNpub,
   NostrEvent,
+  Nip19,
+  InlineMention,
 ];
 
 export default Embed;

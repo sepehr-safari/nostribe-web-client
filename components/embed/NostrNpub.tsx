@@ -4,10 +4,8 @@ import Name from '@/components/Name';
 
 const pubKeyRegex =
   /(?:^|\s|nostr:|(?:https?:\/\/[\w./]+)|iris\.to\/|snort\.social\/p\/|damus\.io\/)+((?:@)?npub[a-zA-Z0-9]{59,60})(?![\w/])/gi;
-const noteRegex =
-  /(?:^|\s|nostr:|(?:https?:\/\/[\w./]+)|iris\.to\/|snort\.social\/e\/|damus\.io\/)+((?:@)?note[a-zA-Z0-9]{59,60})(?![\w/])/gi;
 
-const NostrUser: Embed = {
+const NostrNpub: Embed = {
   regex: pubKeyRegex,
   component: ({ match, index }) => {
     return (
@@ -22,4 +20,4 @@ const NostrUser: Embed = {
   },
 };
 
-export default NostrUser;
+export default NostrNpub;

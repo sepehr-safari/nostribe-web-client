@@ -7,7 +7,9 @@ const Image: Embed = {
       key={match + index}
       className="relative w-full overflow-hidden object-contain"
     >
-      <img className="rounded max-h-[70vh] md:max-h-96 max-w-full" src={match} />
+      <img className="rounded max-h-[70vh] md:max-h-96 max-w-full" src={
+        `https://imgproxy.iris.to/insecure/plain/${match}`
+      } />
     </div>
   ),
 }
