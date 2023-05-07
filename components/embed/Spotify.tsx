@@ -1,17 +1,18 @@
 import Embed from './index';
 import Link from 'next/link';
 
-const Instagram: Embed = {
-  regex: /(?:https?:\/\/)?(?:www\.)?(?:instagram\.com\/)((?:p|reel)\/[\w-]{11})(?:\S+)?/g,
+const Spotify: Embed = {
+  regex: /(?:https?:\/\/)?(?:www\.)?(?:open\.spotify\.com\/track\/)([\w-]+)(?:\S+)?/g,
   component: ({ match, index }) => {
     return (
       <iframe
-        className="instagram"
+        className="audio"
+        scrolling="no"
         key={match + index}
         width="650"
-        height="400"
+        height="200"
         style={{ maxWidth: '100%' }}
-        src={`https://instagram.com/${match}/embed`}
+        src={`https://open.spotify.com/embed/track/${match}?utm_source=oembed`}
         frameBorder="0"
         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
         allowFullScreen
@@ -20,4 +21,4 @@ const Instagram: Embed = {
   }
 }
 
-export default Instagram;
+export default Spotify;

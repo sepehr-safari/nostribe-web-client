@@ -15,5 +15,5 @@ input[type="text"] {
 }
 
 iframe {
-  @apply rounded-sm;
+  @apply rounded-sm my-4;
 }
