@@ -5,7 +5,7 @@ import { Event } from "nostr-tools";
 import { allEmbeds } from './embed';
 
 const HyperText = memo(({ children, event }: { children: string, event?: Event }) => {
-  let processedChildren: React.ReactNode[] = [children];
+  let processedChildren: React.ReactNode[] = [children.trim()];
 
   allEmbeds.forEach((embed) => {
     processedChildren = reactStringReplace(processedChildren, embed.regex, (match, i) => {
