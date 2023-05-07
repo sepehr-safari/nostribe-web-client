@@ -25,7 +25,7 @@ const InlineMention: Embed = {
         <Link
           key={match + index}
           href={`/profile/${id}`}
-          className="text-blue-500 hover:underline"
+          className="text-iris-blue hover:underline"
         >
           <Name pub={id} />
         </Link>

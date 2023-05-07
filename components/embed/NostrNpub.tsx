@@ -12,7 +12,7 @@ const NostrNpub: Embed = {
       <Link
         key={match + index}
         href={`/profile/${match}`}
-        className="text-blue-500 hover:underline mx-1"
+        className="text-iris-blue hover:underline mx-1"
       >
         <Name pub={match} />
       </Link>

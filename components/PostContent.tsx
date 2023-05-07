@@ -36,7 +36,7 @@ const PostContent = ({ postEvent, standalone }: { postEvent: Event, standalone: 
 
       {tooLong && (
         <button
-          className="text-blue-600 hover:text-blue-800"
+          className="text-iris-blue hover:underline"
           onClick={() => setIsExpanded(!isExpanded)}
         >
           {isExpanded ? 'Show less' : 'Show more'}

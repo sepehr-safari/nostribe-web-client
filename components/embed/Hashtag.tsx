@@ -8,7 +8,7 @@ const Hashtag: Embed = {
       <Link
         key={match + index}
         href={`/search/${encodeURIComponent(match)}`}
-        className="text-blue-500 hover:underline"
+        className="text-iris-blue hover:underline"
       >
         {' '}{match}{' '}
       </Link>

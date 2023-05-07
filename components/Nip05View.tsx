@@ -11,11 +11,11 @@ export default function Nip05View({ text }: { text: string }) {
     text = text.slice(2);
   }
 
-  if (text.length < 26) {
+  if (text.length < 50) {
     return <ColoredText text={text} />;
   }
 
-  const trimmedText = text.slice(0, 10) + '...' + text.slice(-15);
+  const trimmedText = text.slice(0, 25) + '...' + text.slice(-25);
 
   return (
     <div className="dropdown dropdown-hover">

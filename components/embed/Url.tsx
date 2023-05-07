@@ -15,7 +15,7 @@ const Url: Embed = {
       <Link
         key={match + index}
         href={url}
-        className="text-blue-500 hover:underline"
+        className="text-iris-blue hover:underline"
       >
         {match}
       </Link>
