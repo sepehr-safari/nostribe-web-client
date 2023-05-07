@@ -61,7 +61,7 @@ const ProfileCard = ({ profileAddress }: { profileAddress: string }) => {
     <>
       {showModal ? (
         <Modal onClose={() => setShowModal(false)}>
-          <img onClick={onClickAvatar} className="rounded max-h-[90vh] max-w-[90vw] max-w-full" src={
+          <img onClick={onClickAvatar} className="rounded max-h-[90vh] max-w-[90vw]" src={
             `https://imgproxy.iris.to/insecure/plain/${picture}`
           } />
         </Modal>
