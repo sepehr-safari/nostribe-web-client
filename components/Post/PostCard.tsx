@@ -54,7 +54,7 @@ const PostCard = ({ postId, showReplies, standalone, asReply, asRepliedMessage, 
   const onClick: MouseEventHandler = (e) => {
     if (standalone) return;
     const target = e.target as HTMLElement;
-    const selectors = ['a', 'button', '.btn'];
+    const selectors = ['a', 'button', '.btn', 'video', 'audio', 'input', 'textarea', 'iframe', 'img'];
 
     const isMatch = selectors.some((selector) => target.closest(selector));
 
