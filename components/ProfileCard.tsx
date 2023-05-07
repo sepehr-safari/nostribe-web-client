@@ -15,7 +15,7 @@ import FollowButton from "@/components/FollowButton";
 
 import {useEffect, useState} from "react";
 import useStore from "@/store";
-import {toHexKey} from "@/utils/HexKey";
+import {toHexKey} from "@/utils/hexKey";
 
 const ProfileCard = ({ profileAddress }: { profileAddress: string }) => {
   const {

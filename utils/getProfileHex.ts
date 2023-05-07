@@ -1,6 +1,6 @@
 import { nip05, nip19 } from 'nostr-tools';
 
-import { getProfileAddressType } from '@/utils';
+import { getProfileAddressType } from '@/utils/index';
 
 export default async function getProfileHex(profileAddress: string) {
   const profileAddressType = getProfileAddressType(profileAddress);

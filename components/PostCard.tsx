@@ -21,6 +21,7 @@ import RelativeTime from '@/components/RelativeTime';
 import { usePostEvent, usePostReactions, useProfileContent } from '@/hooks';
 import { useRouter } from 'next/navigation';
 import {MouseEventHandler, useMemo} from "react";
+import {getReplyingToEvent, isRepost} from "@/utils/event";
 
 type Props = { postId: string, showReplies?: number, standalone?: boolean };
 
@@ -54,8 +55,13 @@ const PostCard = ({ postId, showReplies, standalone }: Props) => {
     }
   }
 
+  const replyingTo = postEvent && getReplyingToEvent(postEvent);
+
   return (
     <>
+      {(standalone && replyingTo) ? (
+        <PostCard postId={replyingTo} standalone={false} showReplies={0} />
+      ) : ''}
       <CardContainer>
         <div className={`flex flex-col gap-2 ${standalone ? '' : 'cursor-pointer'}`} onClick={onClick}>
           <div className="flex items-center gap-2">
@@ -159,18 +165,15 @@ const PostCard = ({ postId, showReplies, standalone }: Props) => {
 
           <button className="btn-ghost hover:bg-transparent text-gray-500 hover:text-iris-green btn w-1/4 content-center gap-2 rounded-none p-2">
             <ArrowPathIcon width={18} />
-            {reactionEvents.filter((event) => {
-              // @ts-ignore nostr-tools doesn't like kind 6 reposts. but should check also kind 1 reposts.
-              return event.kind === 6;
-            }).length}
+            {reactionEvents.filter((event) => isRepost(event)).length}
           </button>
         </div>
       </CardContainer>
-      {showReplies && (
+      {showReplies ? (
         sortedReactions.filter((event) => event.kind === 1).map((event) => (
           <PostCard postId={event.id} key={event.id} showReplies={1} />
         ))
-      )}
+      ) : ''}
     </>
   );
 };

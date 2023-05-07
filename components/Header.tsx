@@ -13,7 +13,7 @@ import { usePathname, useParams } from 'next/navigation';
 import Name from "@/components/Name";
 import useStore from "@/store";
 import React, {MouseEventHandler} from "react";
-import {toHexKey} from "@/utils/HexKey";
+import {toHexKey} from "@/utils/hexKey";
 
 const navigateBack = (e: React.MouseEvent<HTMLAnchorElement>) => {
   e.preventDefault();
