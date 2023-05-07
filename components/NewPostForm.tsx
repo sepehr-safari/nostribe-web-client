@@ -10,10 +10,10 @@ import Link from "next/link";
 import usePublish from "@/hooks/usePublish";
 
 interface Props {
-  onPublish?: (event: Event) => void;
+  onSubmit?: (event: Event) => void;
 }
 
-const NewPostForm: React.FC<Props> = ({ onPublish }) => {
+const NewPostForm: React.FC<Props> = ({ onSubmit }) => {
   const [postText, setPostText] = useState('');
   const userData = useStore((state) => state.auth.user.data);
 
@@ -31,7 +31,7 @@ const NewPostForm: React.FC<Props> = ({ onPublish }) => {
       content: postText,
     });
     setPostText('');
-    onPublish?.(event);
+    onSubmit?.(event);
   };
 
   const myNpub = userData?.publicKey ? nip19.npubEncode(userData?.publicKey) : '';

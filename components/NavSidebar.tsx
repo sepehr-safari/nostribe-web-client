@@ -2,6 +2,8 @@
 
 import { nip19 } from 'nostr-tools';
 import { usePathname } from 'next/navigation';
+import Modal from '@/components/modal/Modal';
+import NewPostForm from "@/components/NewPostForm";
 
 import {
   Cog8ToothIcon,
@@ -23,8 +25,10 @@ import Link from 'next/link';
 import useStore from "@/store";
 import Avatar from "@/components/Avatar";
 import Name from "@/components/Name";
+import {useState} from "react";
 
 export default function NavSidebar() {
+  const [showNewPostModal, setShowNewPostModal] = useState(false);
   const userData = useStore((state) => state.auth.user.data);
   const npub = userData?.publicKey ? nip19.npubEncode(userData.publicKey) : '';
   const pathname = usePathname();
@@ -76,12 +80,12 @@ export default function NavSidebar() {
           })}
         </nav>
         <div className="flex lg:flex-row md:flex-col gap-2 mt-4">
-          <Link href="/" className="btn btn-primary sm:max-md:btn-circle gap-3">
+          <div onClick={() => setShowNewPostModal(true)} className="btn btn-primary sm:max-md:btn-circle gap-3">
             <PlusIcon width={20} height={20} />
             <div className="hidden lg:block">
               New Post
             </div>
-          </Link>
+          </div>
         </div>
       </div>
       <div>
@@ -92,6 +96,13 @@ export default function NavSidebar() {
           </div>
         </Link>
       </div>
+      {showNewPostModal ? (
+        <Modal showContainer={true} onClose={() => setShowNewPostModal(false)}>
+          <div className="flex flex-col gap-4 bg-black w-full">
+            <NewPostForm onSubmit={() => setShowNewPostModal(false)} />
+          </div>
+        </Modal>
+      ) : ''}
     </aside>
   );
 }
