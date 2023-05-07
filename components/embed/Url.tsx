@@ -16,6 +16,7 @@ const Url: Embed = {
         key={match + index}
         href={url}
         className="text-iris-blue hover:underline"
+        target={link.origin === current.origin ? '' : '_blank'}
       >
         {match}
       </Link>

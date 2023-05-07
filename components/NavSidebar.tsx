@@ -98,7 +98,7 @@ export default function NavSidebar() {
       </div>
       {showNewPostModal ? (
         <Modal showContainer={true} onClose={() => setShowNewPostModal(false)}>
-          <div className="flex flex-col gap-4 bg-black w-full">
+          <div className="flex flex-col gap-4 bg-black w-full rounded-lg border-2 border-gray-500 ">
             <NewPostForm onSubmit={() => setShowNewPostModal(false)} />
           </div>
         </Modal>
