@@ -153,7 +153,7 @@ const PostCard = ({ postId, showReplies, standalone, asReply, asRepliedMessage }
                   href={`/profile/${tag[1]}`}
                   key={tag[1]}
                 >
-                  @<Name pub={tag[1]} />
+                  <Name pub={tag[1]} />
                 </Link>
               ))}
             </small>

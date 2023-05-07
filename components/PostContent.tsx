@@ -3,15 +3,14 @@
 import { Event } from 'nostr-tools';
 import { useState } from 'react';
 
-import { parseImageUrls } from '@/utils';
 import Spinner from './Spinner';
+import HyperText from "@/components/HyperText";
 
 const MSG_TRUNCATE_LENGTH = 500;
 const MSG_TRUNCATE_LINES = 8;
 
-const isTooLong = (event: Event, attachments: string[]) => {
+const isTooLong = (event: Event) => {
   return (
-    attachments?.length > 1 ||
     event.content?.length > MSG_TRUNCATE_LENGTH ||
     event.content.split('\n').length > MSG_TRUNCATE_LINES
   );
@@ -23,24 +22,17 @@ const PostContent = ({ postEvent, standalone }: { postEvent: Event, standalone: 
   if (!postEvent) return <Spinner />;
 
   const { content } = postEvent;
-  const { imageUrlList, imagelessString } = parseImageUrls(content);
 
-  const tooLong = !standalone && isTooLong(postEvent, imageUrlList);
-  const displayedContent = isExpanded || !tooLong ?
-    imagelessString : imagelessString.slice(0, MSG_TRUNCATE_LENGTH) + '...';
+  const tooLong = !standalone && isTooLong(postEvent);
+  const displayedContent = isExpanded || !tooLong ? content : content.slice(0, MSG_TRUNCATE_LENGTH) + '...';
 
   return (
     <>
-      {imageUrlList.map((imgUrl, index) => (
-        <div
-          key={index}
-          className="relative w-full overflow-hidden object-contain"
-        >
-          <img className="rounded max-h-[70vh] md:max-h-96 max-w-full" src={imgUrl} alt={imagelessString.slice(0, 20)} />
-        </div>
-      ))}
-
-      <p className="whitespace-pre-wrap">{displayedContent}</p>
+      <p className="whitespace-pre-wrap">
+        <HyperText>
+          {displayedContent}
+        </HyperText>
+      </p>
 
       {tooLong && (
         <button
