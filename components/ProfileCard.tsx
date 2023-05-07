@@ -2,6 +2,7 @@
 
 import { EllipsisHorizontalIcon } from '@heroicons/react/24/outline';
 import {nip19} from 'nostr-tools'
+import Modal from '@/components/modal/Modal';
 import Link from 'next/link';
 
 import { useProfileContacts, useProfileContent, useProfileHex } from '@/hooks';
@@ -13,7 +14,7 @@ import CardContainer from "@/components/CardContainer";
 import Nip05View from "@/components/Nip05View";
 import FollowButton from "@/components/FollowButton";
 
-import {useEffect, useState} from "react";
+import {MouseEventHandler, useEffect, useState} from "react";
 import useStore from "@/store";
 import {toHexKey} from "@/utils/hexKey";
 
@@ -28,6 +29,7 @@ const ProfileCard = ({ profileAddress }: { profileAddress: string }) => {
     isFetchingMetadata,
   } = useProfileContent(profileAddress);
 
+  const [showModal, setShowModal] = useState(false);
   const [isMyProfile, setIsMyProfile] = useState(false);
   const userData = useStore((state) => state.auth.user.data);
   const { latestContactEvent } = useProfileContacts(profileAddress);
@@ -50,9 +52,20 @@ const ProfileCard = ({ profileAddress }: { profileAddress: string }) => {
   }, [hex]);
 
   const proxiedBanner = banner && `https://imgproxy.iris.to/insecure/plain/${banner}`;
+  const onClickAvatar: MouseEventHandler<HTMLDivElement> = (e) => {
+    e.stopPropagation()
+    setShowModal(true);
+  }
 
   return (
     <>
+      {showModal ? (
+        <Modal onClose={() => setShowModal(false)}>
+          <img onClick={onClickAvatar} className="rounded max-h-[90vh] max-w-[90vw] max-w-full" src={
+            `https://imgproxy.iris.to/insecure/plain/${picture}`
+          } />
+        </Modal>
+      ) : ''}
       <CardContainer>
         <div className="absolute top-0 left-0 h-48 w-full">
           <img
@@ -67,7 +80,9 @@ const ProfileCard = ({ profileAddress }: { profileAddress: string }) => {
             {isFetchingMetadata ? (
               <AvatarLoader />
             ) : (
-              <BaseAvatar url={picture || '/nostribe.png'} width="w-36" />
+              <div onClick={onClickAvatar} className="cursor-pointer">
+                <BaseAvatar url={picture || '/nostribe.png'} width="w-36" />
+              </div>
             )}
           </div>
 
