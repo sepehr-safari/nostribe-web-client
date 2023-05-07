@@ -4,7 +4,9 @@ import Video from "./Video";
 import NostrNpub from "./NostrNpub";
 import NostrEvent from "./NostrNote";
 import Nip19 from "./Nip19";
-import InlineMention from "@/components/embed/InlineMention";
+import InlineMention from "./InlineMention";
+import Hashtag from "./Hashtag";
+import Url from "./Url";
 
 export type EmbedProps = {
   match: string,
@@ -23,7 +25,9 @@ export const allEmbeds = [
   NostrNpub,
   NostrEvent,
   Nip19,
+  Hashtag,
   InlineMention,
+  Url,
 ];
 
 export default Embed;
