@@ -13,3 +13,7 @@
 input[type="text"] {
   @apply rounded-full;
 }
+
+iframe {
+  @apply rounded-sm;
+}

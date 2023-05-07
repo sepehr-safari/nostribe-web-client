@@ -15,9 +15,10 @@ import { BaseAvatar } from '@/components/Avatar';
 import AvatarLoader from '@/components/Avatar/AvatarLoader';
 import BoxLoader from '@/components/BoxLoader';
 import CardContainer from '@/components/CardContainer';
-import PostContent from '@/components/PostContent';
+import PostContent from '@/components/Post/PostContent';
 import RelativeTime from '@/components/RelativeTime';
 import Name from '@/components/Name';
+import Spinner from '@/components/Spinner';
 
 import { usePostEvent, usePostReactions, useProfileContent } from '@/hooks';
 import { useRouter } from 'next/navigation';
@@ -68,6 +69,16 @@ const PostCard = ({ postId, showReplies, standalone, asReply, asRepliedMessage, 
     (tag) => tag[0] === "p" && tag[3] !== "mention"
   );
   const threadRoot = replyingToEvent && getThreadRoot(postEvent);
+
+  if (!postEvent) {
+    return (
+      <CardContainer>
+        <div onClick={onClick} className="flex flex-col gap-2 cursor-pointer">
+          <Spinner />
+        </div>
+      </CardContainer>
+    );
+  }
 
   return (
     <>
@@ -125,7 +136,7 @@ const PostCard = ({ postId, showReplies, standalone, asReply, asRepliedMessage, 
                 </label>
                 <ul
                   tabIndex={0}
-                  className="dropdown-content menu rounded-box w-32 bg-base-100 p-2 shadow-lg shadow-black"
+                  className="dropdown-content menu rounded-box w-40 bg-base-100 p-2 shadow-lg shadow-black"
                 >
                   <li>
                     <button
@@ -147,6 +158,16 @@ const PostCard = ({ postId, showReplies, standalone, asReply, asRepliedMessage, 
                       }
                     >
                       Copy ID
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      className="text-start text-xs"
+                      onClick={() =>
+                        navigator.clipboard.writeText(JSON.stringify(postEvent))
+                      }
+                    >
+                      Copy Raw Data
                     </button>
                   </li>
                 </ul>

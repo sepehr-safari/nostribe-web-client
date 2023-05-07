@@ -3,7 +3,7 @@
 import Embed from './index';
 import Link from 'next/link';
 import Name from '@/components/Name';
-import PostCard from '@/components/PostCard';
+import PostCard from '@/components/Post/PostCard';
 
 const fail = (s: string) => `#[${s}]`;
 

@@ -4,7 +4,7 @@ import { memo } from 'react';
 
 import { useProfilePage } from '@/hooks';
 
-import PostCard from '@/components/PostCard';
+import PostCard from '@/components/Post/PostCard';
 import ProfileCard from '@/components/ProfileCard';
 
 const Profile = ({ params }: { params: { address: string } }) => {

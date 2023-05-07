@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { memo } from 'react';
 import reactStringReplace from 'react-string-replace';
 import { Event } from "nostr-tools";
 
 import { allEmbeds } from './embed';
 
-const HyperText = ({ children, event }: { children: string, event?: Event }) => {
+const HyperText = memo(({ children, event }: { children: string, event?: Event }) => {
   let processedChildren: React.ReactNode[] = [children];
 
   allEmbeds.forEach((embed) => {
@@ -15,6 +15,8 @@ const HyperText = ({ children, event }: { children: string, event?: Event }) => 
   });
 
   return <>{processedChildren}</>;
-};
+});
+
+HyperText.displayName = 'HyperText';
 
 export default HyperText;

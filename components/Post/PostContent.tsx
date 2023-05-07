@@ -3,7 +3,7 @@
 import { Event } from 'nostr-tools';
 import { useState } from 'react';
 
-import Spinner from './Spinner';
+import Spinner from '../Spinner';
 import HyperText from "@/components/HyperText";
 
 const MSG_TRUNCATE_LENGTH = 500;

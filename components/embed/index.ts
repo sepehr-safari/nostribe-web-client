@@ -7,6 +7,11 @@ import Nip19 from "./Nip19";
 import InlineMention from "./InlineMention";
 import Hashtag from "./Hashtag";
 import Url from "./Url";
+import Youtube from "./YouTube";
+import Instagram from "./Instagram";
+import Twitter from "./Twitter";
+import SoundCloud from "./SoundCloud";
+import Spotify from "./Spotify";
 
 export type EmbedProps = {
   match: string,
@@ -22,6 +27,11 @@ type Embed = {
 export const allEmbeds = [
   Image,
   Video,
+  Youtube,
+  Instagram,
+  Twitter,
+  SoundCloud,
+  Spotify,
   NostrNpub,
   NostrEvent,
   Nip19,

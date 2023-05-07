@@ -1,7 +1,7 @@
 "use client";
 
 import useNotifications from "@/hooks/posts/simple/useNotifications";
-import PostCard from "@/components/PostCard";
+import PostCard from "@/components/Post/PostCard";
 
 export default function Notifications() {
   const { isNotificationsEmpty, notificationEvents } = useNotifications();

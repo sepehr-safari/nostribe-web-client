@@ -4,7 +4,7 @@ import { memo } from 'react';
 
 import { usePostPage } from '@/hooks';
 
-import PostCard from '@/components/PostCard';
+import PostCard from '@/components/Post/PostCard';
 import Spinner from '@/components/Spinner';
 
 const Post = ({ params }: { params: { address: string } }) => {

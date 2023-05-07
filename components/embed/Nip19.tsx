@@ -1,6 +1,6 @@
 import Embed from './index';
 import Name from '@/components/Name';
-import PostCard from '@/components/PostCard';
+import PostCard from '@/components/Post/PostCard';
 import Link from 'next/link';
 import {nip19} from "nostr-tools";
 
