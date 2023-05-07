@@ -17,6 +17,7 @@ import BoxLoader from '@/components/BoxLoader';
 import CardContainer from '@/components/CardContainer';
 import PostContent from '@/components/PostContent';
 import RelativeTime from '@/components/RelativeTime';
+import Name from '@/components/Name';
 
 import { usePostEvent, usePostReactions, useProfileContent } from '@/hooks';
 import { useRouter } from 'next/navigation';
@@ -136,6 +137,21 @@ const PostCard = ({ postId, showReplies, standalone }: Props) => {
               </div>
             </div>
           </div>
+
+          {replyingTo ? (
+            <small className="opacity-50 flex items-center gap-1">
+              Replying to
+              {postEvent?.tags?.filter((tag) => tag[0] === "p").map((tag) => (
+                <Link
+                  prefetch={false}
+                  href={`/profile/${tag[1]}`}
+                  key={tag[1]}
+                >
+                  @<Name pub={tag[1]} />
+                </Link>
+              ))}
+            </small>
+          ) : ''}
 
           <div className="flex flex-col gap-2 break-words">
             <PostContent postEvent={postEvent} standalone={standalone || false} />
