@@ -62,7 +62,7 @@ const PostCard = ({ postId, showReplies, standalone, asReply, asRepliedMessage }
   return (
     <>
       {postEvent && !asReply && !asRepliedMessage && threadRoot && (threadRoot !== replyingTo) ? (
-        <Link href={`/post/${threadRoot}`} className="flex items-center gap-2 px-4">
+        <Link href={`/post/${threadRoot}`} className="-mb-2 mt-2 text-sm opacity-50 flex items-center gap-2 px-4">
           Show thread
         </Link>
       ) : ''}
