@@ -1,6 +1,6 @@
 import { Event } from 'nostr-tools';
 
-export function getRoot(event: Event) {
+export function getThreadRoot(event: Event) {
   const rootEvent = event?.tags?.find((t) => t[0] === 'e' && t[3] === 'root')?.[1];
   if (rootEvent) {
     return rootEvent;

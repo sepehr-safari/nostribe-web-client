@@ -22,11 +22,11 @@ import Name from '@/components/Name';
 import { usePostEvent, usePostReactions, useProfileContent } from '@/hooks';
 import { useRouter } from 'next/navigation';
 import {MouseEventHandler, useMemo} from "react";
-import {getReplyingToEvent, isRepost} from "@/utils/event";
+import {getReplyingToEvent, getThreadRoot, isRepost} from "@/utils/event";
 
-type Props = { postId: string, showReplies?: number, standalone?: boolean };
+type Props = { postId: string, showReplies?: number, standalone?: boolean, asReply?: boolean, asRepliedMessage?: boolean };
 
-const PostCard = ({ postId, showReplies, standalone }: Props) => {
+const PostCard = ({ postId, showReplies, standalone, asReply, asRepliedMessage }: Props) => {
   const router = useRouter();
   const { isFetching, postEvent, createdAt, nip19NoteId } =
     usePostEvent(postId);
@@ -57,11 +57,17 @@ const PostCard = ({ postId, showReplies, standalone }: Props) => {
   }
 
   const replyingTo = postEvent && getReplyingToEvent(postEvent);
+  const threadRoot = replyingTo && getThreadRoot(postEvent);
 
   return (
     <>
+      {postEvent && !asReply && !asRepliedMessage && threadRoot && (threadRoot !== replyingTo) ? (
+        <Link href={`/post/${threadRoot}`} className="flex items-center gap-2 px-4">
+          Show thread
+        </Link>
+      ) : ''}
       {(standalone && replyingTo) ? (
-        <PostCard postId={replyingTo} standalone={false} showReplies={0} />
+        <PostCard postId={replyingTo} asRepliedMessage={true} showReplies={0} />
       ) : ''}
       <CardContainer>
         <div className={`flex flex-col gap-2 ${standalone ? '' : 'cursor-pointer'}`} onClick={onClick}>
@@ -187,7 +193,7 @@ const PostCard = ({ postId, showReplies, standalone }: Props) => {
       </CardContainer>
       {showReplies ? (
         sortedReactions.filter((event) => event.kind === 1).map((event) => (
-          <PostCard postId={event.id} key={event.id} showReplies={1} />
+          <PostCard postId={event.id} key={event.id} showReplies={1} asReply={true} />
         ))
       ) : ''}
     </>
