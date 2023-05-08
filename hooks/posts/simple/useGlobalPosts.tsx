@@ -7,11 +7,9 @@ import useStore from '@/store';
 const useGlobalPosts = () => {
   const relays = useStore((store) => store.relays);
 
-  const oneHourAgo = new Date().getTime() - 3600000;
-
   const { events: postEvents, eose: postEose } = useSubscribe({
     relays,
-    filters: [{ kinds: [1], limit: 10, until: oneHourAgo }],
+    filters: [{ kinds: [1], limit: 10 }],
     options: { invalidate: true },
   });
 
