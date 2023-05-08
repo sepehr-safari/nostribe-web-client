@@ -15,9 +15,16 @@ export async function GET(request: Request) {
     return NextResponse.json({});
   }
 
-  return NextResponse.json({
-    names: {
-      [name]: db.names[name],
+  return NextResponse.json(
+    {
+      names: {
+        [name]: db.names[name],
+      },
     },
-  });
+    {
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+      },
+    }
+  );
 }
