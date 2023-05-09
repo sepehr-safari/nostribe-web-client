@@ -1,12 +1,5 @@
 'use client';
 
-import {
-  ArrowPathIcon,
-  BoltIcon,
-  ChatBubbleOvalLeftIcon,
-  EllipsisHorizontalIcon,
-  HeartIcon,
-} from '@heroicons/react/24/outline';
 import Link from 'next/link';
 
 import { nip19 } from 'nostr-tools';
@@ -19,11 +12,13 @@ import PostContent from '@/components/Post/PostContent';
 import RelativeTime from '@/components/RelativeTime';
 import Name from '@/components/Name';
 import Spinner from '@/components/Spinner';
+import Reactions from './Reactions';
+import Dropdown from './Dropdown';
 
 import { usePostEvent, usePostReactions, useProfileContent } from '@/hooks';
 import { useRouter } from 'next/navigation';
 import {MouseEventHandler, useMemo} from "react";
-import {getReplyingToEvent, getThreadRoot, isRepost} from "@/utils/event";
+import {getReplyingToEvent, getThreadRoot} from "@/utils/event";
 
 type Props = {
   postId: string,
@@ -46,7 +41,6 @@ const PostCard = ({ postId, showReplies, standalone, asReply, asRepliedMessage, 
 
   const { reactionEvents } = usePostReactions(postId);
 
-  // don't re-sort on every render, only when reactionEvents changed
   const sortedReactions = useMemo(() => {
     return reactionEvents.sort((a, b) => a.created_at - b.created_at);
   }, [reactionEvents]);
@@ -129,50 +123,7 @@ const PostCard = ({ postId, showReplies, standalone, asReply, asRepliedMessage, 
               </div>
             </Link>
 
-            <div className="ml-auto">
-              <div className="dropdown-left dropdown">
-                <label tabIndex={0} className="btn-ghost btn-circle btn m-1 text-gray-500">
-                  <EllipsisHorizontalIcon width={24} />
-                </label>
-                <ul
-                  tabIndex={0}
-                  className="dropdown-content menu rounded-box w-40 bg-base-100 p-2 shadow-lg shadow-black"
-                >
-                  <li>
-                    <button
-                      className="text-start text-xs"
-                      onClick={() =>
-                        navigator.clipboard.writeText(
-                          `${location.origin}/post/${nip19NoteId}`
-                        )
-                      }
-                    >
-                      Copy Link
-                    </button>
-                  </li>
-                  <li>
-                    <button
-                      className="text-start text-xs"
-                      onClick={() =>
-                        navigator.clipboard.writeText(nip19NoteId)
-                      }
-                    >
-                      Copy ID
-                    </button>
-                  </li>
-                  <li>
-                    <button
-                      className="text-start text-xs"
-                      onClick={() =>
-                        navigator.clipboard.writeText(JSON.stringify(postEvent))
-                      }
-                    >
-                      Copy Raw Data
-                    </button>
-                  </li>
-                </ul>
-              </div>
-            </div>
+            <Dropdown nip19NoteId={nip19NoteId} postEvent={postEvent} />
           </div>
 
           {replyingToEvent && replyingToUsers ? (
@@ -198,36 +149,7 @@ const PostCard = ({ postId, showReplies, standalone, asReply, asRepliedMessage, 
           </div>
         </div>
 
-        {!asInlineQuote ? (
-          <>
-            <hr className="-mx-4 mt-2 opacity-10" />
-
-            <div className="-m-4 flex flex-wrap">
-              <button className="btn-ghost hover:bg-transparent text-gray-500 hover:text-iris-orange btn w-1/4 content-center gap-2 rounded-none p-2">
-                <BoltIcon width={18} />
-
-                {reactionEvents.filter((event) => event.kind === 9735).length}
-              </button>
-
-              <Link href={`/post/${nip19NoteId}`} className="btn-ghost hover:bg-transparent text-gray-500 hover:text-iris-blue btn w-1/4 content-center gap-2 rounded-none p-2">
-                <ChatBubbleOvalLeftIcon width={18} />
-
-                {reactionEvents.filter((event) => event.kind === 1).length}
-              </Link>
-
-              <button className="btn-ghost hover:bg-transparent text-gray-500 hover:text-iris-purple btn w-1/4 content-center gap-2 rounded-none p-2">
-                <HeartIcon width={18} />
-
-                {reactionEvents.filter((event) => event.kind === 7).length}
-              </button>
-
-              <button className="btn-ghost hover:bg-transparent text-gray-500 hover:text-iris-green btn w-1/4 content-center gap-2 rounded-none p-2">
-                <ArrowPathIcon width={18} />
-                {reactionEvents.filter((event) => isRepost(event)).length}
-              </button>
-            </div>
-          </>
-        ) : ''}
+        {!asInlineQuote ? <Reactions reactionEvents={reactionEvents} nip19NoteId={nip19NoteId} /> : ''}
       </CardContainer>
       {showReplies ? (
         sortedReactions.filter((event) => {
