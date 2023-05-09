@@ -3,7 +3,7 @@ import Modal from "../modal/Modal";
 import {MouseEventHandler, useState} from "react";
 
 const Image: Embed = {
-  regex: /(https?:\/\/.*\.(?:png|jpg|jpeg|gif|svg|webp))/gi,
+  regex: /(https?:\/\/.*\.(?:png|jpg|jpeg|gif|svg|webp)(?:\?\S*))/gi,
   component: ({ match, index }) => {
     // dis bad?
     // eslint-disable-next-line react-hooks/rules-of-hooks

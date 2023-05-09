@@ -1,7 +1,7 @@
 import Embed from "./index";
 
 const Video: Embed = {
-  regex: /(https?:\/\/.*\.(?:mp4|webm|ogg|mov))/gi,
+  regex: /(https?:\/\/.*\.(?:mp4|webm|ogg|mov)(?:\?\S*))/gi,
   component: ({ match, index }) => (
     <div
       key={match + index}
