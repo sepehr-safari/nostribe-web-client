@@ -6,7 +6,6 @@ import Link from 'next/link';
 
 import { useProfileContacts, useProfileContent, useProfileHex } from '@/hooks';
 
-import { BaseAvatar } from "@/components/Avatar";
 import AvatarLoader from "@/components/Avatar/AvatarLoader";
 import BoxLoader from "@/components/BoxLoader";
 import CardContainer from "@/components/CardContainer";
@@ -79,8 +78,10 @@ const ProfileCard = ({ profileAddress }: { profileAddress: string }) => {
             {isFetchingMetadata ? (
               <AvatarLoader />
             ) : (
-              <div onClick={onClickAvatar} className="cursor-pointer">
-                <BaseAvatar url={picture || '/nostribe.png'} width="w-36" />
+              <div className="avatar">
+                <div onClick={onClickAvatar} className={`cursor-pointer rounded-full border border-solid border-4 border-black w-36`}>
+                  <img src={ `https://imgproxy.iris.to/insecure/rs:fill:272:272/plain/${picture}` || '/nostribe.png'} />
+                </div>
               </div>
             )}
           </div>

@@ -12,7 +12,7 @@ export function BaseAvatar({
   width?: Width;
 }) {
   if (url?.startsWith('http')) {
-    url = `https://imgproxy.iris.to/insecure/rs:fill:288:288/plain/${url}`;
+    url = `https://imgproxy.iris.to/insecure/rs:fill:96:96/plain/${url}`;
   }
   return (
     <>
@@ -35,7 +35,7 @@ export default function Avatar({
   let { picture } = useProfileContent(pub);
 
   if (picture?.startsWith('http')) {
-    picture = `https://imgproxy.iris.to/insecure/rs:fill:288:288/plain/${picture}`;
+    picture = `https://imgproxy.iris.to/insecure/rs:fill:96:96/plain/${picture}`;
   }
   return <BaseAvatar url={picture} width={width} />;
 }
