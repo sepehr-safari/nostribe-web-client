@@ -22,7 +22,7 @@ const Feed = () => {
 
     const observerCallback = (entries: IntersectionObserverEntry[]) => {
       const entry = entries[0];
-      if (entry.isIntersecting) {
+      if (entry.isIntersecting && displayCount < postEvents.length) {
         setDisplayCount((prevCount) => prevCount + PAGE_SIZE);
       }
     };
