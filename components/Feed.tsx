@@ -4,7 +4,7 @@ import { Event } from 'nostr-tools';
 import PostCard from '@/components/Post/PostCard';
 
 const PAGE_SIZE = 6;
-const LOAD_MORE_MARGIN = '0px 0px 1000px 0px';
+const LOAD_MORE_MARGIN = '0px 0px 2000px 0px';
 
 type Props = {
   isEmpty?: boolean;
