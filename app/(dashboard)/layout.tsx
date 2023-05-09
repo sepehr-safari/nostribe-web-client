@@ -13,9 +13,11 @@ export default function DashboardLayout({
       <main className="flex justify-center">
         <div className="flex w-full max-w-screen-xl justify-between relative">
           <NavSidebar />
-          <section className="relative flex h-full w-full flex-col md:w-full lg:w-1/2 overflow-x-hidden">
+          <section className="relative flex h-full w-full flex-col md:w-full lg:w-1/2">
             <Header />
-            {children}
+            <div className="overflow-x-hidden">
+              {children}
+            </div>
           </section>
           <aside className="hidden sticky top-0 right-0 flex-col gap-4 z-20 px-2 py-4 lg:flex lg:w-80 h-screen max-h-screen">
             <Discover />
