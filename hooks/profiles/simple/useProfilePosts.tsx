@@ -13,7 +13,7 @@ const useProfilePosts = (profileAddress: string) => {
 
   const { events: postEvents, eose: postEose } = useSubscribe({
     relays,
-    filters: [{ authors: [profileHex], kinds: [1], limit: 6 }],
+    filters: [{ authors: [profileHex], kinds: [1], limit: 100 }],
     options: { enabled: !!profileHex, invalidate: true },
   });
 
