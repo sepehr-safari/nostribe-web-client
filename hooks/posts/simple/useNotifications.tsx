@@ -10,7 +10,7 @@ const useNotifications = () => {
 
   const { events: notificationEvents, eose: notificationEose } = useSubscribe({
     relays,
-    filters: [{ kinds: [1, 6, 7], limit: 20, '#p': [userData?.publicKey || ''] }],
+    filters: [{ kinds: [1, 6, 7], limit: 100, '#p': [userData?.publicKey || ''] }],
   });
 
   const isFetching = !notificationEose && !notificationEvents.length;

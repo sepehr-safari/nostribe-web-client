@@ -71,7 +71,7 @@ export default function About() {
         </p>
 
         <h3>Privacy</h3>
-        <p>{t('application_security_warning')}</p>
+        <p>The application is an unaudited proof-of-concept implementation, so don't use it for security critical purposes.</p>
 
         <h3>Follow</h3>
       {/*
