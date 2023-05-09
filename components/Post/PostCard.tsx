@@ -12,6 +12,7 @@ import PostContent from '@/components/Post/PostContent';
 import RelativeTime from '@/components/RelativeTime';
 import Name from '@/components/Name';
 import Spinner from '@/components/Spinner';
+import NewPostForm from "@/components/NewPostForm";
 import Reactions from './Reactions';
 import Dropdown from './Dropdown';
 
@@ -27,9 +28,10 @@ type Props = {
   asReply?: boolean,
   asRepliedMessage?: boolean,
   asInlineQuote?: boolean,
+  showReplyForm?: boolean,
 };
 
-const PostCard = ({ postId, showReplies, standalone, asReply, asRepliedMessage, asInlineQuote }: Props) => {
+const PostCard = ({ postId, showReplies, standalone, asReply, asRepliedMessage, asInlineQuote, showReplyForm }: Props) => {
   const router = useRouter();
   const { isFetching, postEvent, createdAt, nip19NoteId } =
     usePostEvent(postId);
@@ -152,6 +154,13 @@ const PostCard = ({ postId, showReplies, standalone, asReply, asRepliedMessage, 
         </div>
 
         {!asInlineQuote ? <Reactions event={postEvent} reactionEvents={reactionEvents} nip19NoteId={nip19NoteId} /> : ''}
+
+        {showReplyForm ? (
+          <>
+            <NewPostForm placeholder="Write your reply" replyingTo={postEvent} />
+            <hr className="-mx-4 mt-2 opacity-10" />
+          </>
+        ) : ''}
       </CardContainer>
       {showReplies ? (
         sortedReactions.filter((event) => {

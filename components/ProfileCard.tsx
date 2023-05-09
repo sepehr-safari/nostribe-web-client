@@ -80,7 +80,7 @@ const ProfileCard = ({ profileAddress }: { profileAddress: string }) => {
             ) : (
               <div className="avatar">
                 <div onClick={onClickAvatar} className={`cursor-pointer rounded-full border border-solid border-4 border-black w-36`}>
-                  <img src={ `https://imgproxy.iris.to/insecure/rs:fill:272:272/plain/${picture}` || '/nostribe.png'} />
+                  <img src={ picture && `https://imgproxy.iris.to/insecure/rs:fill:272:272/plain/${picture}` || '/nostribe.png'} />
                 </div>
               </div>
             )}

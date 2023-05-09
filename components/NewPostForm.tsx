@@ -11,9 +11,11 @@ import usePublish from "@/hooks/usePublish";
 
 interface Props {
   onSubmit?: (event: Event) => void;
+  replyingTo?: Event;
+  placeholder?: string;
 }
 
-const NewPostForm: React.FC<Props> = ({ onSubmit }) => {
+const NewPostForm: React.FC<Props> = ({ onSubmit, replyingTo, placeholder }) => {
   const [postText, setPostText] = useState('');
   const userData = useStore((state) => state.auth.user.data);
 
@@ -26,10 +28,18 @@ const NewPostForm: React.FC<Props> = ({ onSubmit }) => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log('Posting:', postText);
-    const event = await publish({
+    const eventData: any = {
       kind: 1,
       content: postText,
-    });
+    };
+    if (replyingTo) {
+      eventData.tags = [['e', replyingTo.id, '', 'reply'], ['p', replyingTo.pubkey], ...replyingTo.tags];
+      eventData.tags = eventData.tags.filter((tag: string[], index: number) => {
+        // Remove duplicate tags
+        return index === eventData.tags.findIndex((t: string[]) => t[0] === tag[0] && t[1] === tag[1]);
+      });
+    }
+    const event = await publish(eventData);
     setPostText('');
     onSubmit?.(event);
   };
@@ -50,7 +60,7 @@ const NewPostForm: React.FC<Props> = ({ onSubmit }) => {
               value={postText}
               onChange={handlePostTextChange}
               className="p-2 mt-1 mb-4 w-full h-12 bg-black focus:ring-blue-500 focus:border-blue-500 block w-full text-lg border-gray-700 rounded-md text-white"
-              placeholder="What's on your mind?"
+              placeholder={placeholder || "What's on your mind?"}
               required
             />
             {postText.length > 0 && (
