@@ -30,15 +30,16 @@ import {useState} from "react";
 export default function NavSidebar() {
   const [showNewPostModal, setShowNewPostModal] = useState(false);
   const userData = useStore((state) => state.auth.user.data);
+  const loggedIn = !!userData?.publicKey;
   const npub = userData?.publicKey ? nip19.npubEncode(userData.publicKey) : '';
   const pathname = usePathname();
 
   const APPLICATIONS = [
     { url: '/', text: 'Home', icon: HomeIcon, activeIcon: HomeIconFull },
     { url: '/search', text: 'Search', icon: MagnifyingGlassIcon, activeIcon: MagnifyingGlassIconFull, className: 'lg:hidden' },
-    { url: '/messages', text: 'Messages', icon: PaperAirplaneIcon, activeIcon: PaperAirplaneIconFull },
-    { url: '/notifications', text: 'Notifications', icon: HeartIcon, activeIcon: HeartIconFull },
-    { url: '/settings', text: 'Settings', icon: Cog8ToothIcon, activeIcon: Cog8ToothIconFull },
+    { url: '/messages', text: 'Messages', loggedInOnly: true, icon: PaperAirplaneIcon, activeIcon: PaperAirplaneIconFull },
+    { url: '/notifications', text: 'Notifications', loggedInOnly: true, icon: HeartIcon, activeIcon: HeartIconFull },
+    { url: '/settings', text: 'Settings', loggedInOnly: true, icon: Cog8ToothIcon, activeIcon: Cog8ToothIconFull },
     {
       url: '/about',
       text: 'About',
@@ -59,6 +60,7 @@ export default function NavSidebar() {
             </h1>
           </Link>
           {APPLICATIONS.map((a, index) => {
+            if (a.loggedInOnly && !loggedIn) return null;
             const isActive = a.url === pathname;
             const Icon = isActive ? a.activeIcon : a.icon;
             return (
@@ -79,24 +81,28 @@ export default function NavSidebar() {
             );
           })}
         </nav>
-        <div className="flex lg:flex-row md:flex-col gap-2 mt-4">
-          <div onClick={() => setShowNewPostModal(true)} className="btn btn-primary sm:max-md:btn-circle gap-3">
-            <PlusIcon width={20} height={20} />
-            <div className="hidden lg:block">
-              New Post
+        {loggedIn ? (
+          <div className="flex lg:flex-row md:flex-col gap-2 mt-4">
+            <div onClick={() => setShowNewPostModal(true)} className="btn btn-primary sm:max-md:btn-circle gap-3">
+              <PlusIcon width={20} height={20} />
+              <div className="hidden lg:block">
+                New Post
+              </div>
             </div>
           </div>
+        ) : ''}
+      </div>
+      {loggedIn ? (
+        <div>
+          <Link href={`/profile/${npub}`} className="btn btn-ghost md:max-lg:btn-circle">
+            <Avatar pub={userData?.publicKey || ''} width="w-8" />
+            <div className="hidden lg:block ml-2">
+              <Name pub={userData?.publicKey || ''} />
+            </div>
+          </Link>
         </div>
-      </div>
-      <div>
-        <Link href={`/profile/${npub}`} className="btn btn-ghost md:max-lg:btn-circle">
-          <Avatar pub={userData?.publicKey || ''} width="w-8" />
-          <div className="hidden lg:block ml-2">
-            <Name pub={userData?.publicKey || ''} />
-          </div>
-        </Link>
-      </div>
-      {showNewPostModal ? (
+      ) : ''}
+      {loggedIn && showNewPostModal ? (
         <Modal showContainer={true} onClose={() => setShowNewPostModal(false)}>
           <div className="flex flex-col gap-4 bg-black w-full rounded-lg border-2 border-gray-500 ">
             <NewPostForm onSubmit={() => setShowNewPostModal(false)} />
