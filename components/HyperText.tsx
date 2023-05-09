@@ -9,7 +9,6 @@ const HyperText = memo(({ children, event }: { children: string, event?: Event }
 
   allEmbeds.forEach((embed) => {
     processedChildren = reactStringReplace(processedChildren, embed.regex, (match, i) => {
-      console.log('match', match);
       return embed.component({ match, index: i, event })
     }) as React.ReactNode[];
   });
