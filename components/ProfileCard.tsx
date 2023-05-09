@@ -1,7 +1,6 @@
 'use client';
 
 import { EllipsisHorizontalIcon } from '@heroicons/react/24/outline';
-import {nip19} from 'nostr-tools'
 import Modal from '@/components/modal/Modal';
 import Link from 'next/link';
 
@@ -61,7 +60,7 @@ const ProfileCard = ({ profileAddress }: { profileAddress: string }) => {
     <>
       {showModal ? (
         <Modal onClose={() => setShowModal(false)}>
-          <img onClick={onClickAvatar} className="rounded max-h-[90vh] max-w-[90vw]" src={
+          <img className="rounded max-h-[90vh] max-w-[90vw]" src={
             `https://imgproxy.iris.to/insecure/plain/${picture}`
           } />
         </Modal>
