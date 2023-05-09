@@ -9,7 +9,7 @@ const useGlobalPosts = () => {
 
   const { events: postEvents, eose: postEose } = useSubscribe({
     relays,
-    filters: [{ kinds: [1], limit: 10 }],
+    filters: [{ kinds: [1], limit: 100 }],
     options: { invalidate: true },
   });
 

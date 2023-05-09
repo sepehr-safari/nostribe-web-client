@@ -1,27 +1,72 @@
-'use client';
+"use client";
 
-import { memo } from 'react';
+import { memo, useState, useRef, useEffect } from 'react';
 
 import PostCard from '@/components/Post/PostCard';
 import NewPostForm from '@/components/NewPostForm';
 
 import { useFeedPage } from '@/hooks';
-import useStore from "@/store";
+
+const PAGE_SIZE = 6;
+const LOAD_MORE_MARGIN = '0px 0px 1000px 0px';
 
 const Feed = () => {
-  const {  isPostsEmpty, postEvents } = useFeedPage();
-  const userData = useStore((state) => state.auth.user.data);
+  const [displayCount, setDisplayCount] = useState(PAGE_SIZE);
+  const { isPostsEmpty, postEvents } = useFeedPage();
+  const lastElementRef = useRef(null);
+
+  useEffect(() => {
+    if (postEvents.length < PAGE_SIZE) {
+      return;
+    }
+
+    const observerCallback = (entries: IntersectionObserverEntry[]) => {
+      const entry = entries[0];
+      if (entry.isIntersecting) {
+        setDisplayCount((prevCount) => prevCount + PAGE_SIZE);
+      }
+    };
+
+    const observer = new IntersectionObserver(observerCallback, {
+      threshold: 0.0,
+      rootMargin: LOAD_MORE_MARGIN,
+    });
+
+    const observeLastElement = () => {
+      if (lastElementRef.current) {
+        observer.observe(lastElementRef.current);
+      }
+    };
+
+    observeLastElement(); // Observe the new last element
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [postEvents, displayCount, lastElementRef.current]);
 
   if (isPostsEmpty) return <p>No Posts</p>;
 
   return (
     <>
-      {userData?.publicKey ? <NewPostForm /> : null}
-      {postEvents.sort((a, b) => b.created_at - a.created_at).map((postEvent, index) => (
-        <PostCard key={`global${postEvent.id}${index}`} postId={postEvent.id} />
-      ))}
+      <NewPostForm />
+      {postEvents
+        .sort((a, b) => b.created_at - a.created_at)
+        .slice(0, displayCount)
+        .map((postEvent, index, self) => {
+          const isLastElement = index === self.length - 1;
+          return (
+            <div
+              key={`global${postEvent.id}${index}`}
+              ref={isLastElement ? lastElementRef : null}
+            >
+              <PostCard postId={postEvent.id} />
+            </div>
+          );
+        })}
     </>
   );
 };
 
 export default memo(Feed);
+
