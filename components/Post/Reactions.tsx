@@ -57,13 +57,13 @@ const Reactions = ({ reactionEvents, nip19NoteId, event }: Props) => {
           {reactionEvents.filter((event) => event.kind === 1).length}
         </Link>
 
-        <button onClick={like} className="btn-ghost hover:bg-transparent text-gray-500 hover:text-iris-purple btn w-1/4 content-center gap-2 rounded-none p-2">
-          {liked ? <HeartIconFull className="text-iris-purple" width={18} /> : <HeartIcon width={18}/>}
+        <button onClick={like} className={`btn-ghost hover:bg-transparent text-gray-500 hover:text-iris-purple btn w-1/4 content-center gap-2 rounded-none p-2 ${liked ? 'text-iris-purple' : ''}`}>
+          {liked ? <HeartIconFull width={18} /> : <HeartIcon width={18}/>}
           {reactionEvents.filter((event) => event.kind === 7).length}
         </button>
 
-        <button onClick={repost} className="btn-ghost hover:bg-transparent text-gray-500 hover:text-iris-green btn w-1/4 content-center gap-2 rounded-none p-2">
-          {reposted ? <ArrowPathIconFull className="text-iris-green" width={18} /> : <ArrowPathIcon width={18} />}
+        <button onClick={repost} className={`btn-ghost hover:bg-transparent text-gray-500 hover:text-iris-green btn w-1/4 content-center gap-2 rounded-none p-2 ${reposted ? 'text-iris-green' : ''}`}>
+          {reposted ? <ArrowPathIconFull width={18} /> : <ArrowPathIcon width={18} />}
           {reactionEvents.filter((event) => isRepost(event)).length}
         </button>
       </div>
