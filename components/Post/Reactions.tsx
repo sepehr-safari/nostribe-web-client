@@ -23,10 +23,22 @@ const Reactions = ({ reactionEvents, nip19NoteId, event }: Props) => {
     return reactionEvents.some((event) => event.kind === 7 && event.pubkey === myPub);
   }, [reactionEvents, myPub]);
   const like = () => {
-    publish({
+    !liked && publish({
       kind: 7,
       content: '+',
       tags: [['e', event.id], ['p', event.pubkey]],
+    });
+  }
+
+  const reposted = useMemo(() => {
+    if (!myPub) return false;
+    return reactionEvents.some((event) => event.pubkey === myPub && isRepost(event));
+  }, [reactionEvents, myPub]);
+  const repost = () => {
+    !reposted && publish({
+      kind: 6,
+      content: '',
+      tags: [['e', event.id, '', 'mention'], ['p', event.pubkey]],
     });
   }
 
@@ -50,8 +62,8 @@ const Reactions = ({ reactionEvents, nip19NoteId, event }: Props) => {
           {reactionEvents.filter((event) => event.kind === 7).length}
         </button>
 
-        <button className="btn-ghost hover:bg-transparent text-gray-500 hover:text-iris-green btn w-1/4 content-center gap-2 rounded-none p-2">
-          <ArrowPathIcon width={18} />
+        <button onClick={repost} className="btn-ghost hover:bg-transparent text-gray-500 hover:text-iris-green btn w-1/4 content-center gap-2 rounded-none p-2">
+          {reposted ? <ArrowPathIconFull className="text-iris-green" width={18} /> : <ArrowPathIcon width={18} />}
           {reactionEvents.filter((event) => isRepost(event)).length}
         </button>
       </div>

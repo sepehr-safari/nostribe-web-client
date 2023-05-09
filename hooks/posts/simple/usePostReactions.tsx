@@ -9,7 +9,7 @@ const usePostReactions = (postId: string) => {
 
   const { events: reactionEvents, eose: reactionEose } = useSubscribe({
     relays,
-    filters: [{ '#e': [postId], kinds: [1, 7, 9735] }],
+    filters: [{ '#e': [postId], kinds: [1, 6, 7, 9735] }],
   });
 
   const isFetchingReactions = !reactionEose && !reactionEvents.length;

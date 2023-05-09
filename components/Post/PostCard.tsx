@@ -61,7 +61,9 @@ const PostCard = ({ postId, showReplies, standalone, asReply, asRepliedMessage, 
   const replyingToEvent = postEvent && getReplyingToEvent(postEvent);
   const replyingToUsers = postEvent?.tags?.filter(
     (tag) => tag[0] === "p" && tag[3] !== "mention"
-  );
+  ).filter((tag, index, self) =>
+    self.findIndex((t) => t[0] === tag[0] && t[1] === tag[1]) === index
+  )
   const threadRoot = replyingToEvent && getThreadRoot(postEvent);
 
   if (!postEvent) {
@@ -133,7 +135,7 @@ const PostCard = ({ postId, showReplies, standalone, asReply, asRepliedMessage, 
                 <Link
                   prefetch={false}
                   href={`/profile/${tag[1]}`}
-                  key={tag[1]}
+                  key={`${postId}replyingTo${tag[1]}`}
                 >
                   <Name pub={tag[1]} />
                 </Link>
