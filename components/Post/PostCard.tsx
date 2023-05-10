@@ -165,8 +165,7 @@ const PostCard = ({ postId, showReplies, standalone, asReply, asRepliedMessage, 
       {showReplies ? (
         sortedReactions.filter((event) => {
           if (event.kind !== 1) return false;
-          const isMention = event.tags?.find((tag) => tag[0] === 'e' && tag[1] === postEvent.id && tag[3] === 'mention');
-          return !isMention;
+          return getReplyingToEvent(event) === postId;
         }).map((event) => (
           <PostCard postId={event.id} key={event.id} showReplies={1} asReply={true} />
         ))
