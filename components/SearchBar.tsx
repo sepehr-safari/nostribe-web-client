@@ -33,28 +33,39 @@ export default function SearchBar() {
 
   const handleArrowKeys = useCallback(
     (event: KeyboardEvent) => {
-      if (searchResults.length === 0) return;
+      if (searchResults.length === 0 && event.key === 'ArrowDown') {
+        setFocusedIndex(-1);
+        return;
+      }
 
       if (event.key === 'ArrowDown') {
-        const nextIndex = (focusedIndex + 1) % searchResults.length;
+        const nextIndex = focusedIndex + 1 >= searchResults.length ? -1 : focusedIndex + 1;
         setFocusedIndex(nextIndex);
       } else if (event.key === 'ArrowUp') {
-        const prevIndex = (focusedIndex - 1 + searchResults.length) % searchResults.length;
+        const prevIndex = focusedIndex - 1 < -1 ? searchResults.length - 1 : focusedIndex - 1;
         setFocusedIndex(prevIndex);
       }
     },
     [searchResults, focusedIndex],
   );
 
-  const selectResult = useCallback((index: number) => {
-    setSearchTerm('');
-    const npub = searchResults[index][2];
-    router.push(`/profile/${npub}`);
-  }, [searchResults]);
+  const selectResult = useCallback(
+    (index: number) => {
+      setSearchTerm('');
+      setSearchResults([]);
+      if (index === -1) {
+        router.push(`/search/${searchTerm}`);
+      } else {
+        const npub = searchResults[index][2];
+        router.push(`/profile/${npub}`);
+      }
+    },
+    [searchResults, searchTerm, router],
+  );
 
   useEffect(() => {
     if (searchResults.length > 0) {
-      setFocusedIndex(0); // Set the focused index to the first result
+      setFocusedIndex(-1); // Set the focused index to the first result
     } else {
       setFocusedIndex(-1); // Reset the focused index when there are no results
     }
@@ -68,9 +79,7 @@ export default function SearchBar() {
       if (event.key === 'Escape') {
         setSearchResults([]);
       } else if (event.key === 'Enter') {
-        if (focusedIndex !== -1) {
-          selectResult(focusedIndex);
-        }
+        selectResult(focusedIndex);
       } else if (event.key === '/' || (event.key === 'k' && shortcutKey)) {
         if (
           event.target instanceof HTMLElement &&
@@ -125,7 +134,7 @@ export default function SearchBar() {
     [],
   );
 
-    return (
+  return (
     <div className="relative">
       <input
         ref={inputRef}
@@ -135,8 +144,19 @@ export default function SearchBar() {
         placeholder="Search ..."
         className="input-bordered input input-sm w-full"
       />
-      {searchResults.length > 0 && searchTerm.length > 0 && (
+      {(searchResults.length > 0 || searchTerm.length > 0) && (
         <div className="absolute z-20 left-0 mt-2 w-full bg-black border border-gray-700 rounded shadow-lg">
+          <div
+            className={`p-2 cursor-pointer flex items-center ${
+              focusedIndex === -1 ? 'bg-gray-700' : ''
+            }`}
+            onClick={() => selectResult(-1)}
+          >
+            <div className="ml-2">
+              <div className="text-white">{searchTerm}</div>
+              <div className="text-gray-400 text-sm">Search posts</div>
+            </div>
+          </div>
           {searchResults.map(([_, result, npub], index) => (
             <div
               key={result.id}
@@ -151,7 +171,9 @@ export default function SearchBar() {
             >
               <BaseAvatar url={result.content.picture} />
               <div className="ml-2">
-                <div className="text-white">{result.content.display_name || result.content.name}</div>
+                <div className="text-white">
+                  {result.content.display_name || result.content.name}
+                </div>
                 <div className="text-gray-400 text-sm">
                   {result.content.about?.length > MAX_ABOUT_LENGTH
                     ? result.content.about.slice(0, MAX_ABOUT_LENGTH) + '...'

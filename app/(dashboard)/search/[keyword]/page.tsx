@@ -1,16 +1,26 @@
 "use client";
 
-import useNotifications from "@/hooks/posts/simple/useNotifications";
-import PostCard from "@/components/Post/PostCard";
 import Feed from "@/components/Feed";
-import useStore from "@/store";
+import {useSubscribe} from "nostr-hooks";
 
-export default function Notifications() {
-  const { isNotificationsEmpty, notificationEvents } = useNotifications();
-  const userData = useStore((state) => state.auth.user.data);
+const SEARCH_RELAYS = ['wss://relay.nostr.band'];
 
-  if (isNotificationsEmpty) return <p>No Notifications</p>;
+export default function Search({ params }: { params: { keyword: string }}) {
+  const searchTerm = params.keyword.toLowerCase().trim();
+  const { events, eose } = useSubscribe({
+    relays: SEARCH_RELAYS,
+    filters: [{ kinds: [1], limit: 200, search: searchTerm }],
+    options: { invalidate: true },
+  });
 
-  return <Feed events={notificationEvents.filter((e) => e.pubkey !== userData?.publicKey)} />;
+  const isPostsEmpty = eose && !events.length;
 
+  if (isPostsEmpty) return <p>No Results for "{searchTerm}"</p>;
+
+  return (
+    <>
+      <h2>Search: "{searchTerm}"</h2>
+      <Feed events={events} />
+    </>
+  );
 }
