@@ -122,7 +122,7 @@ const ProfileCard = ({ profileAddress }: { profileAddress: string }) => {
                 ) : <FollowButton pub={profileAddress} />}
 
                 <div className="dropdown-left dropdown">
-                <label tabIndex={0} className="btn-ghost btn-circle btn btn-sm text-gray-500">
+                <label tabIndex={0} className="btn-ghost btn-circle btn btn-sm text-neutral-500">
                   <EllipsisHorizontalIcon width={24} />
                 </label>
                 <ul
@@ -174,7 +174,7 @@ const ProfileCard = ({ profileAddress }: { profileAddress: string }) => {
                   </Link>
                 </div>
                 {followsYou && (
-                  <div className="text-xs text-gray-500">
+                  <div className="text-xs text-neutral-500">
                     Follows you
                   </div>
                 )}

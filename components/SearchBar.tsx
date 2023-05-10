@@ -146,16 +146,16 @@ export default function SearchBar() {
         className="input-bordered input input-sm w-full"
       />
       {(searchResults.length > 0 || searchTerm.length > 0) && (
-        <div className="absolute z-20 left-0 mt-2 w-full bg-black border border-gray-700 rounded shadow-lg">
+        <div className="absolute z-20 left-0 mt-2 w-full bg-black border border-neutral-700 rounded shadow-lg">
           <div
             className={`p-2 cursor-pointer flex items-center ${
-              focusedIndex === -1 ? 'bg-gray-700' : ''
+              focusedIndex === -1 ? 'bg-neutral-700' : ''
             }`}
             onClick={() => selectResult(-1)}
           >
             <div className="ml-2">
               <div className="text-white">{searchTerm}</div>
-              <div className="text-gray-400 text-sm">Search posts</div>
+              <div className="text-neutral-400 text-sm">Search posts</div>
             </div>
           </div>
           {searchResults.map(([_, result, npub], index) => (
@@ -166,7 +166,7 @@ export default function SearchBar() {
               }}
               tabIndex={0}
               className={`p-2 cursor-pointer flex items-center ${
-                index === focusedIndex ? 'bg-gray-700' : ''
+                index === focusedIndex ? 'bg-neutral-700' : ''
               }`}
               onClick={() => selectResult(index)}
             >
@@ -175,7 +175,7 @@ export default function SearchBar() {
                 <div className="text-white">
                   {result.content.display_name || result.content.name}
                 </div>
-                <div className="text-gray-400 text-sm">
+                <div className="text-neutral-400 text-sm">
                   {result.content.about?.length > MAX_ABOUT_LENGTH
                     ? result.content.about.slice(0, MAX_ABOUT_LENGTH) + '...'
                     : result.content.about}

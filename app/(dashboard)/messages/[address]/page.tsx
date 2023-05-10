@@ -51,7 +51,7 @@ const MessageThread = ({ params }: { params: { address: string } }) => {
               </div>
             </Link>
           </div>
-          <div className="flex flex-1 justify-end text-gray-500">
+          <div className="flex flex-1 justify-end text-neutral-500">
             encrypted message
           </div>
         </div>

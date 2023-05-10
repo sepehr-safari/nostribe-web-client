@@ -2,6 +2,7 @@ import { memo, useState, useRef, useEffect } from 'react';
 import { Event } from 'nostr-tools';
 import Image from '@/components/embed/Image';
 import Video from '@/components/embed/Video';
+import { PencilSquareIcon, Squares2X2Icon } from "@heroicons/react/24/outline";
 
 import PostCard from '@/components/Post/PostCard';
 
@@ -56,16 +57,16 @@ const Feed = ({ isEmpty, events }: Props) => {
     return (
       <div className="flex my-4">
         <button
-          className={`flex-1 p-4 ${displayAs === 'feed' ? 'bg-gray-600' : ''}`}
+          className={`rounded-sm flex justify-center flex-1 p-4 ${displayAs === 'feed' ? 'bg-neutral-900' : ''}`}
           onClick={() => setDisplayAs('feed')}
         >
-          Feed
+          <PencilSquareIcon width={24} height={24} />
         </button>
         <button
-          className={`flex-1 p-4 ${displayAs === 'grid' ? 'bg-gray-600' : ''}`}
+          className={`rounded-sm flex justify-center flex-1 p-4 ${displayAs === 'grid' ? 'bg-neutral-900' : ''}`}
           onClick={() => setDisplayAs('grid')}
         >
-          Grid
+          <Squares2X2Icon width={24} height={24} />
         </button>
       </div>
     );

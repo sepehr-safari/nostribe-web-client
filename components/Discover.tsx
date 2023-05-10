@@ -41,7 +41,7 @@ const TrendingPosts = () => {
             </Link>
             <Link href={`/post/${post.id}`} className="w-full">
               <b><Name pub={post.event?.pubkey} /></b>{' | '}
-              <span className="text-gray-400">
+              <span className="text-neutral-400">
                 <RelativeTime date={new Date(post.event?.created_at * 1000)} /><br />
                 {post.event?.content?.length > 80 ? `${post.event?.content?.slice(0, 80)}...` : post.event?.content}
               </span>
