@@ -9,7 +9,7 @@ const NostrUser: Embed = {
   component: ({ match, index }) => {
     console.log('match', match);
     return (
-      <div className="rounded-lg border border-gray-500 my-2">
+      <div className="rounded-lg border border-neutral-800 my-4">
         <PostCard key={match + index} postId={match} asInlineQuote={true} />
       </div>
     );

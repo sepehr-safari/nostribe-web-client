@@ -32,7 +32,7 @@ const InlineMention: Embed = {
       );
     } else if (type === 'e') {
       return (
-        <div className="rounded-lg border border-gray-500 my-2">
+        <div className="rounded-lg border border-neutral-800 my-4">
           <PostCard postId={id} key={id} asInlineQuote={true} />
         </div>
       );
