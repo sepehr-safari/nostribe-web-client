@@ -154,7 +154,7 @@ const Feed = ({ isEmpty, events }: Props) => {
               }}
             >
               <button
-                className="btn btn-circle btn-sm opacity-50 mr-2 flex-shrink-0"
+                className="btn btn-circle btn-sm opacity-25 mr-2 flex-shrink-0"
               >
                 <ChevronLeftIcon width={20} />
               </button>
@@ -167,7 +167,7 @@ const Feed = ({ isEmpty, events }: Props) => {
               }}
             >
               <button
-                className="btn btn-circle btn-sm opacity-50 ml-2 flex-shrink-0"
+                className="btn btn-circle btn-sm opacity-25 ml-2 flex-shrink-0"
               >
                 <ChevronRightIcon width={20} />
               </button>
