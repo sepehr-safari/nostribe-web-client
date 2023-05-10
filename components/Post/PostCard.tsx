@@ -20,6 +20,7 @@ import { usePostEvent, usePostReactions, useProfileContent } from '@/hooks';
 import { useRouter } from 'next/navigation';
 import {MouseEventHandler, useMemo} from "react";
 import {getReplyingToEvent, getThreadRoot} from "@/utils/event";
+import {toHexKey} from "@/utils/hexKey";
 
 type Props = {
   postId: string,
@@ -33,6 +34,7 @@ type Props = {
 
 const PostCard = ({ postId, showReplies, standalone, asReply, asRepliedMessage, asInlineQuote, showReplyForm }: Props) => {
   const router = useRouter();
+  postId = toHexKey(postId);
   const { isFetching, postEvent, createdAt, nip19NoteId } =
     usePostEvent(postId);
 

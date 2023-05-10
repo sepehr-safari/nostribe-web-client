@@ -22,7 +22,11 @@ const NostrUser: Embed = {
         );
       } else if (type === 'nevent') {
         // same as note
-        return <PostCard key={match + index} postId={data.id} asInlineQuote={true} />;
+        return (
+          <div className="rounded-lg border border-gray-500 my-2">
+            <PostCard key={match + index} postId={data.id} asInlineQuote={true} />
+          </div>
+        );
       }
     } catch (e) {
       console.log(e);

@@ -7,8 +7,11 @@ const eventRegex =
 const NostrUser: Embed = {
   regex: eventRegex,
   component: ({ match, index }) => {
+    console.log('match', match);
     return (
-      <PostCard key={match + index} postId={match} asInlineQuote={true} />
+      <div className="rounded-lg border border-gray-500 my-2">
+        <PostCard key={match + index} postId={match} asInlineQuote={true} />
+      </div>
     );
   },
 };

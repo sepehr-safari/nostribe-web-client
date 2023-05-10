@@ -32,7 +32,9 @@ const InlineMention: Embed = {
       );
     } else if (type === 'e') {
       return (
-        <PostCard postId={id} key={id} asInlineQuote={true} />
+        <div className="rounded-lg border border-gray-500 my-2">
+          <PostCard postId={id} key={id} asInlineQuote={true} />
+        </div>
       );
     } else {
       console.log('unknown tag type', type, index, event);

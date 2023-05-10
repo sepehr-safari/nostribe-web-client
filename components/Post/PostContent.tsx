@@ -28,7 +28,7 @@ const PostContent = ({ postEvent, standalone }: { postEvent: Event, standalone: 
 
   return (
     <>
-      <div className={`whitespace-pre-wrap ${standalone ? 'text-lg' : ''}`}>
+      <div className={`whitespace-pre-wrap ${standalone ? 'text-lg' : 'text-md'}`}>
         <HyperText event={postEvent}>
           {displayedContent}
         </HyperText>
