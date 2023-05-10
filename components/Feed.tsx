@@ -72,27 +72,48 @@ const Feed = ({ isEmpty, events }: Props) => {
     );
   }
 
+  const renderGridItem = (imageUrl: string) => {
+    return (
+      <div key={`global${imageUrl}`} className="w-1/3 p-1">
+        <img src={imageUrl} alt="" className="w-full h-auto" />
+      </div>
+    );
+  }
+
+  const renderGrid = () => {
+    const imageUrls = events
+      .sort((a, b) => b.created_at - a.created_at)
+      .flatMap((event) => {
+        const matches = event.content.match(Image.regex);
+        return matches || [];
+      })
+      .slice(0, displayCount);
+
+    return (
+      <div className="flex flex-wrap -m-1">
+        {imageUrls.map(renderGridItem)}
+      </div>
+    );
+  }
+
   return (
     <>
       {renderDisplayAsSelector()}
-      {events
-        .sort((a, b) => b.created_at - a.created_at)
-        .filter((event) => displayAs === 'feed'
-          || event.content.match(Image.regex)
-          || event.content.match(Video.regex)
-        )
-        .slice(0, displayCount)
-        .map((postEvent, index, self) => {
-          const isLastElement = index === self.length - 1;
-          return (
-            <div
-              key={`global${postEvent.id}${index}`}
-              ref={isLastElement ? lastElementRef : null}
-            >
-              <PostCard postId={postEvent.id} />
-            </div>
-          );
-        })}
+      <div ref={lastElementRef}>
+        {displayAs === 'grid' ? renderGrid() : (
+          events
+            .sort((a, b) => b.created_at - a.created_at)
+            .slice(0, displayCount)
+            .map((postEvent, index, self) => {
+              const isLastElement = index === self.length - 1;
+              return (
+                <div key={`global${postEvent.id}${index}`}>
+                  <PostCard postId={postEvent.id} />
+                </div>
+              );
+            })
+        )}
+      </div>
     </>
   );
 };
