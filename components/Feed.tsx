@@ -171,6 +171,7 @@ const Feed = ({ isEmpty, events }: Props) => {
               controls
               muted
               autoPlay
+              loop
             />
           ) : (
             <img className="rounded max-h-[90vh] max-w-[90vw] object-contain" src={imagesAndVideos[modalItemIndex].url} />
