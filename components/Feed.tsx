@@ -72,7 +72,7 @@ const Feed = ({ isEmpty, events }: Props) => {
       const videoMatches = (event.content.match(Video.regex) || []).map(url => ({ type: 'video', url }));
       return [...imageMatches, ...videoMatches];
     })
-    .slice(0, displayCount), [events, displayCount]);
+    .slice(0, displayCount), [events, displayCount]) as ImageOrVideo[];
 
   const goToPrevImage = () => {
     if (modalItemIndex === null) return;
