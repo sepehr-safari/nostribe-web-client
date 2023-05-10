@@ -132,7 +132,7 @@ const PostCard = ({ postId, showReplies, standalone, asReply, asRepliedMessage, 
             <Dropdown nip19NoteId={nip19NoteId} postEvent={postEvent} />
           </div>
 
-          {replyingToEvent && replyingToUsers ? (
+          {replyingToEvent && replyingToUsers && replyingToUsers.length ? (
             <small className="opacity-50 flex items-center gap-1">
               Replying to
               {replyingToUsers.slice(0, 3).map((tag) => (
