@@ -154,14 +154,13 @@ const PostCard = ({ postId, showReplies, standalone, asReply, asRepliedMessage, 
         </div>
 
         {!asInlineQuote ? <Reactions event={postEvent} reactionEvents={reactionEvents} nip19NoteId={nip19NoteId} /> : ''}
-
-        {showReplyForm ? (
-          <>
-            <NewPostForm placeholder="Write your reply" replyingTo={postEvent} />
-            <hr className="-mx-4 mt-2 opacity-10" />
-          </>
-        ) : ''}
       </CardContainer>
+      {showReplyForm ? (
+        <>
+          <NewPostForm placeholder="Write your reply" replyingTo={postEvent} />
+          <hr className="-mx-4 mt-2 opacity-10" />
+        </>
+      ) : ''}
       {showReplies ? (
         sortedReactions.filter((event) => {
           if (event.kind !== 1) return false;
