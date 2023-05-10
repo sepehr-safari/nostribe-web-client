@@ -61,7 +61,7 @@ const BackNavHeader = () => {
     <Name key={params.address} pub={params.address} /> :
     <span className="capitalize">{pathname.split('/')[1]}</span>;
 
-  const isMyProfile = pathname.startsWith('/profile') && toHexKey(params.address) === userData?.publicKey;
+  const isMyProfile = pathname.startsWith('/profile/') && toHexKey(params.address) === userData?.publicKey;
 
   return (
     <>

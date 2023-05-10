@@ -35,5 +35,5 @@ const HomeFeed = () => {
   );
 };
 
-export default memo(HomeFeed);
+export default memo(HomeFeed); // memo probably shouldn't be used here
 
