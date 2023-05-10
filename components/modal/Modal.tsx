@@ -26,8 +26,6 @@ const Modal: FC<Props> = ({
 
   const handleOverlayClick: MouseEventHandler<HTMLDivElement> = (e) => {
     e.stopPropagation();
-    // if target doesn't have a button parent, close modal
-    if ((e.target as HTMLElement).closest('button')) return;
     onClose?.();
   };
 

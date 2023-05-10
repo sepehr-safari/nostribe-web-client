@@ -146,18 +146,32 @@ const Feed = ({ isEmpty, events }: Props) => {
         <div className="relative w-full h-full flex justify-center">
           <img className="rounded max-h-[90vh] max-w-[90vw] object-contain" src={imageUrls[modalImageIndex]} />
           <div className="flex items-center justify-between w-full h-full absolute bottom-0 left-0 right-0">
-            <button
-              className="btn btn-circle btn-sm opacity-50 mr-2 flex-shrink-0"
-              onClick={() => setModalImageIndex(modalImageIndex - 1)}
+            <div
+              className="p-4"
+              onClick={(e) => {
+                e.stopPropagation();
+                goToPrevImage();
+              }}
             >
-              <ChevronLeftIcon width={20} />
-            </button>
-            <button
-              className="btn btn-circle btn-sm opacity-50 ml-2 flex-shrink-0"
-              onClick={() => setModalImageIndex(modalImageIndex + 1)}
+              <button
+                className="btn btn-circle btn-sm opacity-50 mr-2 flex-shrink-0"
+              >
+                <ChevronLeftIcon width={20} />
+              </button>
+            </div>
+            <div
+              className="p-4 cursor-pointer"
+              onClick={(e) => {
+                e.stopPropagation();
+                goToNextImage();
+              }}
             >
-              <ChevronRightIcon width={20} />
-            </button>
+              <button
+                className="btn btn-circle btn-sm opacity-50 ml-2 flex-shrink-0"
+              >
+                <ChevronRightIcon width={20} />
+              </button>
+            </div>
           </div>
         </div>
       </Modal>
