@@ -2,7 +2,7 @@ import { memo, useState, useRef, useEffect } from 'react';
 import { Event } from 'nostr-tools';
 import Image from '@/components/embed/Image';
 import Video from '@/components/embed/Video';
-import { PencilSquareIcon, Squares2X2Icon } from "@heroicons/react/24/outline";
+import { Bars4Icon, Squares2X2Icon } from "@heroicons/react/24/outline";
 
 import PostCard from '@/components/Post/PostCard';
 
@@ -60,7 +60,7 @@ const Feed = ({ isEmpty, events }: Props) => {
           className={`rounded-sm flex justify-center flex-1 p-4 ${displayAs === 'feed' ? 'bg-neutral-900' : ''}`}
           onClick={() => setDisplayAs('feed')}
         >
-          <PencilSquareIcon width={24} height={24} />
+          <Bars4Icon width={24} height={24} />
         </button>
         <button
           className={`rounded-sm flex justify-center flex-1 p-4 ${displayAs === 'grid' ? 'bg-neutral-900' : ''}`}
@@ -74,8 +74,8 @@ const Feed = ({ isEmpty, events }: Props) => {
 
   const renderGridItem = (imageUrl: string) => {
     return (
-      <div key={`global${imageUrl}`} className="w-1/3 p-1">
-        <img src={imageUrl} alt="" className="w-full h-auto" />
+      <div key={`global${imageUrl}`} className="w-1/3 p-1 aspect-square">
+        <img src={imageUrl} alt="" className="w-full h-full object-cover" />
       </div>
     );
   }
