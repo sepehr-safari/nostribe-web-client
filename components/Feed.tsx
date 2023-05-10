@@ -5,6 +5,7 @@ import Video from '@/components/embed/Video';
 import { Bars3Icon, Squares2X2Icon } from "@heroicons/react/24/outline";
 
 import PostCard from '@/components/Post/PostCard';
+import Modal from "@/components/modal/Modal";
 
 const PAGE_SIZE = 6;
 const LOAD_MORE_MARGIN = '0px 0px 2000px 0px';
@@ -19,6 +20,7 @@ type DisplayAs = 'feed' | 'grid';
 const Feed = ({ isEmpty, events }: Props) => {
   const [displayCount, setDisplayCount] = useState(PAGE_SIZE);
   const [displayAs, setDisplayAs] = useState('feed' as DisplayAs);
+  const [modalImageSrc, setModalImageSrc] = useState('');
   const lastElementRef = useRef(null);
 
   useEffect(() => {
@@ -100,15 +102,25 @@ const Feed = ({ isEmpty, events }: Props) => {
         key={`global${imageUrl}`}
         className="aspect-square"
         ref={isLastElement ? lastElementRef : null}
+        onClick={() => setModalImageSrc(imageUrl)}
       >
         <img src={imageUrl} alt="" className="w-full h-full object-cover" />
       </div>
     );
   }
 
+  const renderImageModal = () => {
+    return (
+      <Modal onClose={() => setModalImageSrc('')}>
+        <img className="rounded max-h-[90vh] max-w-[90vw]" src={modalImageSrc} />
+      </Modal>
+    )
+  }
+
   return (
     <>
       {renderDisplayAsSelector()}
+      {modalImageSrc ? renderImageModal() : null}
       <div ref={lastElementRef}>
         {displayAs === 'grid' ? renderGrid() : (
           events
