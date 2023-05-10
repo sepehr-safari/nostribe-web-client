@@ -12,7 +12,7 @@ export default function Search({ params }: { params: { keyword: string }}) {
   const searchTerm = decodeURIComponent(params.keyword).toLowerCase().trim();
   const { events, eose } = useSubscribe({
     relays,
-    filters: [{ kinds: [1], limit: 200, search: searchTerm }],
+    filters: [{ kinds: [1], limit: 100, search: searchTerm }],
     options: { invalidate: true },
   });
 
