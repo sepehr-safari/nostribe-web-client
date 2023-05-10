@@ -2,7 +2,7 @@ import Embed from './index';
 import Link from 'next/link';
 
 const Hashtag: Embed = {
-  regex: /\b(#\w+)\b/g,
+  regex: /(?<=\s|^)(#\w+)/g,
   component: ({ match, index, event }) => {
     return (
       <Link
