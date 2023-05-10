@@ -29,7 +29,7 @@ const EditProfile = () => {
     // Save the profile data
   };
 
-  const handleAddField = async (e) => {
+  const handleAddField = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (newFieldName && newFieldValue) {
       handleProfileAttributeChange(newFieldName, newFieldValue);
