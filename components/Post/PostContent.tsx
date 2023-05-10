@@ -28,11 +28,11 @@ const PostContent = ({ postEvent, standalone }: { postEvent: Event, standalone: 
 
   return (
     <>
-      <p className={`whitespace-pre-wrap ${standalone ? 'text-lg' : ''}`}>
+      <div className={`whitespace-pre-wrap ${standalone ? 'text-lg' : ''}`}>
         <HyperText event={postEvent}>
           {displayedContent}
         </HyperText>
-      </p>
+      </div>
 
       {tooLong && (
         <button
