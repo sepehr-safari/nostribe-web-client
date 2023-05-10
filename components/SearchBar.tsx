@@ -77,6 +77,7 @@ export default function SearchBar() {
       const shortcutKey = isMac ? event.metaKey : event.ctrlKey;
 
       if (event.key === 'Escape') {
+        setSearchTerm('');
         setSearchResults([]);
       } else if (event.key === 'Enter') {
         selectResult(focusedIndex);

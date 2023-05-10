@@ -2,13 +2,16 @@
 
 import Feed from "@/components/Feed";
 import {useSubscribe} from "nostr-hooks";
+import useStore from "@/store";
 
 const SEARCH_RELAYS = ['wss://relay.nostr.band'];
 
 export default function Search({ params }: { params: { keyword: string }}) {
+  let relays = useStore((store) => store.relays);
+  relays = [...new Set([...SEARCH_RELAYS, ...relays])];
   const searchTerm = params.keyword.toLowerCase().trim();
   const { events, eose } = useSubscribe({
-    relays: SEARCH_RELAYS,
+    relays,
     filters: [{ kinds: [1], limit: 200, search: searchTerm }],
     options: { invalidate: true },
   });
@@ -20,7 +23,7 @@ export default function Search({ params }: { params: { keyword: string }}) {
   return (
     <>
       <h2>Search: "{searchTerm}"</h2>
-      <Feed events={events} />
+      <Feed events={events.filter((event) => event?.content?.toLowerCase().includes(searchTerm))} />
     </>
   );
 }
