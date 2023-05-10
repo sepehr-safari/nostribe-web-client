@@ -138,8 +138,8 @@ const Feed = ({ isEmpty, events }: Props) => {
   }
 
   const renderGridItem = (item: { url: string, type: "image" | "video" }, index: number) => {
-    const url = (item.type === 'video') ? `https://imgproxy.iris.to/thumbnail/428/${item.url}`
-      : `https://imgproxy.iris.to/insecure/rs:fill:428:428/plain/${item.url}`;
+    const url = (item.type === 'video') ? `https://imgproxy.iris.to/thumbnail/638/${item.url}`
+      : `https://imgproxy.iris.to/insecure/rs:fill:638:638/plain/${item.url}`;
     return (
       <div
         key={`feed${url}${index}`}
