@@ -1,8 +1,9 @@
-import { memo, useState, useRef, useEffect } from 'react';
+import { memo, useState, useRef, useEffect, useMemo } from 'react';
 import { Event } from 'nostr-tools';
 import Image from '@/components/embed/Image';
 import Video from '@/components/embed/Video';
 import { Bars3Icon, Squares2X2Icon } from "@heroicons/react/24/outline";
+import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/20/solid";
 
 import PostCard from '@/components/Post/PostCard';
 import Modal from "@/components/modal/Modal";
@@ -20,7 +21,7 @@ type DisplayAs = 'feed' | 'grid';
 const Feed = ({ isEmpty, events }: Props) => {
   const [displayCount, setDisplayCount] = useState(PAGE_SIZE);
   const [displayAs, setDisplayAs] = useState('feed' as DisplayAs);
-  const [modalImageSrc, setModalImageSrc] = useState('');
+  const [modalImageIndex, setModalImageIndex] = useState(null as number | null);
   const lastElementRef = useRef(null);
 
   useEffect(() => {
@@ -53,6 +54,42 @@ const Feed = ({ isEmpty, events }: Props) => {
     };
   }, [events, displayCount, lastElementRef.current]);
 
+  const imageUrls = useMemo(() => events
+    .sort((a, b) => b.created_at - a.created_at)
+    .flatMap((event) => {
+      const matches = event.content.match(Image.regex);
+      return matches || [];
+    })
+    .slice(0, displayCount), [events, displayCount]);
+
+  const goToPrevImage = () => {
+    if (modalImageIndex === null) return;
+    const prevImageIndex = (modalImageIndex - 1 + imageUrls.length) % imageUrls.length;
+    setModalImageIndex(prevImageIndex);
+  };
+
+  const goToNextImage = () => {
+    if (modalImageIndex === null) return;
+    const nextImageIndex = (modalImageIndex + 1) % imageUrls.length;
+    setModalImageIndex(nextImageIndex);
+  };
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'ArrowRight') {
+        goToNextImage();
+      } else if (e.key === 'ArrowLeft') {
+        goToPrevImage();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [modalImageIndex]);
+
   if (isEmpty) return <p>No Posts</p>;
 
   const renderDisplayAsSelector = () => {
@@ -81,28 +118,22 @@ const Feed = ({ isEmpty, events }: Props) => {
   }
 
   const renderGrid = () => {
-    const imageUrls = events
-      .sort((a, b) => b.created_at - a.created_at)
-      .flatMap((event) => {
-        const matches = event.content.match(Image.regex);
-        return matches || [];
-      })
-      .slice(0, displayCount);
-
     return (
       <div className="grid grid-cols-3 gap-px">
-        {imageUrls.map((imageUrl, index) => renderGridItem(imageUrl, index === imageUrls.length - 1))}
+        {imageUrls.map((imageUrl, index) => renderGridItem(imageUrl, index))}
       </div>
     );
   }
 
-  const renderGridItem = (imageUrl: string, isLastElement: boolean) => {
+  const renderGridItem = (imageUrl: string, index: number) => {
     return (
       <div
-        key={`global${imageUrl}`}
-        className="aspect-square"
-        ref={isLastElement ? lastElementRef : null}
-        onClick={() => setModalImageSrc(imageUrl)}
+        key={`feed${imageUrl}${index}`}
+        className="aspect-square cursor-pointer"
+        ref={index === imageUrls.length - 1 ? lastElementRef : null}
+        onClick={() => {
+          setModalImageIndex(index);
+        }}
       >
         <img src={imageUrl} alt="" className="w-full h-full object-cover" />
       </div>
@@ -110,17 +141,33 @@ const Feed = ({ isEmpty, events }: Props) => {
   }
 
   const renderImageModal = () => {
-    return (
-      <Modal onClose={() => setModalImageSrc('')}>
-        <img className="rounded max-h-[90vh] max-w-[90vw]" src={modalImageSrc} />
+    return modalImageIndex !== null ? (
+      <Modal onClose={() => setModalImageIndex(null)}>
+        <div className="relative w-full h-full flex justify-center">
+          <img className="rounded max-h-[90vh] max-w-[90vw] object-contain" src={imageUrls[modalImageIndex]} />
+          <div className="flex items-center justify-between w-full h-full absolute bottom-0 left-0 right-0">
+            <button
+              className="btn btn-circle btn-sm opacity-50 mr-2 flex-shrink-0"
+              onClick={() => setModalImageIndex(modalImageIndex - 1)}
+            >
+              <ChevronLeftIcon width={20} />
+            </button>
+            <button
+              className="btn btn-circle btn-sm opacity-50 ml-2 flex-shrink-0"
+              onClick={() => setModalImageIndex(modalImageIndex + 1)}
+            >
+              <ChevronRightIcon width={20} />
+            </button>
+          </div>
+        </div>
       </Modal>
-    )
+    ) : '';
   }
 
   return (
     <>
       {renderDisplayAsSelector()}
-      {modalImageSrc ? renderImageModal() : null}
+      {renderImageModal()}
       <div ref={lastElementRef}>
         {displayAs === 'grid' ? renderGrid() : (
           events

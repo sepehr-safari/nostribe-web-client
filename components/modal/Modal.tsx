@@ -26,6 +26,8 @@ const Modal: FC<Props> = ({
 
   const handleOverlayClick: MouseEventHandler<HTMLDivElement> = (e) => {
     e.stopPropagation();
+    // if target doesn't have a button parent, close modal
+    if ((e.target as HTMLElement).closest('button')) return;
     onClose?.();
   };
 
@@ -60,7 +62,6 @@ const Modal: FC<Props> = ({
     >
       <div
         className="flex flex-col items-center w-full h-full"
-        style={{ width: width || 'auto', height: height || 'auto' }}
       >
         {content}
       </div>
