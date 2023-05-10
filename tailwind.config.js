@@ -13,6 +13,9 @@ module.exports = {
       paddingBottom: {
         'safe-area-inset-bottom': 'env(safe-area-inset-bottom)',
       },
+      spacing: {
+        'px': '1px',
+      },
     },
   },
   daisyui: {

@@ -2,7 +2,7 @@ import { memo, useState, useRef, useEffect } from 'react';
 import { Event } from 'nostr-tools';
 import Image from '@/components/embed/Image';
 import Video from '@/components/embed/Video';
-import { Bars4Icon, Squares2X2Icon } from "@heroicons/react/24/outline";
+import { Bars3Icon, Squares2X2Icon } from "@heroicons/react/24/outline";
 
 import PostCard from '@/components/Post/PostCard';
 
@@ -60,7 +60,7 @@ const Feed = ({ isEmpty, events }: Props) => {
           className={`rounded-sm flex justify-center flex-1 p-4 ${displayAs === 'feed' ? 'bg-neutral-900' : ''}`}
           onClick={() => setDisplayAs('feed')}
         >
-          <Bars4Icon width={24} height={24} />
+          <Bars3Icon width={24} height={24} />
         </button>
         <button
           className={`rounded-sm flex justify-center flex-1 p-4 ${displayAs === 'grid' ? 'bg-neutral-900' : ''}`}
@@ -68,14 +68,6 @@ const Feed = ({ isEmpty, events }: Props) => {
         >
           <Squares2X2Icon width={24} height={24} />
         </button>
-      </div>
-    );
-  }
-
-  const renderGridItem = (imageUrl: string) => {
-    return (
-      <div key={`global${imageUrl}`} className="w-1/3 p-1 aspect-square">
-        <img src={imageUrl} alt="" className="w-full h-full object-cover" />
       </div>
     );
   }
@@ -90,8 +82,16 @@ const Feed = ({ isEmpty, events }: Props) => {
       .slice(0, displayCount);
 
     return (
-      <div className="flex flex-wrap -m-1">
+      <div className="grid grid-cols-3 gap-px">
         {imageUrls.map(renderGridItem)}
+      </div>
+    );
+  }
+
+  const renderGridItem = (imageUrl: string) => {
+    return (
+      <div key={`global${imageUrl}`} className="aspect-square">
+        <img src={imageUrl} alt="" className="w-full h-full object-cover" />
       </div>
     );
   }
