@@ -7,7 +7,7 @@ const Video: Embed = {
       key={match + index}
       className="relative w-full overflow-hidden object-contain my-2"
     >
-      <video className="rounded max-h-[70vh] md:max-h-96 max-w-full" src={match} controls muted autoPlay></video>
+      <video className="rounded max-h-[70vh] md:max-h-96 max-w-full" src={match} controls muted autoPlay loop></video>
     </div>
   ),
 }
