@@ -58,13 +58,19 @@ const Feed = ({ isEmpty, events }: Props) => {
       <div className="flex mb-1 mt-4">
         <button
           className={`rounded-sm flex justify-center flex-1 p-4 ${displayAs === 'feed' ? 'bg-neutral-900' : ''}`}
-          onClick={() => setDisplayAs('feed')}
+          onClick={() => {
+            setDisplayCount(PAGE_SIZE);
+            setDisplayAs('feed');
+          }}
         >
           <Bars3Icon width={24} height={24} />
         </button>
         <button
           className={`rounded-sm flex justify-center flex-1 p-4 ${displayAs === 'grid' ? 'bg-neutral-900' : ''}`}
-          onClick={() => setDisplayAs('grid')}
+          onClick={() => {
+            setDisplayCount(PAGE_SIZE);
+            setDisplayAs('grid');
+          }}
         >
           <Squares2X2Icon width={24} height={24} />
         </button>
