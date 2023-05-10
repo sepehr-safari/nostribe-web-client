@@ -53,6 +53,7 @@ const EditProfile = () => {
             type="text"
             id={field}
             value={value}
+            placeholder={field}
             onChange={(e) => handleProfileAttributeChange(field, e.target.value)}
           />
         </p>
@@ -62,7 +63,8 @@ const EditProfile = () => {
 
   return (
     <CardContainer>
-      <form onSubmit={handleSubmit} className="w-full">
+      <div className="prose">
+        <form onSubmit={handleSubmit} className="w-full">
         {renderProfileFields()}
       </form>
       <button type="submit" className="btn btn-primary mt-4">
@@ -98,6 +100,8 @@ const EditProfile = () => {
           </button>
         </p>
       </form>
+      </div>
+
     </CardContainer>);
 };
 
