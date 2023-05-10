@@ -55,7 +55,7 @@ const Feed = ({ isEmpty, events }: Props) => {
 
   const renderDisplayAsSelector = () => {
     return (
-      <div className="flex my-4">
+      <div className="flex mb-1 mt-4">
         <button
           className={`rounded-sm flex justify-center flex-1 p-4 ${displayAs === 'feed' ? 'bg-neutral-900' : ''}`}
           onClick={() => setDisplayAs('feed')}
@@ -83,14 +83,18 @@ const Feed = ({ isEmpty, events }: Props) => {
 
     return (
       <div className="grid grid-cols-3 gap-px">
-        {imageUrls.map(renderGridItem)}
+        {imageUrls.map((imageUrl, index) => renderGridItem(imageUrl, index === imageUrls.length - 1))}
       </div>
     );
   }
 
-  const renderGridItem = (imageUrl: string) => {
+  const renderGridItem = (imageUrl: string, isLastElement: boolean) => {
     return (
-      <div key={`global${imageUrl}`} className="aspect-square">
+      <div
+        key={`global${imageUrl}`}
+        className="aspect-square"
+        ref={isLastElement ? lastElementRef : null}
+      >
         <img src={imageUrl} alt="" className="w-full h-full object-cover" />
       </div>
     );
@@ -107,7 +111,10 @@ const Feed = ({ isEmpty, events }: Props) => {
             .map((postEvent, index, self) => {
               const isLastElement = index === self.length - 1;
               return (
-                <div key={`global${postEvent.id}${index}`}>
+                <div
+                  key={`global${postEvent.id}${index}`}
+                  ref={isLastElement ? lastElementRef : null}
+                >
                   <PostCard postId={postEvent.id} />
                 </div>
               );
