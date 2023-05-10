@@ -1,5 +1,7 @@
 import { memo, useState, useRef, useEffect } from 'react';
 import { Event } from 'nostr-tools';
+import Image from '@/components/embed/Image';
+import Video from '@/components/embed/Video';
 
 import PostCard from '@/components/Post/PostCard';
 
@@ -11,8 +13,11 @@ type Props = {
   events: Event[];
 }
 
+type DisplayAs = 'feed' | 'grid';
+
 const Feed = ({ isEmpty, events }: Props) => {
   const [displayCount, setDisplayCount] = useState(PAGE_SIZE);
+  const [displayAs, setDisplayAs] = useState('feed' as DisplayAs);
   const lastElementRef = useRef(null);
 
   useEffect(() => {
@@ -47,10 +52,34 @@ const Feed = ({ isEmpty, events }: Props) => {
 
   if (isEmpty) return <p>No Posts</p>;
 
+  const renderDisplayAsSelector = () => {
+    return (
+      <div className="flex my-4">
+        <button
+          className={`flex-1 p-4 ${displayAs === 'feed' ? 'bg-gray-600' : ''}`}
+          onClick={() => setDisplayAs('feed')}
+        >
+          Feed
+        </button>
+        <button
+          className={`flex-1 p-4 ${displayAs === 'grid' ? 'bg-gray-600' : ''}`}
+          onClick={() => setDisplayAs('grid')}
+        >
+          Grid
+        </button>
+      </div>
+    );
+  }
+
   return (
     <>
+      {renderDisplayAsSelector()}
       {events
         .sort((a, b) => b.created_at - a.created_at)
+        .filter((event) => displayAs === 'feed'
+          || event.content.match(Image.regex)
+          || event.content.match(Video.regex)
+        )
         .slice(0, displayCount)
         .map((postEvent, index, self) => {
           const isLastElement = index === self.length - 1;
