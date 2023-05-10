@@ -55,7 +55,7 @@ const Modal: FC<Props> = ({
 
   return (
     <div
-      className="fixed top-0 left-0 z-40 w-full h-full bg-black bg-opacity-50 flex items-center justify-center overflow-y-auto overflow-x-hidden p-5"
+      className="fixed top-0 left-0 z-40 w-full h-full bg-black bg-opacity-80 flex items-center justify-center overflow-y-auto overflow-x-hidden p-5"
       onClick={handleOverlayClick}
     >
       <div
