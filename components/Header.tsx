@@ -63,6 +63,8 @@ const BackNavHeader = () => {
     title = 'Post';
   } else if (pathname === '/profile/edit') {
     title = 'Edit Profile';
+  } else {
+    title = title.charAt(0).toUpperCase() + title.slice(1);
   }
 
   const isMyProfile = pathname.startsWith('/npub') && toHexKey(params.address) === userData?.publicKey;
