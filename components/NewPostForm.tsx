@@ -7,6 +7,7 @@ import CardContainer from "@/components/CardContainer";
 import useStore from "@/store";
 import {nip19, Event} from "nostr-tools";
 import Link from "next/link";
+import {PaperClipIcon} from "@heroicons/react/24/outline";
 
 import usePublish from "@/hooks/usePublish";
 
@@ -18,6 +19,7 @@ interface Props {
 
 const NewPostForm: React.FC<Props> = ({ onSubmit, replyingTo, placeholder }) => {
   const [postText, setPostText] = useState('');
+  const [isExpanded, setIsExpanded] = useState(false);
   const [uploadError, setUploadError] = useState('');
   const userData = useStore((state) => state.auth.user.data);
 
@@ -57,26 +59,29 @@ const NewPostForm: React.FC<Props> = ({ onSubmit, replyingTo, placeholder }) => 
           </Link>
           <div className="flex-grow">
             <textarea
+              onFocus={() => setIsExpanded(true)}
               id="postText"
               name="postText"
               value={postText}
               onChange={handlePostTextChange}
               className="p-2 mt-1 mb-4 w-full h-12 bg-black focus:ring-blue-500 focus:border-blue-500 block w-full text-lg border-gray-700 rounded-md text-white"
               placeholder={placeholder || "What's on your mind?"}
-              required
             />
-            {postText.length > 0 && (
-              <button type="submit" className="btn btn-primary w-full mt-2">
-                Post
-              </button>
-            )}
           </div>
         </div>
-        <Upload onUrl={(url) => setPostText(postText + ' ' + url)}>
-          <button className="btn btn-primary w-full mt-2">
-            Upload
-          </button>
-        </Upload>
+        {isExpanded && (
+          <div className="flex items-center justify-between mt-2">
+            <Upload onError={(e) => setUploadError(e)}
+              onUrl={(url) => setPostText(postText + ' ' + url)}>
+              <button className="btn btn-ghost btn-circle" onClick={(e) => e.preventDefault()}>
+                <PaperClipIcon width={24} />
+              </button>
+            </Upload>
+            <button type="submit" className="btn btn-primary" disabled={postText.length === 0}>
+              Post
+            </button>
+          </div>
+        )}
         {uploadError && <p className="text-warning">{uploadError}</p>}
       </form>
     </CardContainer>

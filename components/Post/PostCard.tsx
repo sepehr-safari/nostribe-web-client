@@ -34,7 +34,13 @@ type Props = {
 
 const PostCard = ({ postId, showReplies, standalone, asReply, asRepliedMessage, asInlineQuote, showReplyForm }: Props) => {
   const router = useRouter();
-  postId = toHexKey(postId);
+
+  try {
+    postId = toHexKey(postId);
+  } catch (e) {
+    console.error(e);
+    return null;
+  }
   const { isFetching, postEvent, createdAt, nip19NoteId } =
     usePostEvent(postId);
 

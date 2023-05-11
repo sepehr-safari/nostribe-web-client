@@ -39,7 +39,7 @@ const Upload = (props: Props) => {
   return (
     <div onClick={props.children ? handleClick : undefined}>
       {props.children}
-      <input ref={inputRef} className={props.children ? "hidden" : "btn"} type="file" onChange={handleFileUpload} />
+      <input ref={inputRef} className={props.children ? "hidden" : "btn btn-ghost"} type="file" onChange={handleFileUpload} />
     </div>
   );
 };
