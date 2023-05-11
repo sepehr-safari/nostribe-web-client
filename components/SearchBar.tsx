@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect, useCallback } from 'react';
+import {useState, useRef, useEffect, useCallback, KeyboardEvent} from 'react';
 import { useRouter } from 'next/navigation';
 import { FormEvent } from 'react';
 import { throttle } from 'lodash';
@@ -32,7 +32,7 @@ export default function SearchBar() {
   const resultsRef = useRef<HTMLDivElement[]>([]);
 
   const handleArrowKeys = useCallback(
-    (event: KeyboardEvent) => {
+    (event: KeyboardEvent<HTMLInputElement>) => {
       if (searchResults.length === 0 && event.key === 'ArrowDown') {
         setFocusedIndex(-1);
         return;
@@ -71,35 +71,28 @@ export default function SearchBar() {
     }
   }, [searchResults]);
 
-  useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
-      const isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0;
-      const shortcutKey = isMac ? event.metaKey : event.ctrlKey;
+  const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
+    const isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0;
+    const shortcutKey = isMac ? event.metaKey : event.ctrlKey;
 
-      if (event.key === 'Escape') {
-        setSearchTerm('');
-        setSearchResults([]);
-      } else if (event.key === 'Enter') {
-        selectResult(focusedIndex);
-      } else if (event.key === '/' || (event.key === 'k' && shortcutKey)) {
-        if (
-          event.target instanceof HTMLElement &&
-          ['INPUT', 'TEXTAREA', 'SELECT'].includes(event.target.tagName)
-        ) {
-          return;
-        }
-        event.preventDefault();
-        inputRef.current?.focus();
-      } else {
-        handleArrowKeys(event);
+    if (event.key === 'Escape') {
+      setSearchTerm('');
+      setSearchResults([]);
+    } else if (event.key === 'Enter') {
+      selectResult(focusedIndex);
+    } else if (event.key === '/' || (event.key === 'k' && shortcutKey)) {
+      if (
+        event.target instanceof HTMLElement &&
+        ['INPUT', 'TEXTAREA', 'SELECT'].includes(event.target.tagName)
+      ) {
+        return;
       }
-    };
-
-    document.addEventListener('keydown', handleKeyDown);
-    return () => {
-      document.removeEventListener('keydown', handleKeyDown);
-    };
-  }, [handleArrowKeys, searchResults, router]);
+      event.preventDefault();
+      inputRef.current?.focus();
+    } else {
+      handleArrowKeys(event);
+    }
+  };
 
   const onInput = (e: FormEvent<HTMLInputElement>) => {
     const value = (e.target as HTMLInputElement).value;
@@ -140,6 +133,7 @@ export default function SearchBar() {
       <input
         ref={inputRef}
         onInput={onInput}
+        onKeyDown={handleKeyDown}
         value={searchTerm}
         type="text"
         placeholder="Search ..."
