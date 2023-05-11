@@ -35,50 +35,70 @@ const EditProfile = () => {
   const handleProfileAttributeChange = (key: string, value: string) => {
     const updatedProfile = { ...profile, [key]: value };
     setProfile(updatedProfile);
+    return updatedProfile;
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    // Save the profile data
-    console.log('publish profile', profile);
+  const saveProfile = async (profile: any) => {
+    Object.keys(profile).forEach((key) => {
+      if (typeof profile[key] === 'string') {
+        profile[key] = profile[key].trim();
+      }
+      if (!profile[key]) {
+        delete profile[key];
+      }
+    });
     const content = JSON.stringify(profile);
     await publish({
       kind: 0,
       content,
       tags: latestMetadataEvent?.tags || [],
     });
+  }
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    await saveProfile(profile);
   };
 
   const handleAddField = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (newFieldName && newFieldValue) {
-      handleProfileAttributeChange(newFieldName, newFieldValue);
+      const updatedProfile = handleProfileAttributeChange(newFieldName, newFieldValue);
       setNewFieldName('');
       setNewFieldValue('');
-      // Save the profile data
+      await saveProfile(updatedProfile);
     }
   };
+
+  const renderProfileField = (key: string) => {
+    const value = profile[key] || '';
+    return (
+      <p key={key}>
+        <label htmlFor={key}>{key}:</label>
+        <br />
+        <input
+          className="input w-full"
+          type="text"
+          id={key}
+          value={value}
+          placeholder={key}
+          onChange={(e) => handleProfileAttributeChange(key, e.target.value)}
+        />
+      </p>
+    );
+  }
 
   const renderProfileFields = () => {
     const defaultFields = ['name', 'picture', 'about', 'banner', 'website', 'lud16', 'nip05'];
 
-    return defaultFields.map((field) => {
-      const value = profile[field] || '';
-      return (
-        <p key={field}>
-          <label htmlFor={field}>{field}:</label>
-          <br />
-          <input
-            className="input w-full"
-            type="text"
-            id={field}
-            value={value}
-            placeholder={field}
-            onChange={(e) => handleProfileAttributeChange(field, e.target.value)}
-          />
-        </p>
-      );
-    });
+    return (
+      <>
+        {defaultFields.map((field) => renderProfileField(field))}
+        {Object.keys(profile).filter((key) => !defaultFields.includes(key)).map((key) => {
+          return renderProfileField(key);
+        })}
+      </>
+    );
   };
 
   return (
