@@ -37,9 +37,11 @@ const Upload = (props: Props) => {
   };
 
   return (
-    <div onClick={props.children ? handleClick : undefined}>
-      {props.children}
-      <input ref={inputRef} className={props.children ? "hidden" : "btn btn-ghost"} type="file" onChange={handleFileUpload} />
+    <div className="inline-block" onClick={handleClick}>
+      {props.children ? props.children : (
+        <button className="btn btn-primary" onClick={(e) => e.preventDefault()}>Upload</button>
+      )}
+      <input ref={inputRef} className="hidden" type="file" onChange={handleFileUpload} />
     </div>
   );
 };

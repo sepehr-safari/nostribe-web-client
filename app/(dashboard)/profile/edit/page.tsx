@@ -6,6 +6,9 @@ import usePublish from '@/hooks/usePublish';
 import useStore from '@/store';
 import CardContainer from '@/components/CardContainer';
 import {useProfileMetadata} from "@/hooks";
+import Upload from "@/components/Upload";
+
+const IMAGE_FIELDS = ['picture', 'banner'];
 
 const EditProfile = () => {
   const [profile, setProfile] = useState({} as any);
@@ -73,7 +76,7 @@ const EditProfile = () => {
   const renderProfileField = (key: string) => {
     const value = profile[key] || '';
     return (
-      <p key={key}>
+      <div key={key} className="my-4">
         <label htmlFor={key}>{key}:</label>
         <br />
         <input
@@ -84,7 +87,17 @@ const EditProfile = () => {
           placeholder={key}
           onChange={(e) => handleProfileAttributeChange(key, e.target.value)}
         />
-      </p>
+        {IMAGE_FIELDS.includes(key) && (
+          <>
+            <div className="mt-2">
+              <Upload onUrl={(url) => handleProfileAttributeChange(key, url)} />
+            </div>
+            <div className="mt-2">
+              {value && <img src={value} alt={key} className="rounded-sm h-32 object-cover" />}
+            </div>
+          </>
+        )}
+      </div>
     );
   }
 

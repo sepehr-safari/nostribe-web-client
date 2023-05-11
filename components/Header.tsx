@@ -61,6 +61,8 @@ const BackNavHeader = () => {
     title = <Name key={params.address} pub={params.address}/>;
   } else if (pathname.startsWith('/note')) {
     title = 'Post';
+  } else if (pathname === '/profile/edit') {
+    title = 'Edit Profile';
   }
 
   const isMyProfile = pathname.startsWith('/npub') && toHexKey(params.address) === userData?.publicKey;
