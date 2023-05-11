@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import Avatar from "@/components/Avatar";
+import Upload from "@/components/Upload";
 import CardContainer from "@/components/CardContainer";
 import useStore from "@/store";
 import {nip19, Event} from "nostr-tools";
@@ -17,6 +18,7 @@ interface Props {
 
 const NewPostForm: React.FC<Props> = ({ onSubmit, replyingTo, placeholder }) => {
   const [postText, setPostText] = useState('');
+  const [uploadError, setUploadError] = useState('');
   const userData = useStore((state) => state.auth.user.data);
 
   const publish = usePublish();
@@ -70,6 +72,12 @@ const NewPostForm: React.FC<Props> = ({ onSubmit, replyingTo, placeholder }) => 
             )}
           </div>
         </div>
+        <Upload onUrl={(url) => setPostText(postText + ' ' + url)}>
+          <button className="btn btn-primary w-full mt-2">
+            Upload
+          </button>
+        </Upload>
+        {uploadError && <p className="text-warning">{uploadError}</p>}
       </form>
     </CardContainer>
   );
