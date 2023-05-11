@@ -79,14 +79,25 @@ const EditProfile = () => {
       <div key={key} className="my-4">
         <label htmlFor={key}>{key}:</label>
         <br />
-        <input
-          className="input w-full"
-          type="text"
-          id={key}
-          value={value}
-          placeholder={key}
-          onChange={(e) => handleProfileAttributeChange(key, e.target.value)}
-        />
+        {key === 'about' ? (
+          <textarea
+            className="input w-full"
+            id={key}
+            value={value}
+            rows={3}
+            placeholder={key}
+            onChange={(e) => handleProfileAttributeChange(key, e.target.value)}
+          />
+        ) : (
+          <input
+            className="input w-full"
+            type="text"
+            id={key}
+            value={value}
+            placeholder={key}
+            onChange={(e) => handleProfileAttributeChange(key, e.target.value)}
+          />
+        )}
         {IMAGE_FIELDS.includes(key) && (
           <>
             <div className="mt-2">
