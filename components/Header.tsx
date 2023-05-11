@@ -7,7 +7,6 @@ import {
 import {
   ArrowLeftIcon,
   Cog8ToothIcon,
-  HeartIcon as HeartFullIcon,
 } from '@heroicons/react/24/solid';
 import { usePathname, useParams } from 'next/navigation';
 import Name from "@/components/Name";
@@ -57,11 +56,14 @@ const BackNavHeader = () => {
   const params = useParams();
   const userData = useStore((state) => state.auth.user.data);
 
-  const title = pathname.startsWith('/profile/') && pathname !== '/profile/edit' && params.address ?
-    <Name key={params.address} pub={params.address} /> :
-    <span className="capitalize">{pathname.split('/')[1]}</span>;
+  let title: string | JSX.Element = pathname.split('/')[1];
+  if (pathname.startsWith('/npub') && params.address) {
+    title = <Name key={params.address} pub={params.address}/>;
+  } else if (pathname.startsWith('/note')) {
+    title = 'Post';
+  }
 
-  const isMyProfile = pathname.startsWith('/profile/') && pathname !== '/profile/edit' && toHexKey(params.address) === userData?.publicKey;
+  const isMyProfile = pathname.startsWith('/npub') && toHexKey(params.address) === userData?.publicKey;
 
   return (
     <>
@@ -81,7 +83,7 @@ const BackNavHeader = () => {
         </div>
       )}
     </>
-  )
+  );
 }
 
 const scrollUp: MouseEventHandler = (e) => {
