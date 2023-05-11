@@ -30,7 +30,7 @@ const Profile = ({ params }: { params: { address: string } }) => {
     <div className="flex flex-col gap-4 p-2">
       {followers.map((follower) => (
         <div key={follower} className="flex items-center w-full justify-between">
-          <Link href={`/profile/${nip19.npubEncode(follower)}`} className="flex gap-4 items-center">
+          <Link href={`/${nip19.npubEncode(follower)}`} className="flex gap-4 items-center">
             <Avatar pub={follower} />
             <Name pub={follower} />
           </Link>

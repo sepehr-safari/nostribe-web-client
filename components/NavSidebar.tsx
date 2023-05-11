@@ -94,7 +94,7 @@ export default function NavSidebar() {
       </div>
       {loggedIn ? (
         <div>
-          <Link href={`/profile/${npub}`} className="btn btn-ghost md:max-lg:btn-circle">
+          <Link href={`/${npub}`} className="btn btn-ghost md:max-lg:btn-circle">
             <Avatar pub={userData?.publicKey || ''} width="w-8" />
             <div className="hidden lg:block ml-2">
               <Name pub={userData?.publicKey || ''} />

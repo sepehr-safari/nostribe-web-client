@@ -134,7 +134,7 @@ const ProfileCard = ({ profileAddress }: { profileAddress: string }) => {
                       className="text-start text-xs"
                       onClick={() =>
                         navigator.clipboard.writeText(
-                          `${location.origin}/profile/${profileAddress}`
+                          `${location.origin}/${profileAddress}`
                         )
                       }
                     >
@@ -146,7 +146,7 @@ const ProfileCard = ({ profileAddress }: { profileAddress: string }) => {
                       className="text-start text-xs"
                       onClick={() =>
                         navigator.clipboard.writeText(
-                          `${location.origin}/profile/${profileAddress}`
+                          `${location.origin}/${profileAddress}`
                         )
                       }
                     >

@@ -4,6 +4,7 @@ import Embed from './index';
 import Link from 'next/link';
 import Name from '@/components/Name';
 import PostCard from '@/components/Post/PostCard';
+import { nip19 } from 'nostr-tools';
 
 const fail = (s: string) => `#[${s}]`;
 
@@ -24,7 +25,7 @@ const InlineMention: Embed = {
       return (
         <Link
           key={match + index}
-          href={`/profile/${id}`}
+          href={`/${nip19.noteEncode(id)}`}
           className="text-iris-blue hover:underline"
         >
           <Name pub={id} />

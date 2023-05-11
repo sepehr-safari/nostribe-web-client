@@ -17,7 +17,7 @@ const Dropdown = ({ nip19NoteId, postEvent }: { nip19NoteId: string, postEvent: 
               className="text-start text-xs"
               onClick={() =>
                 navigator.clipboard.writeText(
-                  `${location.origin}/post/${nip19NoteId}`
+                  `${location.origin}/${nip19NoteId}`
                 )
               }
             >

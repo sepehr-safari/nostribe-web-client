@@ -58,7 +58,7 @@ const PostCard = ({ postId, showReplies, standalone, asReply, asRepliedMessage, 
 
     if (!isMatch) {
       e.preventDefault();
-      router.push(`/post/${nip19NoteId}`);
+      router.push(`/${nip19NoteId}`);
     }
   }
 
@@ -83,7 +83,7 @@ const PostCard = ({ postId, showReplies, standalone, asReply, asRepliedMessage, 
   return (
     <>
       {postEvent && !asInlineQuote && !asReply && !asRepliedMessage && threadRoot && (threadRoot !== replyingToEvent) ? (
-        <Link href={`/post/${threadRoot}`} className="-mb-2 mt-2 text-sm opacity-50 flex items-center gap-2 px-4">
+        <Link href={`/${nip19.noteEncode(threadRoot)}`} className="-mb-2 mt-2 text-sm opacity-50 flex items-center gap-2 px-4">
           Show thread
         </Link>
       ) : ''}
@@ -95,7 +95,7 @@ const PostCard = ({ postId, showReplies, standalone, asReply, asRepliedMessage, 
           <div className="flex items-center gap-2">
             <Link
               prefetch={false}
-              href={`/profile/${npub}`}
+              href={`/${npub}`}
               className="flex items-center gap-2"
             >
               {picture ? (
@@ -138,7 +138,7 @@ const PostCard = ({ postId, showReplies, standalone, asReply, asRepliedMessage, 
               {replyingToUsers.slice(0, 3).map((tag) => (
                 <Link
                   prefetch={false}
-                  href={`/profile/${tag[1]}`}
+                  href={`/${nip19.npubEncode(tag[1])}`}
                   key={`${postId}replyingTo${tag[1]}`}
                 >
                   <Name pub={tag[1]} />

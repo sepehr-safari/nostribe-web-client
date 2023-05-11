@@ -37,7 +37,7 @@ const MessageThread = ({ params }: { params: { address: string } }) => {
           <div className="flex items-center gap-2">
             <Link
               prefetch={false}
-              href={`/profile/${nip19.npubEncode(event.pubkey)}`}
+              href={`/${nip19.npubEncode(event.pubkey)}`}
               className="flex items-center gap-2"
             >
               <Avatar pub={event.pubkey} />

@@ -41,8 +41,8 @@ const Footer = () => {
         </Link>
         */}
         {userData?.publicKey && (
-          <Link href={`/profile/${npub}`} className="flex-grow flex items-center justify-center p-3">
-            <div className={`flex border-2 ${pathname === `/profile/${npub}` ? "border-white rounded-full"  : "border-transparent"}`}>
+          <Link href={`/${npub}`} className="flex-grow flex items-center justify-center p-3">
+            <div className={`flex border-2 ${pathname === `/${npub}` ? "border-white rounded-full"  : "border-transparent"}`}>
               <Avatar width="w-6" pub={userData?.publicKey} />
             </div>
           </Link>

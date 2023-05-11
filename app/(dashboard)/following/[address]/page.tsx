@@ -26,7 +26,7 @@ const Profile = ({ params }: { params: { address: string } }) => {
     <div className="flex flex-col gap-4 p-2">
       {latestContactEvent?.tags?.filter((tag) => tag[0] === "p").map((tag, index) => (
         <div key={tag[1]} className="flex items-center w-full justify-between">
-          <Link href={`/profile/${nip19.npubEncode(tag[1])}`} className="flex gap-4 items-center">
+          <Link href={`/${nip19.npubEncode(tag[1])}`} className="flex gap-4 items-center">
             <Avatar pub={tag[1]} />
             <Name pub={tag[1]} />
           </Link>

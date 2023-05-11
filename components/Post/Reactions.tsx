@@ -52,7 +52,7 @@ const Reactions = ({ reactionEvents, nip19NoteId, event }: Props) => {
           {reactionEvents.filter((event) => event.kind === 9735).length}
         </button>
 
-        <Link href={`/post/${nip19NoteId}`} className="btn-ghost hover:bg-transparent text-neutral-500 hover:text-iris-blue btn w-1/4 content-center gap-2 rounded-none p-2">
+        <Link href={`/${nip19NoteId}`} className="btn-ghost hover:bg-transparent text-neutral-500 hover:text-iris-blue btn w-1/4 content-center gap-2 rounded-none p-2">
           <ChatBubbleOvalLeftIcon width={18} />
           {reactionEvents.filter((event) => event.kind === 1).length}
         </Link>

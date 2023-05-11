@@ -57,7 +57,7 @@ export default function SearchBar() {
         router.push(`/search/${searchTerm}`);
       } else {
         const npub = searchResults[index][2];
-        router.push(`/profile/${npub}`);
+        router.push(`/${npub}`);
       }
     },
     [searchResults, searchTerm, router],
