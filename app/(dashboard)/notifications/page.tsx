@@ -11,6 +11,6 @@ export default function Notifications() {
 
   if (isNotificationsEmpty) return <p>No Notifications</p>;
 
-  return <Feed events={notificationEvents.filter((e) => e.pubkey !== userData?.publicKey)} />;
+  return <Feed showDisplayAs={false} events={notificationEvents.filter((e) => e.pubkey !== userData?.publicKey)} />;
 
 }

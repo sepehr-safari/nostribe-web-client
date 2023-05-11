@@ -21,6 +21,7 @@ type Props = {
   isEmpty?: boolean;
   events: Event[];
   loadMore?: () => void;
+  showDisplayAs?: boolean;
 }
 
 type DisplayAs = 'feed' | 'grid';
@@ -30,7 +31,7 @@ type ImageOrVideo = {
   url: string;
 }
 
-const Feed = ({ isEmpty, events, loadMore }: Props) => {
+const Feed = ({ isEmpty, events, loadMore, showDisplayAs }: Props) => {
   const [displayCount, setDisplayCount] = useState(PAGE_SIZE);
   const [displayAs, setDisplayAs] = useState('feed' as DisplayAs);
   const [modalItemIndex, setModalImageIndex] = useState(null as number | null);
@@ -110,6 +111,7 @@ const Feed = ({ isEmpty, events, loadMore }: Props) => {
   if (isEmpty) return <p>No Posts</p>;
 
   const renderDisplayAsSelector = () => {
+    if (showDisplayAs === false) return null;
     return (
       <div className="flex mb-1 mt-4">
         <button
