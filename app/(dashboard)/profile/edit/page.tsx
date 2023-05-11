@@ -5,6 +5,7 @@ import { nip19 } from 'nostr-tools';
 import usePublish from '@/hooks/usePublish';
 import useStore from '@/store';
 import CardContainer from '@/components/CardContainer';
+import {useProfileMetadata} from "@/hooks";
 
 const EditProfile = () => {
   const [profile, setProfile] = useState({} as any);
@@ -12,6 +13,18 @@ const EditProfile = () => {
   const [newFieldValue, setNewFieldValue] = useState('');
   const userData = useStore((state) => state.auth.user.data);
   const myNpub = userData?.publicKey ? nip19.npubEncode(userData?.publicKey) : '';
+
+  const { latestMetadataEvent } = useProfileMetadata(userData?.publicKey || '');
+  useEffect(() => {
+    if (latestMetadataEvent) {
+      try {
+        const content = JSON.parse(latestMetadataEvent.content || '{}');
+        setProfile(content);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  }, [latestMetadataEvent]);
 
   const publish = usePublish();
 
@@ -27,6 +40,13 @@ const EditProfile = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     // Save the profile data
+    console.log('publish profile', profile);
+    const content = JSON.stringify(profile);
+    await publish({
+      kind: 0,
+      content,
+      tags: latestMetadataEvent?.tags || [],
+    });
   };
 
   const handleAddField = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -49,7 +69,7 @@ const EditProfile = () => {
           <label htmlFor={field}>{field}:</label>
           <br />
           <input
-            className="input"
+            className="input w-full"
             type="text"
             id={field}
             value={value}
@@ -65,41 +85,41 @@ const EditProfile = () => {
     <CardContainer>
       <div className="prose">
         <form onSubmit={handleSubmit} className="w-full">
-        {renderProfileFields()}
-      </form>
-      <button type="submit" className="btn btn-primary mt-4">
-        Save
-      </button>
-      <h4>Add new field</h4>
-      <form onSubmit={(e) => handleAddField(e)}>
-        <p>
-          <label htmlFor="newFieldName">Field name:</label>
-          <br />
-          <input
-            value={newFieldName}
-            type="text"
-            id="newFieldName"
-            className="input"
-            onChange={(e) => setNewFieldName(e.target.value)}
-          />
-        </p>
-        <p>
-          <label htmlFor="newFieldValue">Field value:</label>
-          <br />
-          <input
-            value={newFieldValue}
-            type="text"
-            id="newFieldValue"
-            className="input"
-            onChange={(e) => setNewFieldValue(e.target.value)}
-          />
-        </p>
-        <p>
-          <button type="submit" className="btn btn-primary">
-            Add new attribute
+          {renderProfileFields()}
+          <button type="submit" className="btn btn-primary mt-4">
+            Save
           </button>
-        </p>
-      </form>
+        </form>
+        <h4>Add new field</h4>
+        <form onSubmit={(e) => handleAddField(e)}>
+          <p>
+            <label htmlFor="newFieldName">Field name:</label>
+            <br />
+            <input
+              value={newFieldName}
+              type="text"
+              id="newFieldName"
+              className="input w-full"
+              onChange={(e) => setNewFieldName(e.target.value)}
+            />
+          </p>
+          <p>
+            <label htmlFor="newFieldValue">Field value:</label>
+            <br />
+            <input
+              value={newFieldValue}
+              type="text"
+              id="newFieldValue"
+              className="input"
+              onChange={(e) => setNewFieldValue(e.target.value)}
+            />
+          </p>
+          <p>
+            <button type="submit" className="btn btn-primary">
+              Add new attribute
+            </button>
+          </p>
+        </form>
       </div>
 
     </CardContainer>);

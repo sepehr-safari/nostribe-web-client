@@ -116,7 +116,7 @@ const ProfileCard = ({ profileAddress }: { profileAddress: string }) => {
 
               <div className="ml-auto flex gap-2">
                 {isMyProfile ? (
-                  <Link href="/profile" className="btn btn-sm gap-2">
+                  <Link href="/profile/edit" className="btn btn-sm gap-2">
                     Edit profile
                   </Link>
                 ) : <FollowButton pub={profileAddress} />}

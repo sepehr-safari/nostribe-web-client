@@ -57,11 +57,11 @@ const BackNavHeader = () => {
   const params = useParams();
   const userData = useStore((state) => state.auth.user.data);
 
-  const title = pathname.startsWith('/profile') && params.address ?
+  const title = pathname.startsWith('/profile/') && pathname !== '/profile/edit' && params.address ?
     <Name key={params.address} pub={params.address} /> :
     <span className="capitalize">{pathname.split('/')[1]}</span>;
 
-  const isMyProfile = pathname.startsWith('/profile/') && toHexKey(params.address) === userData?.publicKey;
+  const isMyProfile = pathname.startsWith('/profile/') && pathname !== '/profile/edit' && toHexKey(params.address) === userData?.publicKey;
 
   return (
     <>
