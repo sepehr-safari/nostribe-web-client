@@ -24,7 +24,7 @@ const Profile = ({ params }: { params: { address: string } }) => {
     ],
     options: { enabled: !!profileHex, invalidate: true },
   });
-  
+
   return (
     <>
       <ProfileCard profileAddress={params.address} />
