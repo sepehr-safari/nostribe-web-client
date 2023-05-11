@@ -74,7 +74,7 @@ const NewPostForm: React.FC<Props> = ({ onSubmit, replyingTo, placeholder }) => 
               name="postText"
               value={postText}
               onChange={handlePostTextChange}
-              className="p-2 mt-1 mb-4 w-full h-12 bg-black focus:ring-blue-500 focus:border-blue-500 block w-full text-lg border-gray-700 rounded-md text-white"
+              className="p-2 mt-1 w-full h-12 bg-black focus:ring-blue-500 focus:border-blue-500 block w-full text-lg border-gray-700 rounded-md text-white"
               placeholder={placeholder || "What's on your mind?"}
             />
           </div>
