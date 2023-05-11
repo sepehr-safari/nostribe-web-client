@@ -8,9 +8,13 @@ export default async function getProfileHex(profileAddress: string) {
   if (profileAddressType === 'nip05') {
     profileAddress = profileAddress.replace('%40', '@');
     if (!profileAddress.includes('@')) {
-      profileAddress += '@iris.to';
+      if (profileAddress.includes('.')) {
+        profileAddress = '_@' + profileAddress;
+      } else {
+        profileAddress += '@iris.to';
+      }
     }
-    
+
     const profile = await nip05.queryProfile(profileAddress);
 
     if (!profile || !profile.pubkey) throw new Error('profile not found');
