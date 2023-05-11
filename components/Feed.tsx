@@ -20,6 +20,7 @@ const VideoIcon = (
 type Props = {
   isEmpty?: boolean;
   events: Event[];
+  loadMore?: () => void;
 }
 
 type DisplayAs = 'feed' | 'grid';
@@ -29,7 +30,7 @@ type ImageOrVideo = {
   url: string;
 }
 
-const Feed = ({ isEmpty, events }: Props) => {
+const Feed = ({ isEmpty, events, loadMore }: Props) => {
   const [displayCount, setDisplayCount] = useState(PAGE_SIZE);
   const [displayAs, setDisplayAs] = useState('feed' as DisplayAs);
   const [modalItemIndex, setModalImageIndex] = useState(null as number | null);
@@ -42,8 +43,12 @@ const Feed = ({ isEmpty, events }: Props) => {
 
     const observerCallback = (entries: IntersectionObserverEntry[]) => {
       const entry = entries[0];
-      if (entry.isIntersecting && displayCount < events.length) {
-        setDisplayCount((prevCount) => prevCount + PAGE_SIZE);
+      if (entry.isIntersecting) {
+        if (displayCount < events.length) {
+          setDisplayCount((prevCount) => prevCount + PAGE_SIZE);
+        } else {
+          loadMore?.();
+        }
       }
     };
 
