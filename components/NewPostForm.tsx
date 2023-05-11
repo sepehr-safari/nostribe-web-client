@@ -22,11 +22,20 @@ const NewPostForm: React.FC<Props> = ({ onSubmit, replyingTo, placeholder }) => 
   const [isExpanded, setIsExpanded] = useState(false);
   const [uploadError, setUploadError] = useState('');
   const userData = useStore((state) => state.auth.user.data);
+  const textAreaRef = React.useRef(null);
 
   const publish = usePublish();
 
+  const updateTextAreaHeight = () => {
+    if (!textAreaRef.current) return;
+    const current = textAreaRef.current as HTMLTextAreaElement;
+    current.style.height = 'inherit';
+    current.style.height = `${current.scrollHeight}px`;
+  }
+
   const handlePostTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setPostText(e.target.value);
+      setPostText(e.target.value);
+      updateTextAreaHeight();
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -59,6 +68,7 @@ const NewPostForm: React.FC<Props> = ({ onSubmit, replyingTo, placeholder }) => 
           </Link>
           <div className="flex-grow">
             <textarea
+              ref={textAreaRef}
               onFocus={() => setIsExpanded(true)}
               id="postText"
               name="postText"
@@ -72,7 +82,10 @@ const NewPostForm: React.FC<Props> = ({ onSubmit, replyingTo, placeholder }) => 
         {isExpanded && (
           <div className="flex items-center justify-between mt-2">
             <Upload onError={(e) => setUploadError(e)}
-              onUrl={(url) => setPostText(postText + ' ' + url)}>
+              onUrl={(url) => {
+                setPostText(postText + ' ' + url);
+                updateTextAreaHeight();
+              }}>
               <button className="btn btn-ghost btn-circle" onClick={(e) => e.preventDefault()}>
                 <PaperClipIcon width={24} />
               </button>
