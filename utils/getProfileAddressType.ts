@@ -8,7 +8,7 @@ const getProfileAddressType = (profileAddress: string): profileAddressType => {
   } else if (profileAddress.length === 64) {
     return 'hex';
   } else {
-    return 'unknown';
+    return 'nip05';
   }
 };
 
