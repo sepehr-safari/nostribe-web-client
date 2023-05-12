@@ -12,8 +12,6 @@ const usePostReactions = (postId: string) => {
     filters: [{ '#e': [postId], kinds: [1, 6, 7, 9735] }],
   });
 
-  reactionEvents = reactionEvents.filter((event, index, self) => self.findIndex((e) => e.id === event.id) === index);
-
   console.log('reactionEvents', reactionEvents.map((event) => event.id));
 
   const isFetchingReactions = !reactionEose && !reactionEvents.length;

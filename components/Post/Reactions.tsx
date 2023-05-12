@@ -50,11 +50,12 @@ const Reactions = ({ reactionEvents, nip19NoteId, event, standalone }: Props) =>
   const reposts = reactionEvents.filter((event) => isRepost(event));
   const zaps = reactionEvents.filter((event) => event.kind === 9735);
   const replies = reactionEvents.filter((event) => event.kind === 1 && !isRepost(event));
+  const hasReactions = likes.length > 0 || reposts.length > 0 || zaps.length > 0;
 
   // in standalone, show twitter-like listings that open the modal
   return (
     <>
-      {standalone && (
+      {standalone && hasReactions && (
         <>
           <hr className="-mx-4 opacity-10" />
           {modalReactions.length > 0 && (
