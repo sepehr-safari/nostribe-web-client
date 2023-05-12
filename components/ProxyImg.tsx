@@ -25,6 +25,7 @@ export const isSafeOrigin = (url: string) => {
 
 const ProxyImg = (props: Props) => {
   const [proxyFailed, setProxyFailed] = useState(false);
+  const [originalFailed, setOriginalFailed] = useState(false);
   const [src, setSrc] = useState(() => {
     if (
       props.src &&
@@ -44,7 +45,14 @@ const ProxyImg = (props: Props) => {
   });
 
   useEffect(() => {
-    if (proxyFailed) {
+    if (proxyFailed && !originalFailed) {
+      console.log('image proxy failed', src, 'trying original source', props.src);
+      setSrc(props.src + '?retry=' + new Date().getTime());
+    }
+  }, [proxyFailed, props.src, src, originalFailed]);
+
+  useEffect(() => {
+    if (originalFailed) {
       const originalSrc = props.src;
       const originalOnError = props.onError;
       console.log('original source failed too', originalSrc);
@@ -53,15 +61,17 @@ const ProxyImg = (props: Props) => {
       );
       originalOnError && originalOnError();
     }
-  }, [proxyFailed, props.src]);
+  }, [originalFailed, props.src]);
 
   return (
     <img
       src={src}
       onError={() => {
-        console.log('image proxy failed', src, 'trying original source', props.src);
-        setSrc(props.src + '?retry=' + new Date().getTime());
-        setProxyFailed(true);
+        if (!proxyFailed) {
+          setProxyFailed(true);
+        } else {
+          setOriginalFailed(true);
+        }
       }}
       onClick={props.onClick}
       className={props.className}
