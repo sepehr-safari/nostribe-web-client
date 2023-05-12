@@ -47,23 +47,22 @@ const ProxyImg = (props: Props) => {
     if (proxyFailed) {
       const originalSrc = props.src;
       const originalOnError = props.onError;
-      if (proxyFailed) {
-        console.log('original source failed too', originalSrc);
-        setSrc(
-          'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+P+/HgAFhQJ/qwQX2QAAAABJRU5ErkJggg==',
-        );
-        originalOnError && originalOnError();
-      } else {
-        console.log('image proxy failed', src, 'trying original source', originalSrc);
-        setSrc(originalSrc + '?retry=' + new Date().getTime());
-      }
+      console.log('original source failed too', originalSrc);
+      setSrc(
+        'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+P+/HgAFhQJ/qwQX2QAAAABJRU5ErkJggg==',
+      );
+      originalOnError && originalOnError();
     }
   }, [proxyFailed, props.src]);
 
   return (
     <img
       src={src}
-      onError={() => setProxyFailed(true)}
+      onError={() => {
+        console.log('image proxy failed', src, 'trying original source', props.src);
+        setSrc(props.src + '?retry=' + new Date().getTime());
+        setProxyFailed(true);
+      }}
       onClick={props.onClick}
       className={props.className}
       style={props.style}
