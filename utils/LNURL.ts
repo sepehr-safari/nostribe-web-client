@@ -1,9 +1,29 @@
-import { Event } from './lib/nostr-tools';
-import Helpers from './Helpers';
+import { Event } from 'nostr-tools';
+import {bech32} from "bech32";
 
 // Code kindly contributed by @Kieran from Snort
 
 const PayServiceTag = 'payRequest';
+
+//  move to another file?
+function bech32ToText(str: string): string {
+  try {
+    const decoded = bech32.decode(str, 1000);
+    const buf = bech32.fromWords(decoded.words);
+    return new TextDecoder().decode(Uint8Array.from(buf));
+  } catch (e) {
+    console.error('bech32ToText failed', e);
+    return '';
+  }
+}
+
+//  move to another file?
+function unwrap<T>(v: T | undefined | null): T {
+  if (v === undefined || v === null) {
+    throw new Error('missing value');
+  }
+  return v;
+}
 
 export enum LNURLErrorCode {
   ServiceUnavailable = 1,
@@ -30,7 +50,7 @@ export class LNURL {
   constructor(lnurl: string) {
     lnurl = lnurl.toLowerCase().trim();
     if (lnurl.startsWith('lnurl')) {
-      const decoded = Helpers.bech32ToText(lnurl);
+      const decoded = bech32ToText(lnurl);
       if (!decoded.startsWith('http')) {
         throw new LNURLError(LNURLErrorCode.InvalidLNURL, 'Not a url');
       }
@@ -65,7 +85,7 @@ export class LNURL {
    * @returns
    */
   async getInvoice(amount: number, comment?: string, zap?: Event) {
-    const callback = new URL(Helpers.unwrap(this.#service?.callback));
+    const callback = new URL(unwrap(this.#service?.callback));
     const query = new Map<string, string>();
 
     if (callback.search.length > 0) {

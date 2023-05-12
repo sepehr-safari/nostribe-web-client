@@ -13,8 +13,19 @@ import {useMemo, useState} from "react";
 import Modal from "@/components/modal/Modal";
 import Avatar from "@/components/Avatar";
 import Name from "@/components/Name";
+import {getZappingUser} from "@/utils/Lightning";
 
 type Props = { event: Event, reactionEvents: Event[], nip19NoteId: string, standalone?: boolean };
+
+const Reaction = ({ event }: { event: Event }) => {
+  const reactor = event.kind === 9735 ? getZappingUser(event) : event.pubkey;
+  return (
+    <Link href={`/${nip19.npubEncode(reactor)}`} key={event.id} className="flex items-center gap-4">
+      <Avatar pub={reactor} width="w-12" />
+      <Name pub={reactor} />
+    </Link>
+  );
+}
 
 const Reactions = ({ reactionEvents, nip19NoteId, event, standalone }: Props) => {
   const publish = usePublish();
@@ -67,12 +78,7 @@ const Reactions = ({ reactionEvents, nip19NoteId, event, standalone }: Props) =>
                 </h2>
               </div>
               <div className="flex flex-col gap-4 overflow-y-scroll max-h-[50vh] w-96">
-                {modalReactions.map((event) => (
-                  <Link href={`/${nip19.npubEncode(event.pubkey)}`} key={event.id} className="flex items-center gap-4">
-                    <Avatar pub={event.pubkey} width="w-12" />
-                    <Name pub={event.pubkey} />
-                  </Link>
-                ))}
+                {modalReactions.map((event) => <Reaction key={event.id} event={event} />)}
               </div>
             </Modal>
           )}

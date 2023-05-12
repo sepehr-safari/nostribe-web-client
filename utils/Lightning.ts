@@ -1,11 +1,11 @@
 import { bytesToHex } from '@noble/hashes/utils';
+//@ts-ignore
 import { decode as invoiceDecode } from 'light-bolt11-decoder';
+import { Event } from "nostr-tools";
 
-import localState from './LocalState';
+let lastBitcoinPrice: any;
 
-let lastBitcoinPrice;
-
-const currencies = {
+const currencies: { [key: string]: string; } = {
   USD: '$',
   EUR: '€',
   JPY: '¥',
@@ -62,16 +62,8 @@ const getExchangeRate = () => {
     });
 };
 
-localState.get('displayCurrency').on((value) => {
-  displayCurrency = value;
-  getExchangeRate();
-});
-
-setTimeout(() => {
-  if (!lastBitcoinPrice) {
-    getExchangeRate();
-  }
-}, 1000);
+// TODO get saved displaycurrency
+getExchangeRate();
 
 export interface InvoiceDetails {
   amount?: number;
@@ -87,21 +79,21 @@ export function decodeInvoice(pr: string): InvoiceDetails | undefined {
   try {
     const parsed = invoiceDecode(pr);
 
-    const amountSection = parsed.sections.find((a) => a.name === 'amount');
+    const amountSection = parsed.sections.find((a: any) => a.name === 'amount');
     const amount = amountSection ? Number(amountSection.value as number | string) : undefined;
 
-    const timestampSection = parsed.sections.find((a) => a.name === 'timestamp');
+    const timestampSection = parsed.sections.find((a: any) => a.name === 'timestamp');
     const timestamp = timestampSection
       ? Number(timestampSection.value as number | string)
       : undefined;
 
-    const expirySection = parsed.sections.find((a) => a.name === 'expiry');
+    const expirySection = parsed.sections.find((a: any) => a.name === 'expiry');
     const expire = expirySection ? Number(expirySection.value as number | string) : undefined;
-    const descriptionSection = parsed.sections.find((a) => a.name === 'description')?.value;
+    const descriptionSection = parsed.sections.find((a: any) => a.name === 'description')?.value;
     const descriptionHashSection = parsed.sections.find(
-      (a) => a.name === 'description_hash',
+      (a: any) => a.name === 'description_hash',
     )?.value;
-    const paymentHashSection = parsed.sections.find((a) => a.name === 'payment_hash')?.value;
+    const paymentHashSection = parsed.sections.find((a: any) => a.name === 'payment_hash')?.value;
     const ret = {
       amount: amount,
       expire: timestamp && expire ? timestamp + expire : undefined,
@@ -119,6 +111,7 @@ export function decodeInvoice(pr: string): InvoiceDetails | undefined {
     return ret;
   } catch (e) {
     console.error(e);
+    return undefined;
   }
 }
 
@@ -136,7 +129,7 @@ export function formatSats(amount: number): string {
   return (amount / 1000000000).toFixed(2) + 'B';
 }
 
-function customFormatNumber(value) {
+function customFormatNumber(value: number) {
   let maxDecimals;
   if (value >= 1) {
     maxDecimals = 2;
@@ -163,4 +156,19 @@ export function formatAmount(sats: number): string {
   } else {
     return formatSats(sats);
   }
+}
+
+export function getZappingUser(event: Event) {
+  const description = event.tags?.find((t: any) => t[0] === 'description')?.[1];
+  if (!description) {
+    return;
+  }
+  let obj;
+  try {
+    obj = JSON.parse(description);
+  } catch (e) {
+    return;
+  }
+  const npub = obj.pubkey;
+  return npub;
 }
