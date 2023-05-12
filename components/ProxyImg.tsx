@@ -29,10 +29,10 @@ export const isSafeOrigin = (url: string) => {
 const ProxyImg = (props: Props) => {
   let onError = props.onError;
   let mySrc = props.src;
-  let proxyFailed = false;
+  const [proxyFailed, setProxyFailed] = useState(false);
+  const [src, setSrc] = useState(mySrc);
   if (
     props.src &&
-    !props.src.startsWith('data:image') &&
     (!isSafeOrigin(props.src) || props.width)
   ) {
     // free proxy with a 250 images per 10 min limit? https://images.weserv.nl/docs/
@@ -49,15 +49,18 @@ const ProxyImg = (props: Props) => {
     onError = () => {
       if (proxyFailed) {
         console.log('original source failed too', originalSrc);
+        // set base64 empty placeholder
+        setSrc(
+          'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+P+/HgAFhQJ/qwQX2QAAAABJRU5ErkJggg==',
+        );
         originalOnError && originalOnError();
       } else {
         console.log('image proxy failed', mySrc, 'trying original source', originalSrc);
-        proxyFailed = true;
+        setProxyFailed(true);
         setSrc(originalSrc);
       }
     };
   }
-  const [src, setSrc] = useState(mySrc);
 
   return (
     <img

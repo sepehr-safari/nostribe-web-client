@@ -2,6 +2,7 @@ import { memo, useState, useRef, useEffect, useMemo } from 'react';
 import { Event } from 'nostr-tools';
 import Image from '@/components/embed/Image';
 import Video from '@/components/embed/Video';
+import ProxyImg from '@/components/ProxyImg';
 import { Bars3Icon, Squares2X2Icon } from "@heroicons/react/24/outline";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/20/solid";
 
@@ -146,17 +147,17 @@ const Feed = ({ isEmpty, events, loadMore, showDisplayAs }: Props) => {
 
   const renderGridItem = (item: { url: string, type: "image" | "video" }, index: number) => {
     const url = (item.type === 'video') ? `https://imgproxy.iris.to/thumbnail/638/${item.url}`
-      : `https://imgproxy.iris.to/insecure/rs:fill:638:638/plain/${item.url}`;
+      : item.url;
     return (
       <div
         key={`feed${url}${index}`}
-        className="aspect-square cursor-pointer relative hover:opacity-80"
+        className="aspect-square cursor-pointer relative bg-neutral-300 hover:opacity-80"
         ref={index === imagesAndVideos.length - 1 ? lastElementRef : null}
         onClick={() => {
           setModalImageIndex(index);
         }}
       >
-        <img src={url} alt="" className="w-full h-full object-cover" />
+        <ProxyImg width={319} src={url} alt="" className="w-full h-full object-cover" />
         {item.type === 'video' && (
           <div className="absolute top-0 right-0 m-2 shadow-md shadow-gray-500 ">
             {VideoIcon}
@@ -179,6 +180,7 @@ const Feed = ({ isEmpty, events, loadMore, showDisplayAs }: Props) => {
               muted
               autoPlay
               loop
+              poster={`https://imgproxy.iris.to/thumbnail/638/${imagesAndVideos[modalItemIndex].url}`}
             />
           ) : (
             <img className="rounded max-h-[90vh] max-w-[90vw] object-contain" src={imagesAndVideos[modalItemIndex].url} />
