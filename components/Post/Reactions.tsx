@@ -1,4 +1,4 @@
-import {Event} from "nostr-tools";
+import {Event, nip19} from "nostr-tools";
 import {ArrowPathIcon, BoltIcon, ChatBubbleOvalLeftIcon, HeartIcon} from "@heroicons/react/24/outline";
 import {
   ArrowPathIcon as ArrowPathIconFull,
@@ -21,6 +21,7 @@ const Reactions = ({ reactionEvents, nip19NoteId, event, standalone }: Props) =>
   const userData = useStore((state) => state.auth.user.data);
   const myPub = userData?.publicKey || '';
   const [modalReactions, setModalReactions] = useState([] as Event[]);
+  const [modalTitle, setModalTitle] = useState('');
 
   const liked = useMemo(() => {
     if (!myPub) return false;
@@ -60,33 +61,44 @@ const Reactions = ({ reactionEvents, nip19NoteId, event, standalone }: Props) =>
           <hr className="-mx-4 opacity-10" />
           {modalReactions.length > 0 && (
             <Modal showContainer={true} onClose={() => setModalReactions([])}>
-              <div className="flex items-center justify-between p-4">
-                <h2 className="text-xl font-bold">Reactions</h2>
+              <div className="flex items-center justify-between mb-4">
+                <h2 className="text-xl font-bold">
+                  {modalTitle}
+                </h2>
               </div>
-              <div className="flex flex-col p-2 gap-4 overflow-y-scroll max-h-[50vh] w-96">
+              <div className="flex flex-col gap-4 overflow-y-scroll max-h-[50vh] w-96">
                 {modalReactions.map((event) => (
-                  <div key={event.id} className="flex items-center p-2 gap-4">
+                  <Link href={`/${nip19.npubEncode(event.pubkey)}`} key={event.id} className="flex items-center gap-4">
                     <Avatar pub={event.pubkey} width="w-12" />
                     <Name pub={event.pubkey} />
-                  </div>
+                  </Link>
                 ))}
               </div>
             </Modal>
           )}
           <div className="flex items-center gap-4">
             {likes.length > 0 && (<div className="flex-shrink-0">
-              <a onClick={() => setModalReactions(likes)} className="cursor-pointer hover:underline">
+              <a onClick={() => {
+                setModalReactions(likes);
+                setModalTitle('Liked by');
+              }} className="cursor-pointer hover:underline">
                 {likes.length} <span className="text-neutral-500">Likes</span>
               </a>
             </div>)}
             {reposts.length > 0 && (<div className="flex-shrink-0">
-              <a onClick={() => setModalReactions(reposts)}
+              <a onClick={() => {
+                setModalReactions(reposts);
+                setModalTitle('Reposted by');
+              }}
                        className="cursor-pointer hover:underline">
                 {reposts.length} <span className="text-neutral-500">Reposts</span>
               </a>
             </div>)}
             {zaps.length > 0 && (<div className="flex-shrink-0">
-              <a onClick={() => setModalReactions(zaps)}
+              <a onClick={() => {
+                setModalReactions(zaps);
+                setModalTitle('Zapped by');
+              }}
                        className="cursor-pointer hover:underline">
                 {zaps.length} <span className="text-neutral-500">Zaps</span>
               </a>
@@ -107,12 +119,12 @@ const Reactions = ({ reactionEvents, nip19NoteId, event, standalone }: Props) =>
           {!standalone && replies.length > 0 && replies.length}
         </Link>
 
-        <button onClick={like} className={`btn-ghost hover:bg-transparent text-neutral-500 hover:text-iris-purple btn w-1/4 content-center gap-2 rounded-none p-2 ${liked ? 'text-iris-purple' : ''}`}>
+        <button onClick={like} className={`btn-ghost hover:bg-transparent hover:text-iris-purple btn w-1/4 content-center gap-2 rounded-none p-2 ${liked ? 'text-iris-purple' : 'text-neutral-500'}`}>
           {liked ? <HeartIconFull width={18} /> : <HeartIcon width={18}/>}
           {!standalone && likes.length > 0 && likes.length}
         </button>
 
-        <button onClick={repost} className={`btn-ghost hover:bg-transparent text-neutral-500 hover:text-iris-green btn w-1/4 content-center gap-2 rounded-none p-2 ${reposted ? 'text-iris-green' : ''}`}>
+        <button onClick={repost} className={`btn-ghost hover:bg-transparent hover:text-iris-green btn w-1/4 content-center gap-2 rounded-none p-2 ${reposted ? 'text-iris-green' : 'text-neutral-500'}`}>
           {reposted ? <ArrowPathIconFull width={18} /> : <ArrowPathIcon width={18} />}
           {!standalone && reposts.length > 0 && reposts.length}
         </button>
