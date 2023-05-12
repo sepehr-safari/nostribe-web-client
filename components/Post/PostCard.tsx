@@ -156,7 +156,7 @@ const PostCard = ({ postId, showReplies, standalone, asReply, asRepliedMessage, 
           </div>
         </div>
 
-        {!asInlineQuote ? <Reactions event={postEvent} reactionEvents={reactionEvents} nip19NoteId={nip19NoteId} /> : ''}
+        {!asInlineQuote ? <Reactions standalone={standalone || false} event={postEvent} reactionEvents={reactionEvents} nip19NoteId={nip19NoteId} /> : ''}
       </CardContainer>
       {showReplyForm ? (
         <>

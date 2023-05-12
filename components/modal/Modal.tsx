@@ -42,12 +42,10 @@ const Modal: FC<Props> = ({
 
   const content = showContainer ? (
     <div
-      className="msg w-full max-w-lg mx-auto"
+      className="bg-black rounded-lg shadow-lg p-5 border border-gray-700"
       onClick={(e) => handleContainerClick(e)}
     >
-      <div className="msg-content" tw="p-8">
-        {children}
-      </div>
+      {children}
     </div>
   ) : (
     children
