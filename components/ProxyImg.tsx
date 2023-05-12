@@ -1,6 +1,4 @@
-'use client';
-
-import {MouseEventHandler, useState} from 'react';
+import { MouseEventHandler, useEffect, useState } from 'react';
 
 type Props = {
   src: string;
@@ -13,7 +11,6 @@ type Props = {
   alt?: string;
 };
 
-// need to have trailing slash, otherwise you could do https://imgur.com.myevilwebsite.com/image.png
 const safeOrigins = [
   '/',
   'data:image',
@@ -27,45 +24,46 @@ export const isSafeOrigin = (url: string) => {
 };
 
 const ProxyImg = (props: Props) => {
-  let onError = props.onError;
-  let mySrc = props.src;
   const [proxyFailed, setProxyFailed] = useState(false);
-  const [src, setSrc] = useState(mySrc);
-  if (
-    props.src &&
-    (!isSafeOrigin(props.src) || props.width)
-  ) {
-    // free proxy with a 250 images per 10 min limit? https://images.weserv.nl/docs/
-    const originalSrc = props.src;
-    if (props.width) {
-      const width = props.width * 2;
-      const resizeType = props.square ? 'fill' : 'fit';
-      mySrc = `https://imgproxy.iris.to/insecure/rs:${resizeType}:${width}:${width}/plain/${originalSrc}`;
+  const [src, setSrc] = useState(() => {
+    if (
+      props.src &&
+      (!isSafeOrigin(props.src) || props.width)
+    ) {
+      const originalSrc = props.src;
+      if (props.width) {
+        const width = props.width * 2;
+        const resizeType = props.square ? 'fill' : 'fit';
+        return `https://imgproxy.iris.to/insecure/rs:${resizeType}:${width}:${width}/plain/${originalSrc}`;
+      } else {
+        return `https://imgproxy.iris.to/insecure/plain/${originalSrc}`;
+      }
     } else {
-      mySrc = `https://imgproxy.iris.to/insecure/plain/${originalSrc}`;
+      return props.src;
     }
-    const originalOnError = props.onError;
-    // try without proxy if it fails
-    onError = () => {
+  });
+
+  useEffect(() => {
+    if (proxyFailed) {
+      const originalSrc = props.src;
+      const originalOnError = props.onError;
       if (proxyFailed) {
         console.log('original source failed too', originalSrc);
-        // set base64 empty placeholder
         setSrc(
           'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+P+/HgAFhQJ/qwQX2QAAAABJRU5ErkJggg==',
         );
         originalOnError && originalOnError();
       } else {
-        console.log('image proxy failed', mySrc, 'trying original source', originalSrc);
-        setProxyFailed(true);
-        setSrc(originalSrc);
+        console.log('image proxy failed', src, 'trying original source', originalSrc);
+        setSrc(originalSrc + '?retry=' + new Date().getTime());
       }
-    };
-  }
+    }
+  }, [proxyFailed, props.src]);
 
   return (
     <img
       src={src}
-      onError={onError}
+      onError={() => setProxyFailed(true)}
       onClick={props.onClick}
       className={props.className}
       style={props.style}

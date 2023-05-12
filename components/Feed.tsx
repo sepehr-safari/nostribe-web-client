@@ -157,7 +157,7 @@ const Feed = ({ isEmpty, events, loadMore, showDisplayAs }: Props) => {
           setModalImageIndex(index);
         }}
       >
-        <ProxyImg width={319} src={url} alt="" className="w-full h-full object-cover" />
+        <ProxyImg square={true} width={319} src={url} alt="" className="w-full h-full object-cover" />
         {item.type === 'video' && (
           <div className="absolute top-0 right-0 m-2 shadow-md shadow-gray-500 ">
             {VideoIcon}
