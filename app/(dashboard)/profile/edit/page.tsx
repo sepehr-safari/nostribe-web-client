@@ -7,6 +7,7 @@ import useStore from '@/store';
 import CardContainer from '@/components/CardContainer';
 import {useProfileMetadata} from "@/hooks";
 import Upload from "@/components/Upload";
+import { useRouter } from 'next/navigation';
 
 const IMAGE_FIELDS = ['picture', 'banner'];
 
@@ -16,6 +17,7 @@ const EditProfile = () => {
   const [newFieldValue, setNewFieldValue] = useState('');
   const userData = useStore((state) => state.auth.user.data);
   const myNpub = userData?.publicKey ? nip19.npubEncode(userData?.publicKey) : '';
+  const router = useRouter();
 
   const { latestMetadataEvent } = useProfileMetadata(userData?.publicKey || '');
   useEffect(() => {
@@ -56,6 +58,7 @@ const EditProfile = () => {
       content,
       tags: latestMetadataEvent?.tags || [],
     });
+    router.push(`/${myNpub}`);
   }
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
