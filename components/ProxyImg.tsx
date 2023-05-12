@@ -47,7 +47,7 @@ const ProxyImg = (props: Props) => {
   useEffect(() => {
     if (proxyFailed && !originalFailed) {
       console.log('image proxy failed', src, 'trying original source', props.src);
-      setSrc(props.src + '?retry=' + new Date().getTime());
+      setSrc(props.src);
     }
   }, [proxyFailed, props.src, src, originalFailed]);
 

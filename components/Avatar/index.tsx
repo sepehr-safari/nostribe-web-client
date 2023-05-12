@@ -1,6 +1,7 @@
 'use client';
 
 import {useProfileContent} from "@/hooks";
+import ProxyImg from "@/components/ProxyImg";
 
 type Width = 'w-6' | 'w-8' | 'w-12' | 'w-14' | 'w-24' | 'w-36';
 
@@ -11,14 +12,11 @@ export function BaseAvatar({
   url: string;
   width?: Width;
 }) {
-  if (url?.startsWith('http')) {
-    url = `https://imgproxy.iris.to/insecure/rs:fill:96:96/plain/${url}`;
-  }
   return (
     <>
       <div className="avatar">
         <div className={`mask mask-circle ${width}`}>
-          <img src={url || '/nostribe.png'} />
+          <ProxyImg square={true} width={96} src={url || '/nostribe.png'} />
         </div>
       </div>
     </>

@@ -2,6 +2,7 @@
 
 import { EllipsisHorizontalIcon } from '@heroicons/react/24/outline';
 import Modal from '@/components/modal/Modal';
+import ProxyImg from '@/components/ProxyImg';
 import Link from 'next/link';
 
 import { useProfileContacts, useProfileContent, useProfileHex } from '@/hooks';
@@ -59,9 +60,7 @@ const ProfileCard = ({ profileAddress }: { profileAddress: string }) => {
     <>
       {showModal ? (
         <Modal onClose={() => setShowModal(false)}>
-          <img className="rounded max-h-[90vh] max-w-[90vw]" src={
-            `https://imgproxy.iris.to/insecure/plain/${picture}`
-          } />
+          <ProxyImg className="rounded max-h-[90vh] max-w-[90vw]" src={picture} />
         </Modal>
       ) : ''}
       <CardContainer>
@@ -80,7 +79,7 @@ const ProfileCard = ({ profileAddress }: { profileAddress: string }) => {
             ) : (
               <div className="avatar">
                 <div onClick={onClickAvatar} className={`cursor-pointer rounded-full border border-solid border-4 border-black w-36`}>
-                  <img src={ picture && `https://imgproxy.iris.to/insecure/rs:fill:272:272/plain/${picture}` || '/nostribe.png'} />
+                  <ProxyImg square={true} width={136} src={picture || '/nostribe.png'} />
                 </div>
               </div>
             )}
