@@ -115,7 +115,7 @@ const Feed = ({ isEmpty, events, loadMore, showDisplayAs }: Props) => {
     return (
       <div className="flex mb-1 mt-4">
         <button
-          className={`rounded-sm flex justify-center flex-1 p-4 ${displayAs === 'feed' ? 'bg-neutral-900' : ''}`}
+          className={`rounded-sm flex justify-center flex-1 p-4 ${displayAs === 'feed' ? 'bg-neutral-800' : 'hover:bg-neutral-900'}`}
           onClick={() => {
             setDisplayCount(PAGE_SIZE);
             setDisplayAs('feed');
@@ -124,7 +124,7 @@ const Feed = ({ isEmpty, events, loadMore, showDisplayAs }: Props) => {
           <Bars3Icon width={24} height={24} />
         </button>
         <button
-          className={`rounded-sm flex justify-center flex-1 p-4 ${displayAs === 'grid' ? 'bg-neutral-900' : ''}`}
+          className={`rounded-sm flex justify-center flex-1 p-4 ${displayAs === 'grid' ? 'bg-neutral-800' : 'hover:bg-neutral-900'}`}
           onClick={() => {
             setDisplayCount(PAGE_SIZE);
             setDisplayAs('grid');
@@ -150,7 +150,7 @@ const Feed = ({ isEmpty, events, loadMore, showDisplayAs }: Props) => {
     return (
       <div
         key={`feed${url}${index}`}
-        className="aspect-square cursor-pointer relative"
+        className="aspect-square cursor-pointer relative hover:opacity-80"
         ref={index === imagesAndVideos.length - 1 ? lastElementRef : null}
         onClick={() => {
           setModalImageIndex(index);
