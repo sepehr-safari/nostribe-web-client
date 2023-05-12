@@ -50,7 +50,6 @@ const ProfileCard = ({ profileAddress }: { profileAddress: string }) => {
     });
   }, [hex]);
 
-  const proxiedBanner = banner && `https://imgproxy.iris.to/insecure/plain/${banner}`;
   const onClickAvatar: MouseEventHandler<HTMLDivElement> = (e) => {
     e.stopPropagation()
     setShowModal(true);
@@ -64,15 +63,17 @@ const ProfileCard = ({ profileAddress }: { profileAddress: string }) => {
         </Modal>
       ) : ''}
       <CardContainer>
-        <div className="absolute top-0 left-0 h-48 w-full">
-          <img
-            src={proxiedBanner || '/nostribe.png'}
-            className="h-full w-full object-cover opacity-80"
-            alt={displayName}
-          />
-        </div>
+        {banner ? (
+          <div className="absolute top-0 left-0 h-48 w-full">
+            <ProxyImg
+              src={banner}
+              className="h-full w-full object-cover opacity-80"
+              alt={displayName}
+            />
+          </div>
+        ) : ''}
 
-        <div className="flex flex-col items-center gap-4 pt-36 md:flex-row">
+        <div className={`flex flex-col items-center gap-4 md:flex-row ${banner ? 'pt-36' : ''}`}>
           <div className="md:self-start w-36">
             {isFetchingMetadata ? (
               <AvatarLoader />
