@@ -14,7 +14,7 @@ const currencies: { [key: string]: string; } = {
 
 // set default according to locale
 let displayCurrency = 'USD';
-const locale = navigator.language;
+const locale = typeof window === 'undefined' ? 'en' : navigator.language;
 const EUR_LOCALE_PREFIXES = [
   'de',
   'fr',
