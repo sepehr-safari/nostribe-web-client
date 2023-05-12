@@ -65,6 +65,10 @@ const getExchangeRate = () => {
 // TODO get saved displaycurrency
 getExchangeRate();
 
+if (!lastBitcoinPrice) {
+  setTimeout(getExchangeRate, 1000);
+}
+
 export interface InvoiceDetails {
   amount?: number;
   expire?: number;
@@ -100,9 +104,9 @@ export function decodeInvoice(pr: string): InvoiceDetails | undefined {
       timestamp: timestamp,
       description: descriptionSection as string | undefined,
       descriptionHash: descriptionHashSection
-        ? bytesToHex(descriptionHashSection as Uint8Array)
+        ? /* bytesToHex(descriptionHashSection as Uint8Array) tmp disabled */ undefined
         : undefined,
-      paymentHash: paymentHashSection ? bytesToHex(paymentHashSection as Uint8Array) : undefined,
+      paymentHash: paymentHashSection ? undefined /* bytesToHex(paymentHashSection as Uint8Array)  tmp */ : undefined,
       expired: false,
     };
     if (ret.expire) {

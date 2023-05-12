@@ -9,23 +9,35 @@ import Link from "next/link";
 import {isRepost} from "@/utils/event";
 import usePublish from "@/hooks/usePublish";
 import useStore from "@/store";
-import {useMemo, useState} from "react";
+import {useMemo, useState, memo} from "react";
 import Modal from "@/components/modal/Modal";
 import Avatar from "@/components/Avatar";
 import Name from "@/components/Name";
-import {getZappingUser} from "@/utils/Lightning";
+import {getZappingUser, decodeInvoice, formatAmount} from "@/utils/Lightning";
 
 type Props = { event: Event, reactionEvents: Event[], nip19NoteId: string, standalone?: boolean };
 
-const Reaction = ({ event }: { event: Event }) => {
+const Reaction = memo(({ event }: { event: Event }) => {
   const reactor = event.kind === 9735 ? getZappingUser(event) : event.pubkey;
+  const invoice = event.kind === 9735 ? event.tags?.find((tag) => tag[0] === 'bolt11')?.[1] : undefined;
+  const amount = invoice ? decodeInvoice(invoice)?.amount : undefined;
+  console.log('amount', amount, 'invoice', invoice, 'event', event);
   return (
     <Link href={`/${nip19.npubEncode(reactor)}`} key={event.id} className="flex items-center gap-4">
       <Avatar pub={reactor} width="w-12" />
-      <Name pub={reactor} />
+      <div className="flex flex-col">
+        <Name pub={reactor} />
+        {amount && (
+          <small className="text-neutral-500">
+            {formatAmount(amount / 1000)}
+          </small>
+        )}
+      </div>
     </Link>
   );
-}
+}, (prevProps, nextProps) => prevProps.event.id === nextProps.event.id);
+
+Reaction.displayName = 'Reaction';
 
 const Reactions = ({ reactionEvents, nip19NoteId, event, standalone }: Props) => {
   const publish = usePublish();
