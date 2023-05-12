@@ -26,10 +26,11 @@ export const isSafeOrigin = (url: string) => {
 const ProxyImg = (props: Props) => {
   const [proxyFailed, setProxyFailed] = useState(false);
   const [originalFailed, setOriginalFailed] = useState(false);
-  const [src, setSrc] = useState(() => {
+
+  const getSrc = () => {
     if (
       props.src &&
-      (!isSafeOrigin(props.src) || props.width)
+      !isSafeOrigin(props.src)
     ) {
       const originalSrc = props.src;
       if (props.width) {
@@ -42,7 +43,16 @@ const ProxyImg = (props: Props) => {
     } else {
       return props.src;
     }
-  });
+  }
+
+  const [src, setSrc] = useState(() => getSrc());
+
+  // re-render if relevant props change
+  useEffect(() => {
+    setSrc(getSrc());
+    setProxyFailed(false);
+    setOriginalFailed(false);
+  }, [props.src, props.width, props.square]);
 
   useEffect(() => {
     if (proxyFailed && !originalFailed) {

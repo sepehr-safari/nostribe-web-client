@@ -32,8 +32,5 @@ export default function Avatar({
 }) {
   let { picture } = useProfileContent(pub);
 
-  if (picture?.startsWith('http')) {
-    picture = `https://imgproxy.iris.to/insecure/rs:fill:96:96/plain/${picture}`;
-  }
   return <BaseAvatar url={picture} width={width} />;
 }
