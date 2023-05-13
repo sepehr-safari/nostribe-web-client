@@ -124,12 +124,12 @@ const Reactions = ({ reactionEvents, nip19NoteId, event, standalone }: Props) =>
                 setModalTitle('Zapped by');
               }}
                        className="cursor-pointer hover:underline">
-                {zaps.length} <span className="text-neutral-500">Zaps:</span>
+                {zaps.length} <span className="text-neutral-500">Zaps</span>
                 {totalZapAmount > 0 && (
-                  <span className="text-neutral-500">
+                  <small className="text-neutral-500">
                     {' '}
-                    {formatAmount(totalZapAmount / 1000)}
-                  </span>
+                    ({formatAmount(totalZapAmount / 1000)})
+                  </small>
                 )}
               </a>
             </div>)}
