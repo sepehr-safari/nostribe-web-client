@@ -3,11 +3,13 @@
 import {
   HomeIcon,
   PaperAirplaneIcon,
+  PlusCircleIcon,
 } from '@heroicons/react/24/outline';
 import {
   MagnifyingGlassIcon as MagnifyingGlassIconFull,
   HomeIcon as HomeIconFull,
   PaperAirplaneIcon as PaperAirplaneIconFull,
+  PlusCircleIcon as PlusCircleIconFull,
 } from '@heroicons/react/24/solid';
 
 import Link from 'next/link';
@@ -31,6 +33,9 @@ const Footer = () => {
         </Link>
         <Link href="/search" className="flex-grow flex items-center justify-center p-3">
           {pathname === "/search" ? <MagnifyingGlassIconFull className="h-6 w-6"/> : <MagnifyingGlassIconFull className="h-6 w-6"/>}
+        </Link>
+        <Link href="/post" className="flex-grow flex items-center justify-center p-3">
+          {pathname === "/post" ? <PlusCircleIconFull className="h-6 w-6"/> : <PlusCircleIcon className="h-6 w-6"/>}
         </Link>
         <Link href="/messages" className="flex-grow flex items-center justify-center p-3">
           {pathname === "/messages" ? <PaperAirplaneIconFull className="h-6 w-6"/> : <PaperAirplaneIcon className="h-6 w-6"/>}

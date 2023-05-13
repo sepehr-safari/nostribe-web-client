@@ -29,7 +29,11 @@ const HomeFeed = () => {
 
   return (
     <>
-      {userData?.publicKey ? <NewPostForm /> : null}
+      {userData?.publicKey ? (
+        <div className="hidden md:block">
+          <NewPostForm />
+        </div>
+      ) : null}
       <Feed events={events} isEmpty={isEmpty} />
     </>
   );
