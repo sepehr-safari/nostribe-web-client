@@ -65,9 +65,11 @@ const getExchangeRate = () => {
 // TODO get saved displaycurrency
 getExchangeRate();
 
-if (!lastBitcoinPrice) {
-  setTimeout(getExchangeRate, 1000);
-}
+setTimeout(() => {
+  if (!lastBitcoinPrice) {
+    getExchangeRate();
+  }
+}, 1000);
 
 export interface InvoiceDetails {
   amount?: number;
