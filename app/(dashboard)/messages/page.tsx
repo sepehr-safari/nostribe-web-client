@@ -21,7 +21,7 @@ const MessageListItem = memo(({ hexPub }: { hexPub: string }) => {
 MessageListItem.displayName = 'MessageListItem';
 
 export default function Message() {
-  const { directMessageEvents, directMessageEose, isDirectMessagesEmpty } = useDirectMessages();
+  const { directMessageEvents, isDirectMessagesEmpty } = useDirectMessages();
   const userData = useStore((state) => state.auth.user.data);
 
   const threads = useMemo(() => {
@@ -55,15 +55,7 @@ export default function Message() {
     return Array.from(threadMap.entries())
       .sort((a, b) => b[1].created_at - a[1].created_at)
       .map((entry) => entry[0]);
-  }, [directMessageEose, userData]);
-
-  if (!directMessageEose) {
-    return (
-      <div className="flex p-2 justify-center">
-        <Spinner />
-      </div>
-    );
-  }
+  }, [directMessageEvents, userData]);
 
   if (isDirectMessagesEmpty) {
     return (
