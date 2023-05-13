@@ -76,6 +76,12 @@ const Reactions = ({ reactionEvents, nip19NoteId, event, standalone }: Props) =>
   const replies = reactionEvents.filter((event) => event.kind === 1 && !isRepost(event));
   const hasReactions = likes.length > 0 || reposts.length > 0 || zaps.length > 0;
 
+  const totalZapAmount: number = useMemo(() => zaps.reduce((acc, event) => {
+    const invoice = event.tags?.find((tag) => tag[0] === 'bolt11')?.[1];
+    const amount = invoice ? decodeInvoice(invoice)?.amount : undefined;
+    return amount ? acc + amount : acc;
+  }, 0), [zaps]);
+
   // in standalone, show twitter-like listings that open the modal
   return (
     <>
@@ -118,7 +124,13 @@ const Reactions = ({ reactionEvents, nip19NoteId, event, standalone }: Props) =>
                 setModalTitle('Zapped by');
               }}
                        className="cursor-pointer hover:underline">
-                {zaps.length} <span className="text-neutral-500">Zaps</span>
+                {zaps.length} <span className="text-neutral-500">Zaps:</span>
+                {totalZapAmount > 0 && (
+                  <span className="text-neutral-500">
+                    {' '}
+                    {formatAmount(totalZapAmount / 1000)}
+                  </span>
+                )}
               </a>
             </div>)}
           </div>
@@ -129,7 +141,11 @@ const Reactions = ({ reactionEvents, nip19NoteId, event, standalone }: Props) =>
       <div className="-m-4 flex flex-wrap">
         <button className="btn-ghost hover:bg-transparent text-neutral-500 hover:text-iris-orange btn w-1/4 content-center gap-2 rounded-none p-2">
           <BoltIcon width={18} />
-          {!standalone && zaps.length > 0 && zaps.length}
+          {!standalone && zaps.length > 0 && (
+            <>
+              {formatAmount(totalZapAmount / 1000)}
+            </>
+          )}
         </button>
 
         <Link href={`/${nip19NoteId}`} className="btn-ghost hover:bg-transparent text-neutral-500 hover:text-iris-blue btn w-1/4 content-center gap-2 rounded-none p-2">

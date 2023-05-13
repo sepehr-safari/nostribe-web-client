@@ -19,7 +19,7 @@ import Dropdown from './Dropdown';
 import { usePostEvent, usePostReactions, useProfileContent } from '@/hooks';
 import { useRouter } from 'next/navigation';
 import {MouseEventHandler, useMemo} from "react";
-import {getReplyingToEvent, getThreadRoot} from "@/utils/event";
+import {getReplyingToEvent, getThreadRoot, isRepost} from "@/utils/event";
 import {toHexKey} from "@/utils/hexKey";
 
 type Props = {
@@ -166,7 +166,7 @@ const PostCard = ({ postId, showReplies, standalone, asReply, asRepliedMessage, 
       ) : ''}
       {showReplies ? (
         sortedReactions.filter((event) => {
-          if (event.kind !== 1) return false;
+          if (event.kind !== 1 || isRepost(event)) return false;
           return getReplyingToEvent(event) === postId;
         }).map((event) => (
           <PostCard postId={event.id} key={event.id} showReplies={1} asReply={true} />
