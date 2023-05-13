@@ -65,6 +65,9 @@ const BackNavHeader = () => {
     title = 'Edit Profile';
   } else if (pathname === '/post') {
     title = 'New Post';
+  } else if (pathname.startsWith('/search/')) {
+    const keyword = pathname.split('/')[2];
+    title = `Search: ${decodeURIComponent(keyword)}`;
   } else {
     title = title.charAt(0).toUpperCase() + title.slice(1);
   }

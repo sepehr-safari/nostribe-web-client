@@ -22,7 +22,6 @@ export default function Search({ params }: { params: { keyword: string }}) {
 
   return (
     <>
-      <h2>Search: "{searchTerm}"</h2>
       <Feed events={events.filter((event) => event?.content?.toLowerCase().includes(searchTerm))} />
     </>
   );
