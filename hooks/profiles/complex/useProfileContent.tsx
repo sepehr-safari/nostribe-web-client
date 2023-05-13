@@ -4,11 +4,12 @@ import { nip19 } from 'nostr-tools';
 
 import { IAuthor } from '@/types';
 
-import { useProfileMetadata } from '@/hooks';
+import {useProfileHex, useProfileMetadata} from '@/hooks';
 
 const useProfileContent = (profileAddress: string) => {
+  const hex = useProfileHex(profileAddress);
   const { isFetchingMetadata, isMetadataEmpty, metadataEose, latestMetadataEvent } =
-    useProfileMetadata(profileAddress);
+    useProfileMetadata(hex);
 
   let profileObject;
   try {
@@ -31,9 +32,7 @@ const useProfileContent = (profileAddress: string) => {
     displayName: profileObject.display_name || profileObject.name,
   };
 
-  const npub = latestMetadataEvent
-    ? nip19.npubEncode(latestMetadataEvent.pubkey)
-    : '';
+  const npub = profileAddress && nip19.npubEncode(hex) || undefined;
 
   return {
     ...author,

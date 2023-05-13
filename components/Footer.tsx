@@ -40,7 +40,7 @@ const Footer = () => {
           {pathname === "/post/new" ? <PlusCircleIconFull className="h-6 w-6"/> : <PlusCircleIcon className="h-6 w-6"/>}
         </Link>
         */}
-        {userData?.publicKey && (
+        {npub && (
           <Link href={`/${npub}`} className="flex-grow flex items-center justify-center p-3">
             <div className={`flex border-2 ${pathname === `/${npub}` ? "border-white rounded-full"  : "border-transparent"}`}>
               <Avatar width="w-6" pub={userData?.publicKey} />
