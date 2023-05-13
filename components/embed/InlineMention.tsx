@@ -25,7 +25,7 @@ const InlineMention: Embed = {
       return (
         <Link
           key={match + index}
-          href={`/${nip19.noteEncode(id)}`}
+          href={`/${nip19.npubEncode(id)}`}
           className="text-iris-blue hover:underline"
         >
           <Name pub={id} />
