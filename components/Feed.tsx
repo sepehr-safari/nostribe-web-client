@@ -114,9 +114,9 @@ const Feed = ({ isEmpty, events, loadMore, showDisplayAs }: Props) => {
   const renderDisplayAsSelector = () => {
     if (showDisplayAs === false) return null;
     return (
-      <div className="flex mb-1 mt-4">
+      <div className="flex mb-px">
         <button
-          className={`rounded-sm flex justify-center flex-1 p-4 ${displayAs === 'feed' ? 'bg-neutral-800' : 'hover:bg-neutral-900'}`}
+          className={`rounded-sm flex justify-center flex-1 p-3 ${displayAs === 'feed' ? 'bg-neutral-800' : 'hover:bg-neutral-900'}`}
           onClick={() => {
             setDisplayCount(PAGE_SIZE);
             setDisplayAs('feed');
@@ -125,7 +125,7 @@ const Feed = ({ isEmpty, events, loadMore, showDisplayAs }: Props) => {
           <Bars3Icon width={24} height={24} />
         </button>
         <button
-          className={`rounded-sm flex justify-center flex-1 p-4 ${displayAs === 'grid' ? 'bg-neutral-800' : 'hover:bg-neutral-900'}`}
+          className={`rounded-sm flex justify-center flex-1 p-3 ${displayAs === 'grid' ? 'bg-neutral-800' : 'hover:bg-neutral-900'}`}
           onClick={() => {
             setDisplayCount(PAGE_SIZE);
             setDisplayAs('grid');
