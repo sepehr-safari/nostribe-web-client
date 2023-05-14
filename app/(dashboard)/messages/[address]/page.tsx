@@ -1,16 +1,12 @@
 'use client';
 
-import { memo } from 'react';
+import {memo} from 'react';
 
-import Link from 'next/link';
+import {nip19} from 'nostr-tools';
 
-import { nip19 } from 'nostr-tools';
-
-import Avatar from "@/components/Avatar";
-import Name from "@/components/Name";
-import RelativeTime from "@/components/RelativeTime";
 import {useSubscribe} from "nostr-hooks";
 import useStore from "@/store";
+import DirectMessage from "@/components/DirectMessage";
 
 const MessageThread = ({ params }: { params: { address: string } }) => {
   const relays = useStore((store) => store.relays);
@@ -31,30 +27,9 @@ const MessageThread = ({ params }: { params: { address: string } }) => {
   if (!events.length) return <div className="p-2">Empty</div>;
 
   return (
-    <div className="flex flex-col gap-4 p-2">
+    <div className="flex flex-col p-2">
       {events.sort((a, b) => b.created_at - a.created_at).map((event, index) => (
-        <div key={event.id} className="flex flex-row gap-2">
-          <div className="flex items-center gap-2">
-            <Link
-              prefetch={false}
-              href={`/${nip19.npubEncode(event.pubkey)}`}
-              className="flex items-center gap-2"
-            >
-              <Avatar pub={event.pubkey} />
-
-              <div className="flex flex-col">
-                <Name pub={event.pubkey} />
-
-                <div className="text-xs leading-5 opacity-50">
-                  <RelativeTime date={new Date(event.created_at * 1000)} />
-                </div>
-              </div>
-            </Link>
-          </div>
-          <div className="flex flex-1 justify-end text-neutral-500">
-            encrypted message
-          </div>
-        </div>
+        <DirectMessage hexPub={hexPub} event={event} key={index} />
       ))}
     </div>
   );
