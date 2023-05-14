@@ -64,7 +64,7 @@ const ProfileCard = ({ profileAddress }: { profileAddress: string }) => {
       ) : ''}
       <CardContainer>
         {banner ? (
-          <div className="absolute top-0 left-0 h-48 w-full">
+          <div className="h-48 w-full">
             <ProxyImg
               src={banner}
               className="h-full w-full object-cover opacity-80"
@@ -73,8 +73,8 @@ const ProfileCard = ({ profileAddress }: { profileAddress: string }) => {
           </div>
         ) : ''}
 
-        <div className={`flex flex-col items-center gap-4 md:flex-row ${banner ? 'pt-36' : ''}`}>
-          <div className="md:self-start w-36">
+        <div className={`flex items-center gap-4 flex-row`}>
+          <div className={`self-start w-36 ${banner ? '-mt-20' : ''}`}>
             {isFetchingMetadata ? (
               <AvatarLoader />
             ) : (
@@ -86,40 +86,21 @@ const ProfileCard = ({ profileAddress }: { profileAddress: string }) => {
             )}
           </div>
 
-          <div className="flex w-full flex-col gap-3 md:mt-12">
+          <div className="flex w-full flex-col gap-3">
             <div className="flex flex-wrap">
-              <div className="flex flex-col gap-2">
-                {displayName ? (
-                  <div className="text-xl font-bold">{displayName}</div>
-                ) : (
-                  isFetchingMetadata && <BoxLoader />
-                )}
-
-                {nip05 ? (
-                  <Nip05View text={nip05} />
-                ) : (
-                  isFetchingMetadata && <BoxLoader />
-                )}
-
-                {website ? (
-                  <a className="text-xs text-info" target="_blank" href={website}>
-                    {website
-                      .replace('https://', '')
-                      .replace('http://', '')
-                      .replace(/\/$/, '')
-                    }
-                  </a>
-                ) : (
-                  isFetchingMetadata && <BoxLoader />
-                )}
-              </div>
-
               <div className="ml-auto flex gap-2">
                 {isMyProfile ? (
                   <Link href="/profile/edit" className="btn btn-sm gap-2">
                     Edit profile
                   </Link>
-                ) : <FollowButton pub={profileAddress} />}
+                ) : (
+                  <>
+                    <Link className="btn btn-sm" href={`/messages/${profileAddress}`}>
+                      Message
+                    </Link>
+                    <FollowButton pub={profileAddress} />
+                  </>
+                )}
 
                 <div className="dropdown-left dropdown">
                 <label tabIndex={0} className="btn-ghost btn-circle btn btn-sm text-neutral-500">
@@ -155,9 +136,36 @@ const ProfileCard = ({ profileAddress }: { profileAddress: string }) => {
                   </li>
                 </ul>
               </div>
-
               </div>
             </div>
+          </div>
+        </div>
+        <div>
+              <div className="flex flex-col gap-2">
+                {displayName ? (
+                  <div className="text-xl font-bold">{displayName}</div>
+                ) : (
+                  isFetchingMetadata && <BoxLoader />
+                )}
+
+                {nip05 ? (
+                  <Nip05View text={nip05} />
+                ) : (
+                  isFetchingMetadata && <BoxLoader />
+                )}
+
+                {website ? (
+                  <a className="text-xs text-info" target="_blank" href={website}>
+                    {website
+                      .replace('https://', '')
+                      .replace('http://', '')
+                      .replace(/\/$/, '')
+                    }
+                  </a>
+                ) : (
+                  isFetchingMetadata && <BoxLoader />
+                )}
+              </div>
 
             {latestContactEvent ? (
               <>
@@ -188,8 +196,7 @@ const ProfileCard = ({ profileAddress }: { profileAddress: string }) => {
             ) : (
               isFetchingMetadata && <BoxLoader />
             )}
-          </div>
-        </div>
+            </div>
       </CardContainer>
     </>
   );
