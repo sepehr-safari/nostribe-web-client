@@ -5,16 +5,21 @@ import Link from "next/link";
 import { nip19, Event } from "nostr-tools";
 import Avatar from "@/components/Avatar";
 import Name from "@/components/Name";
-import Spinner from "@/components/Spinner";
 import useDirectMessages from "@/hooks/posts/simple/useDirectMessages";
 import useStore from "@/store";
+import RelativeTime from "@/components/RelativeTime";
 
-const MessageListItem = memo(({ hexPub }: { hexPub: string }) => {
+const MessageListItem = memo(({ hexPub, event }: { hexPub: string, event: Event }) => {
   const npub = nip19.npubEncode(hexPub);
   return (
     <Link href={`/messages/${npub}`} key={hexPub} className="flex items-center p-2 gap-4">
       <Avatar pub={hexPub} width="w-12" />
-      <Name pub={hexPub} />
+      <div className="flex flex-col">
+        <Name pub={hexPub} />
+        <div className="text-xs leading-5 opacity-50">
+          <RelativeTime date={new Date(event.created_at * 1000)} />
+        </div>
+      </div>
     </Link>
   );
 });
@@ -24,7 +29,7 @@ export default function Message() {
   const { directMessageEvents, isDirectMessagesEmpty } = useDirectMessages();
   const userData = useStore((state) => state.auth.user.data);
 
-  const threads = useMemo(() => {
+  const {threads, latest} = useMemo(() => {
     const threadMap = new Map<string, Event>();
     const addIfLatest = (threadId: string, event: Event) => {
       if (threadId === userData?.publicKey) {
@@ -52,9 +57,10 @@ export default function Message() {
         }
       });
     });
-    return Array.from(threadMap.entries())
+    const sortedThreads = Array.from(threadMap.entries())
       .sort((a, b) => b[1].created_at - a[1].created_at)
       .map((entry) => entry[0]);
+    return { threads: sortedThreads, latest: threadMap };
   }, [directMessageEvents, userData]);
 
   if (isDirectMessagesEmpty) {
@@ -67,7 +73,7 @@ export default function Message() {
 
   return (
     <div className="p-2">
-      {Array.from(threads).map((hexPub) => <MessageListItem key={hexPub} hexPub={hexPub} />)}
+      {Array.from(threads).map((hexPub) => <MessageListItem key={hexPub} hexPub={hexPub} event={latest.get(hexPub) as Event}  />)}
     </div>
   );
 }

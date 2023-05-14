@@ -18,7 +18,7 @@ const Image: Embed = {
           key={match + index}
           className="relative w-full overflow-hidden object-contain my-2"
         >
-          <img onClick={onClick} className="rounded max-h-[70vh] md:max-h-96 max-w-full" src={
+          <img onClick={onClick} className="rounded max-h-[70vh] md:max-h-96 max-w-full cursor-pointer" src={
             `https://imgproxy.iris.to/insecure/plain/${match}`
           } />
         </div>
