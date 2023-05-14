@@ -27,7 +27,7 @@ const Profile = ({ params }: { params: { address: string } }) => {
 
   return (
     <>
-      <div className="mb-4">
+      <div className="mb-4 -mt-4">
         <ProfileCard profileAddress={params.address} />
       </div>
       <Feed events={events} />
