@@ -17,9 +17,12 @@ const MessageThread = ({ params }: { params: { address: string } }) => {
   const { events, eose } = useSubscribe({
     relays,
     filters: [
+      { authors: [myPub], "#p": [hexPub], kinds: [4] },
       { authors: [hexPub], "#p": [myPub], kinds: [4] },
-      { authors: [myPub], "#p": [hexPub], kinds: [4] }
     ],
+    options: {
+      enabled: !!myPub,
+    }
   });
 
   if (!eose) return <div className="p-2">Loading...</div>;
@@ -29,10 +32,10 @@ const MessageThread = ({ params }: { params: { address: string } }) => {
   return (
     <div className="flex flex-col p-2">
       {events.sort((a, b) => b.created_at - a.created_at).map((event, index) => (
-        <DirectMessage hexPub={hexPub} event={event} key={index} />
+        <DirectMessage showEventAuthor={true} hexPub={hexPub} event={event} key={index} />
       ))}
     </div>
   );
 };
 
-export default memo(MessageThread);
+export default MessageThread;

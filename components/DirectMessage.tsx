@@ -27,19 +27,20 @@ class PromiseQueue {
 
 const decryptQueue = new PromiseQueue();
 
-const DirectMessage = memo(({ hexPub, event }: { hexPub: string, event: Event }) => {
+const DirectMessage = memo(({ hexPub, event, showEventAuthor }: { hexPub: string, event: Event, showEventAuthor?: boolean }) => {
   const npub = nip19.npubEncode(hexPub);
   const [decrypted, setDecrypted] = useState<string>('');
+  const pub = showEventAuthor ? event.pubkey : hexPub;
 
   useEffect(() => {
     decryptQueue.addPromise(() => (window as any).nostr.nip04.decrypt(hexPub, event.content).then(setDecrypted));
   }, [hexPub, event.content]);
   return (
-    <Link href={`/messages/${npub}`} key={hexPub} className="flex items-center p-2 gap-4">
-      <Avatar pub={hexPub} width="w-12" />
+    <Link href={`/messages/${npub}`} key={event.id} className="flex items-center p-2 gap-4">
+      <Avatar pub={pub} width="w-12" />
       <div className="flex flex-col">
         <div>
-          <Name pub={hexPub} />
+          <Name pub={pub} />
           <span className="ml-2 text-xs leading-5 opacity-50">
             <RelativeTime date={new Date(event.created_at * 1000)} />
           </span>
