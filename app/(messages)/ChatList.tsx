@@ -7,7 +7,7 @@ import useStore from "@/store";
 
 import DirectMessage from "@/components/DirectMessage";
 
-export default function Message() {
+export default function ChatList() {
   const { directMessageEvents, isDirectMessagesEmpty } = useDirectMessages();
   const userData = useStore((state) => state.auth.user.data);
 
@@ -54,8 +54,8 @@ export default function Message() {
   }
 
   return (
-    <div className="p-2">
-      {Array.from(threads).map((hexPub) => <DirectMessage key={hexPub} hexPub={hexPub} event={latest.get(hexPub) as Event}  />)}
+    <div className="p-2 break-all">
+      {Array.from(threads).map((hexPub) => <DirectMessage limitText={80} key={hexPub} hexPub={hexPub} event={latest.get(hexPub) as Event}  />)}
     </div>
   );
 }

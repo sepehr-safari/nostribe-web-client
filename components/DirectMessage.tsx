@@ -28,7 +28,7 @@ class PromiseQueue {
 
 const decryptQueue = new PromiseQueue();
 
-const DirectMessage = memo(({ hexPub, event, showEventAuthor }: { hexPub: string, event: Event, showEventAuthor?: boolean }) => {
+const DirectMessage = memo(({ hexPub, event, showEventAuthor, limitText }: { hexPub: string, event: Event, showEventAuthor?: boolean, limitText?: number }) => {
   const npub = nip19.npubEncode(hexPub);
   const userData = useStore((state) => state.auth.user.data);
   const [decrypted, setDecrypted] = useState<string>('');
@@ -43,6 +43,7 @@ const DirectMessage = memo(({ hexPub, event, showEventAuthor }: { hexPub: string
       }
     });
   }, [hexPub, event.content]);
+  const text = limitText && decrypted.length > limitText ? decrypted.slice(0, limitText) + '...' : decrypted;
   return (
     <Link href={`/messages/${npub}`} key={event.id} className="flex items-center p-2 gap-4">
       <Avatar pub={pub} width="w-12" />
@@ -54,7 +55,7 @@ const DirectMessage = memo(({ hexPub, event, showEventAuthor }: { hexPub: string
           </span>
         </div>
         <div className="text-xs leading-5 opacity-50">
-          {decrypted}
+          {text}
         </div>
       </div>
     </Link>
