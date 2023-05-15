@@ -3,6 +3,7 @@
 import { useRouter } from 'next/navigation';
 import { generatePrivateKey } from 'nostr-tools';
 import { useCallback, useEffect, useState } from 'react';
+import EULA from './EULA';
 
 import CardContainer from '@/components/CardContainer';
 
@@ -21,6 +22,18 @@ const Login = () => {
   const publish = usePublish();
 
   const [name, setName] = useState<string>('');
+  const [showEula, setShowEula] = useState<boolean>(false);
+
+  const isStandalone = (
+    (navigator as any).standalone ||
+    window.matchMedia('(display-mode: standalone)').matches ||
+    document.referrer.includes('android-app://iris.to')
+  );
+
+  const login = () => {
+    const privateKey = generatePrivateKey();
+    loginWithPrivateKey(privateKey);
+  }
 
   useEffect(() => {
     if (data) {
@@ -39,12 +52,26 @@ const Login = () => {
   }, []);
 
   const handleSignupButton = useCallback(() => {
-    const privateKey = generatePrivateKey();
-    loginWithPrivateKey(privateKey);
-  }, []);
+    if (isStandalone) {
+      setShowEula(true);
+    } else {
+      login();
+    }
+  }, [isStandalone]);
+
 
   return (
     <>
+      {showEula && (
+        <EULA
+          onAccept={() => {
+            login();
+            setShowEula(false);
+          }}
+          onDecline={() => setShowEula(false)}
+        />
+      )}
+
       <CardContainer>
         <div className="flex items-baseline gap-2">
           <h1 className="text-2xl font-bold md:text-4xl">iris</h1>

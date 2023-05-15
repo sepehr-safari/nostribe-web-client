@@ -61,12 +61,14 @@ type Props = {
 
 export default function EULA({ onAccept, onDecline }: Props) {
   return (
-    <div>
-      <div>{text}</div>
-      <p>
-        <button className="btn btn-primary" onClick={onAccept}>Accept</button>
-        <button className="btn" onClick={onDecline}>Decline</button>
-      </p>
+    <div className="fixed inset-0 z-50 flex items-start justify-center p-4 overflow-auto bg-black bg-opacity-50">
+      <div className="p-4 bg-black rounded-lg">
+        <div>{text}</div>
+        <p className="flex justify-end mt-4 space-x-2">
+          <button className="btn" onClick={onDecline}>Decline</button>
+          <button className="btn btn-primary" onClick={onAccept}>Accept</button>
+        </p>
+      </div>
     </div>
   );
 }
