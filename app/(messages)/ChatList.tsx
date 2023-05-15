@@ -2,14 +2,30 @@
 
 import { useMemo } from "react";
 import { Event } from "nostr-tools";
-import useDirectMessages from "@/hooks/posts/simple/useDirectMessages";
 import useStore from "@/store";
 
 import DirectMessage from "@/components/DirectMessage";
+import {useSubscribe} from "nostr-hooks";
 
 export default function ChatList() {
-  const { directMessageEvents, isDirectMessagesEmpty } = useDirectMessages();
+  const relays = useStore((store) => store.relays);
   const userData = useStore((state) => state.auth.user.data);
+
+  const { events: directMessageEvents, eose: directMessageEose } = useSubscribe({
+    relays,
+    filters: [
+      { authors: [userData?.publicKey || ''], kinds: [4], limit: 100 },
+      { kinds: [4], "#p": [userData?.publicKey || ''], limit: 100 },
+    ],
+    options: {
+      force: false,
+      batchingInterval: 500,
+      invalidate: false,
+      closeAfterEose: true,
+    },
+  });
+
+  const isDirectMessagesEmpty = directMessageEose && !directMessageEvents.length;
 
   const {threads, latest} = useMemo(() => {
     const threadMap = new Map<string, Event>();
