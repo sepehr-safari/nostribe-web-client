@@ -42,7 +42,7 @@ const Modal: FC<Props> = ({
 
   const content = showContainer ? (
     <div
-      className="bg-black rounded-lg shadow-lg p-5 border border-gray-700"
+      className="bg-black rounded-lg shadow-lg p-5 border border-gray-700 w-full md:w-1/2"
       onClick={(e) => handleContainerClick(e)}
     >
       {children}
