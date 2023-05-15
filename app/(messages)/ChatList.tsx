@@ -64,7 +64,7 @@ export default function ChatList() {
   if (isDirectMessagesEmpty) {
     return (
       <div className="p-2">
-        <p>No messages found.</p>
+        <p>No messages yet</p>
       </div>
     );
   }

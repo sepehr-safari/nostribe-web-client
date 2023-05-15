@@ -2,6 +2,7 @@
 
 import { memo } from 'react';
 import Feed from '@/components/Feed';
+import FollowSuggestions from '@/components/FollowSuggestions';
 
 import NewPostForm from '@/components/NewPostForm';
 import useStore from "@/store";
@@ -26,9 +27,11 @@ const HomeFeed = () => {
 
   const isEmpty = eose && !events.length;
 
-
   return (
     <>
+      {userData?.publicKey && isEmpty && authors.length === 0 && (
+        <FollowSuggestions />
+      )}
       {userData?.publicKey ? (
         <div className="hidden md:block">
           <NewPostForm />
