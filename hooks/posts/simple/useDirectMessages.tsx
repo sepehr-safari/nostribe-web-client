@@ -11,8 +11,8 @@ const useDirectMessages = () => {
   const { events: directMessageEvents, eose: directMessageEose } = useSubscribe({
     relays,
     filters: [
-      { authors: [userData?.publicKey || ''], kinds: [4], limit: 10 },
-      { kinds: [4], "#p": [userData?.publicKey || ''], limit: 10 },
+      { authors: [userData?.publicKey || ''], kinds: [4], limit: 500 },
+      { kinds: [4], "#p": [userData?.publicKey || ''], limit: 500 },
     ],
     options: {
       force: false,

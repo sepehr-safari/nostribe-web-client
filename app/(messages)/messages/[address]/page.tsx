@@ -42,7 +42,6 @@ const MessageThread = ({ params }: { params: { address: string } }) => {
 
   const onSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
-    console.log('submit');
     const content = await encrypt(newMessage);
     await publish({
       kind: 4,
@@ -60,6 +59,9 @@ return (
       {events.sort((a, b) => a.created_at - b.created_at).map((event, index) => (
         <DirectMessage showEventAuthor={true} hexPub={hexPub} event={event} key={index} />
       ))}
+      <div className="p-2 italic">
+        Nostr direct messages are encrypted, but anyone can see who you're messaging with and when.
+      </div>
     </div>
     <form className="w-full p-2 items-center md:w-1/3 flex fixed bottom-0 bg-black" onSubmit={onSubmit}>
       <input
