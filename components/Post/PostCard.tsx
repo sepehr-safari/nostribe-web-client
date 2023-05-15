@@ -6,7 +6,6 @@ import { nip19 } from 'nostr-tools';
 
 import { BaseAvatar } from '@/components/Avatar';
 import AvatarLoader from '@/components/Avatar/AvatarLoader';
-import BoxLoader from '@/components/BoxLoader';
 import CardContainer from '@/components/CardContainer';
 import PostContent from '@/components/Post/PostContent';
 import RelativeTime from '@/components/RelativeTime';
@@ -110,7 +109,7 @@ const PostCard = ({ postId, showReplies, standalone, asReply, asRepliedMessage, 
               )}
 
               <div className="flex flex-col">
-                {displayName ? (
+                {displayName && (
                   <h4 className="font-bold leading-5">
                     {displayName.length > 25
                       ? displayName.slice(0, 10) +
@@ -118,8 +117,6 @@ const PostCard = ({ postId, showReplies, standalone, asReply, asRepliedMessage, 
                         displayName.slice(-15)
                       : displayName}
                   </h4>
-                ) : (
-                  isFetching && <BoxLoader />
                 )}
 
                 {createdAt && (

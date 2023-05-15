@@ -7,9 +7,6 @@ import Link from 'next/link';
 
 import { useProfileContacts, useProfileContent, useProfileHex } from '@/hooks';
 
-import AvatarLoader from "@/components/Avatar/AvatarLoader";
-import BoxLoader from "@/components/BoxLoader";
-import CardContainer from "@/components/CardContainer";
 import Nip05View from "@/components/Nip05View";
 import FollowButton from "@/components/FollowButton";
 
@@ -25,7 +22,6 @@ const ProfileCard = ({ profileAddress }: { profileAddress: string }) => {
     nip05,
     picture,
     website,
-    isFetchingMetadata,
   } = useProfileContent(profileAddress);
 
   const [showModal, setShowModal] = useState(false);
@@ -138,19 +134,9 @@ const ProfileCard = ({ profileAddress }: { profileAddress: string }) => {
         </div>
         <div>
               <div className="flex flex-col gap-2">
-                {displayName ? (
-                  <div className="text-xl font-bold">{displayName}</div>
-                ) : (
-                  isFetchingMetadata && <BoxLoader />
-                )}
-
-                {nip05 ? (
-                  <Nip05View text={nip05} />
-                ) : (
-                  isFetchingMetadata && <BoxLoader />
-                )}
-
-                {website ? (
+                {displayName && <div className="text-xl font-bold">{displayName}</div>}
+                {nip05 && <Nip05View text={nip05} />}
+                {website && (
                   <a className="text-xs text-info" target="_blank" href={website}>
                     {website
                       .replace('https://', '')
@@ -158,12 +144,9 @@ const ProfileCard = ({ profileAddress }: { profileAddress: string }) => {
                       .replace(/\/$/, '')
                     }
                   </a>
-                ) : (
-                  isFetchingMetadata && <BoxLoader />
                 )}
               </div>
-
-            {latestContactEvent ? (
+            {latestContactEvent && (
               <>
                 <div className="flex flex-wrap gap-3 text-xs">
                   <Link href={`/following/${profileAddress}`}>
@@ -183,14 +166,9 @@ const ProfileCard = ({ profileAddress }: { profileAddress: string }) => {
                   </div>
                 )}
               </>
-            ) : (
-              isFetchingMetadata && <BoxLoader />
             )}
-
-            {about ? (
+            {about && (
               <div className="break-all text-xs">{about}</div>
-            ) : (
-              isFetchingMetadata && <BoxLoader />
             )}
             </div>
         </div>
