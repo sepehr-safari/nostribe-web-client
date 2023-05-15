@@ -25,7 +25,7 @@ const Login = () => {
   const [showEula, setShowEula] = useState<boolean>(false);
 
   const isStandalone = (
-    (navigator as any).standalone ||
+    (typeof navigator !== 'undefined' && navigator as any).standalone ||
     window.matchMedia('(display-mode: standalone)').matches ||
     document.referrer.includes('android-app://iris.to')
   );
