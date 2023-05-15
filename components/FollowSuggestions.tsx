@@ -38,7 +38,7 @@ export default function FollowSuggestions() {
     <div className="flex flex-col gap-4 p-4">
       <p>Follow someone to get started! Suggestions:</p>
       {SUGGESTED_FOLLOWS.map(([npub, bio]) => (
-        <div className="flex flex-row justify-between">
+        <div key={npub} className="flex flex-row justify-between">
           <Link href={`/${npub}`} key={npub} className="flex items-center gap-4">
             <Avatar pub={npub} width="w-12" />
             <div className="flex flex-col">
