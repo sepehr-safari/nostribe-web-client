@@ -55,7 +55,7 @@ export default function ChatList() {
 
   return (
     <div className="p-2 break-all">
-      {Array.from(threads).map((hexPub) => <DirectMessage limitText={80} key={hexPub} hexPub={hexPub} event={latest.get(hexPub) as Event}  />)}
+      {Array.from(threads).map((hexPub) => <DirectMessage limitText={70} key={hexPub} hexPub={hexPub} event={latest.get(hexPub) as Event}  />)}
     </div>
   );
 }

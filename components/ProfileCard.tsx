@@ -62,8 +62,7 @@ const ProfileCard = ({ profileAddress }: { profileAddress: string }) => {
           <ProxyImg className="rounded max-h-[90vh] max-w-[90vw]" src={picture} />
         </Modal>
       ) : ''}
-      <CardContainer>
-        {banner ? (
+      {banner ? (
           <div className="h-48 w-full">
             <ProxyImg
               src={banner}
@@ -73,17 +72,14 @@ const ProfileCard = ({ profileAddress }: { profileAddress: string }) => {
           </div>
         ) : ''}
 
-        <div className={`flex items-center gap-4 flex-row`}>
-          <div className={`self-start w-36 ${banner ? '-mt-20' : ''}`}>
-            {isFetchingMetadata ? (
-              <AvatarLoader />
-            ) : (
-              <div className="avatar">
-                <div onClick={onClickAvatar} className={`cursor-pointer rounded-full border border-solid border-4 border-black w-36`}>
-                  <ProxyImg square={true} width={136} src={picture || '/nostribe.png'} />
-                </div>
+        <div className="p-4">
+          <div className={`flex items-center gap-4 flex-row`}>
+          <div className={`self-start w-36 ${banner ? '-mt-16 md:-mt-20' : ''}`}>
+           <div className="avatar">
+              <div onClick={onClickAvatar} className={`cursor-pointer rounded-full border border-solid border-4 border-black w-18 md:w-36`}>
+                <ProxyImg square={true} width={136} src={picture || '/nostribe.png'} />
               </div>
-            )}
+            </div>
           </div>
 
           <div className="flex w-full flex-col gap-3">
@@ -197,7 +193,7 @@ const ProfileCard = ({ profileAddress }: { profileAddress: string }) => {
               isFetchingMetadata && <BoxLoader />
             )}
             </div>
-      </CardContainer>
+        </div>
     </>
   );
 };
