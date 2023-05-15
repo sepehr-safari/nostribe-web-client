@@ -6,6 +6,8 @@ import useStore from "@/store";
 
 const SEARCH_RELAYS = ['wss://relay.nostr.band'];
 
+export const runtime = 'edge';
+
 export default function Search({ params }: { params: { keyword: string }}) {
   let relays = useStore((store) => store.relays);
   relays = [...new Set([...SEARCH_RELAYS, ...relays])];

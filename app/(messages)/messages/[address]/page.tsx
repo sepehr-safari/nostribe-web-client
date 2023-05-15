@@ -10,6 +10,8 @@ import {
 } from '@heroicons/react/24/outline';
 import {FormEventHandler, useState} from "react";
 
+export const runtime = 'edge';
+
 const MessageThread = ({ params }: { params: { address: string } }) => {
   const [newMessage, setNewMessage] = useState('');
   const relays = useStore((store) => store.relays);
