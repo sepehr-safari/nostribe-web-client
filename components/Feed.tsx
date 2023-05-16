@@ -1,5 +1,5 @@
 import { memo, useState, useRef, useEffect, useMemo } from 'react';
-import { Filter } from 'nostr-tools';
+import { Filter, Event } from 'nostr-tools';
 import Image from '@/components/embed/Image';
 import Video from '@/components/embed/Video';
 import ProxyImg from '@/components/ProxyImg';
@@ -21,7 +21,7 @@ const VideoIcon = (
 )
 
 type Props = {
-  filters: Filter[]
+  filterOptions: FilterOption[]
   relays?: string[],
   showDisplayAs?: boolean;
   filterFn?: (event: any) => boolean;
@@ -34,7 +34,17 @@ type ImageOrVideo = {
   url: string;
 }
 
-const Feed = ({ filters, showDisplayAs, relays, filterFn }: Props) => {
+export type FilterOption = {
+  name: string;
+  filter: Filter;
+  filterFn?: (event: any) => boolean;
+}
+
+const Feed = ({ showDisplayAs, relays, filterOptions }: Props) => {
+  if (!filterOptions || filterOptions.length === 0) {
+    throw new Error('Feed requires at least one filter option');
+  }
+  const [filter, setFilterOption] = useState(filterOptions[0]);
   const [displayCount, setDisplayCount] = useState(PAGE_SIZE);
   const [displayAs, setDisplayAs] = useState('feed' as DisplayAs);
   const [modalItemIndex, setModalImageIndex] = useState(null as number | null);
@@ -43,7 +53,7 @@ const Feed = ({ filters, showDisplayAs, relays, filterFn }: Props) => {
   const defaultRelays = useStore((store) => store.relays);
 
   let { events, loadMore, eose } = useSubscribe({
-    filters,
+    filters: [filter.filter],
     relays: relays || defaultRelays,
     options: { invalidate: true, batchingInterval: 0 },
   });
@@ -52,8 +62,8 @@ const Feed = ({ filters, showDisplayAs, relays, filterFn }: Props) => {
   events = useMemo(() => {
     const deduped = events
       .filter((event) => {
-        if (filterFn) {
-          return filterFn(event);
+        if (filter.filterFn) {
+          return filter.filterFn(event);
         }
         return true;
       })
@@ -64,7 +74,7 @@ const Feed = ({ filters, showDisplayAs, relays, filterFn }: Props) => {
       return acc;
     }, [] as any[]);
     return deduped;
-  }, [events]);
+  }, [events, filter]);
 
   const isEmpty = eose && events.length === 0;
 
@@ -146,7 +156,24 @@ const Feed = ({ filters, showDisplayAs, relays, filterFn }: Props) => {
     };
   }, [modalItemIndex]);
 
-  if (isEmpty) return <p>No Posts</p>;
+  const renderFilterOptions = () => {
+    return (
+      <div className="flex mb-4 gap-2">
+        {filterOptions.map((filterOption) => (
+          <button
+            key={filterOption.name}
+            className={`btn btn-sm ${filterOption.name === filter.name ? 'btn-primary' : ''}`}
+            onClick={() => {
+              setFilterOption(filterOption);
+              setDisplayCount(PAGE_SIZE);
+            }}
+          >
+            {filterOption.name}
+          </button>
+        ))}
+      </div>
+    );
+  }
 
   const renderDisplayAsSelector = () => {
     if (showDisplayAs === false) return null;
@@ -257,8 +284,10 @@ const Feed = ({ filters, showDisplayAs, relays, filterFn }: Props) => {
 
   return (
     <>
+      {filterOptions.length > 1 && renderFilterOptions()}
       {renderDisplayAsSelector()}
       {renderImageModal()}
+      {isEmpty && <p>No Posts</p>}
       <div ref={lastElementRef}>
         {displayAs === 'grid' ? renderGrid() : (
           events

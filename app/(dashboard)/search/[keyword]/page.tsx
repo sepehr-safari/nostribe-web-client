@@ -1,9 +1,8 @@
 "use client";
 
 import Feed from "@/components/Feed";
-import {useSubscribe} from "nostr-hooks";
 import useStore from "@/store";
-import {Event } from "nostr-tools";
+import {Event, Filter } from "nostr-tools";
 
 export const runtime = 'edge';
 
@@ -16,12 +15,15 @@ export default function Search({ params }: { params: { keyword: string }}) {
 
   console.log('filters', [{ kinds: [1], limit: 100, search: searchTerm }]);
 
-  const filters = [{ kinds: [1], limit: 100, search: searchTerm }];
+  const filter: Filter = { kinds: [1], limit: 100, search: searchTerm };
   const filterFn = (event: Event) => event?.content?.toLowerCase().includes(searchTerm);
+  const filterOptions = [
+    { name: 'Search', filter, filterFn },
+  ];
 
   return (
     <>
-      <Feed filters={filters} filterFn={filterFn} relays={relays} />
+      <Feed filterOptions={filterOptions} relays={relays} />
     </>
   );
 }
