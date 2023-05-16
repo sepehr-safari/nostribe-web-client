@@ -27,11 +27,19 @@ const useProfileMetadata = (profileAddress: string) => {
     return prev;
   }, null as Event | null);
 
+  let metadata: any = {};
+  try {
+    metadata = latestMetadataEvent ? JSON.parse(latestMetadataEvent.content) : {};
+  } catch (e) {
+    console.error(e);
+  }
+
   return {
     isFetchingMetadata,
     isMetadataEmpty,
     latestMetadataEvent,
     metadataEose,
+    metadata,
   };
 };
 

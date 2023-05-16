@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 const Url: Embed = {
   regex: /(https?:\/\/[^\s]+)/g,
-  component: ({ match, index, event }) => {
+  component: ({ match, index, event , key}) => {
     // if same origin as current page, link internally
     const link = new URL(match);
     const current = new URL(window.location.href);
@@ -13,7 +13,7 @@ const Url: Embed = {
     }
     return (
       <Link
-        key={match + index}
+        key={key}
         href={url}
         className="text-iris-blue hover:underline"
         target={link.origin === current.origin ? '' : '_blank'}

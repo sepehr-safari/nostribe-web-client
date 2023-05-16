@@ -1,12 +1,11 @@
 import Embed from './index';
-import Link from 'next/link';
 
 const YouTube: Embed = {
   regex: /(?:https?:\/\/)?(?:www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=|shorts\/|live\/))([\w-]{11})(?:\S+)?/g,
-  component: ({ match, index }) => {
+  component: ({ match, index, key }) => {
     return (
       <iframe
-        key={match + index}
+        key={key}
         width="650"
         height="400"
         src={`https://www.youtube.com/embed/${match}`}

@@ -3,11 +3,11 @@ import Link from 'next/link';
 
 const Instagram: Embed = {
   regex: /(?:https?:\/\/)?(?:www\.)?(?:instagram\.com\/)((?:p|reel)\/[\w-]{11})(?:\S+)?/g,
-  component: ({ match, index }) => {
+  component: ({ match, index , key}) => {
     return (
       <iframe
         className="instagram"
-        key={match + index}
+        key={key}
         width="650"
         height="400"
         style={{ maxWidth: '100%' }}

@@ -3,12 +3,12 @@ import Link from 'next/link';
 
 const Spotify: Embed = {
   regex: /(?:https?:\/\/)?(?:www\.)?(?:open\.spotify\.com\/track\/)([\w-]+)(?:\S+)?/g,
-  component: ({ match, index }) => {
+  component: ({ match, index , key}) => {
     return (
       <iframe
         className="audio"
         scrolling="no"
-        key={match + index}
+        key={key}
         width="650"
         height="200"
         style={{ maxWidth: '100%' }}

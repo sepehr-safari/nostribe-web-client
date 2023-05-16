@@ -17,6 +17,7 @@ export type EmbedProps = {
   match: string,
   index?: number,
   event?: Event,
+  key: string,
 }
 
 type Embed = {

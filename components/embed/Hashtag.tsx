@@ -3,10 +3,10 @@ import Link from 'next/link';
 
 const Hashtag: Embed = {
   regex: /(?<=\s|^)(#\w+)/g,
-  component: ({ match, index, event }) => {
+  component: ({ match, index, key, event }) => {
     return (
       <Link
-        key={match + index}
+        key={key}
         href={`/search/${encodeURIComponent(match)}`}
         className="text-iris-blue hover:underline"
       >

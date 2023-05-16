@@ -7,10 +7,10 @@ const pubKeyRegex =
 
 const NostrNpub: Embed = {
   regex: pubKeyRegex,
-  component: ({ match, index }) => {
+  component: ({ match, index, key }) => {
     return (
       <Link
-        key={match + index}
+        key={key}
         href={`/${match}`}
         className="text-iris-blue hover:underline mx-1"
       >

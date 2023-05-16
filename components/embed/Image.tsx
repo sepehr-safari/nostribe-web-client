@@ -4,7 +4,7 @@ import {MouseEventHandler, useState} from "react";
 
 const Image: Embed = {
   regex: /(https?:\/\/.*\.(?:png|jpg|jpeg|gif|svg|webp)(?:\?\S*)?)/gi,
-  component: ({ match, index }) => {
+  component: ({ match, index, key }) => {
     // dis bad?
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const [showModal, setShowModal] = useState(false);
@@ -13,9 +13,8 @@ const Image: Embed = {
       setShowModal(true);
     }
     return (
-      <>
+      <div key={key}>
         <div
-          key={match + index}
           className="relative w-full overflow-hidden object-contain my-2"
         >
           <img onClick={onClick} className="rounded max-h-[70vh] md:max-h-96 max-w-full cursor-pointer" src={
@@ -29,7 +28,7 @@ const Image: Embed = {
             } />
           </Modal>
         ) : ''}
-      </>
+      </div>
     );
   },
 }

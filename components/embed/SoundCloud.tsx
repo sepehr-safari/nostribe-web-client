@@ -1,14 +1,13 @@
 import Embed from './index';
-import Link from 'next/link';
 
 const SoundCloud: Embed = {
   regex: /(?:https?:\/\/)?(?:www\.)?(soundcloud\.com\/(?!live)[a-zA-Z0-9-_]+\/[a-zA-Z0-9-_]+)(?:\?.*)?/g,
-  component: ({ match, index }) => {
+  component: ({ match, index, key }) => {
     return (
       <iframe
+        key={key}
         className="audio"
         scrolling="no"
-        key={match + index}
         width="650"
         height="380"
         style={{ maxWidth: '100%' }}

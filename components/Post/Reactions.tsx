@@ -11,9 +11,11 @@ import usePublish from "@/hooks/usePublish";
 import useStore from "@/store";
 import {useMemo, useState, memo} from "react";
 import Modal from "@/components/modal/Modal";
+import ZapModal from "@/components/modal/Zap";
 import Avatar from "@/components/Avatar";
 import Name from "@/components/Name";
 import {getZappingUser, decodeInvoice, formatAmount} from "@/utils/Lightning";
+import {useProfileMetadata} from "@/hooks";
 
 type Props = { event: Event, reactionEvents: Event[], nip19NoteId: string, standalone?: boolean };
 
@@ -45,6 +47,7 @@ const Reactions = ({ reactionEvents, nip19NoteId, event, standalone }: Props) =>
   const myPub = userData?.publicKey || '';
   const [modalReactions, setModalReactions] = useState([] as Event[]);
   const [modalTitle, setModalTitle] = useState('');
+  const [showZapModal, setShowZapModal] = useState(false);
 
   const liked = useMemo(() => {
     if (!myPub) return false;
@@ -70,11 +73,18 @@ const Reactions = ({ reactionEvents, nip19NoteId, event, standalone }: Props) =>
     });
   }
 
+  const zapped = useMemo(() => {
+    if (!myPub) return false;
+    return reactionEvents.some((event) => event.kind === 9735 && getZappingUser(event) === myPub);
+  }, [reactionEvents, myPub]);
+
   const likes = reactionEvents.filter((event) => event.kind === 7);
   const reposts = reactionEvents.filter((event) => isRepost(event));
   const zaps = reactionEvents.filter((event) => event.kind === 9735);
   const replies = reactionEvents.filter((event) => event.kind === 1 && !isRepost(event));
   const hasReactions = likes.length > 0 || reposts.length > 0 || zaps.length > 0;
+  const metadata = useProfileMetadata(event.pubkey).metadata;
+  const lightning = metadata.lud16 || metadata.lud06;
 
   const totalZapAmount: number = useMemo(() => zaps.reduce((acc, event) => {
     const invoice = event.tags?.find((tag) => tag[0] === 'bolt11')?.[1];
@@ -85,6 +95,13 @@ const Reactions = ({ reactionEvents, nip19NoteId, event, standalone }: Props) =>
   // in standalone, show twitter-like listings that open the modal
   return (
     <>
+      <ZapModal
+        show={showZapModal}
+        lnurl={lightning}
+        note={event.id}
+        recipient={event.pubkey}
+        onClose={() => setShowZapModal(false)}
+      />
       {standalone && hasReactions && (
         <>
           <hr className="-mx-4 opacity-10" />
@@ -139,14 +156,19 @@ const Reactions = ({ reactionEvents, nip19NoteId, event, standalone }: Props) =>
       <hr className="-mx-4 opacity-10" />
 
       <div className="-m-4 flex flex-wrap">
-        <button className="btn-ghost hover:bg-transparent text-neutral-500 hover:text-iris-orange btn w-1/4 content-center gap-2 rounded-none p-2">
-          <BoltIcon width={18} />
-          {!standalone && zaps.length > 0 && (
-            <>
-              {formatAmount(totalZapAmount / 1000)}
-            </>
-          )}
-        </button>
+        {lightning && lightning.length && (
+          <button onClick={() => {
+            console.log('click', lightning);
+            setShowZapModal(true)
+          }} className={`btn-ghost hover:bg-transparent hover:text-iris-orange btn w-1/4 content-center gap-2 rounded-none p-2 ${zapped ? 'text-iris-orange' : 'text-neutral-500'}`}>
+            <BoltIcon width={18} />
+            {!standalone && zaps.length > 0 && (
+              <>
+                {formatAmount(totalZapAmount / 1000)}
+              </>
+            )}
+          </button>
+        )}
 
         <Link href={`/${nip19NoteId}`} className="btn-ghost hover:bg-transparent text-neutral-500 hover:text-iris-blue btn w-1/4 content-center gap-2 rounded-none p-2">
           <ChatBubbleOvalLeftIcon width={18} />

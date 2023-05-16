@@ -6,11 +6,11 @@ const eventRegex =
 
 const NostrUser: Embed = {
   regex: eventRegex,
-  component: ({ match, index }) => {
+  component: ({ match, index, key }) => {
     console.log('match', match);
     return (
-      <div className="rounded-lg border border-neutral-800 my-4">
-        <PostCard key={match + index} postId={match} asInlineQuote={true} />
+      <div key={key} className="rounded-lg border border-neutral-800 my-4">
+        <PostCard postId={match} asInlineQuote={true} />
       </div>
     );
   },

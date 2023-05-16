@@ -9,7 +9,7 @@ const HyperText = memo(({ children, event }: { children: string, event?: Event }
 
   allEmbeds.forEach((embed) => {
     processedChildren = reactStringReplace(processedChildren, embed.regex, (match, i) => {
-      return embed.component({ match, index: i, event })
+      return embed.component({ match, index: i, event, key: `${match}-${i}` })
     }) as React.ReactNode[];
   });
 

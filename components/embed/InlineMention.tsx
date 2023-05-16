@@ -10,7 +10,7 @@ const fail = (s: string) => `#[${s}]`;
 
 const InlineMention: Embed = {
   regex: /#\[([0-9]+)]/g,
-  component: ({ match, index, event }) => {
+  component: ({ match, index, event, key }) => {
     if (!event?.tags) {
       console.log('no tags', event);
       return <>{fail(match)}</>;
@@ -24,7 +24,7 @@ const InlineMention: Embed = {
     if (type === 'p') {
       return (
         <Link
-          key={match + index}
+          key={key}
           href={`/${nip19.npubEncode(id)}`}
           className="text-iris-blue hover:underline"
         >

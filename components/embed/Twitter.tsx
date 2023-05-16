@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 const Twitter: Embed = {
   regex: /(?:^|\s)(?:@)?(https?:\/\/twitter.com\/\w+\/status\/\d+\S*)(?![\w/])/g,
-  component: ({ match, index }) => {
+  component: ({ match, index , key}) => {
     return (
       <iframe
         style={{
@@ -12,7 +12,7 @@ const Twitter: Embed = {
           'backgroundColor': 'white',
           display: 'block',
         }}
-        key={match + index}
+        key={key}
         scrolling="no"
         height={250}
         width={550}

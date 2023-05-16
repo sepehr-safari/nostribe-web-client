@@ -85,7 +85,6 @@ export default function SendSats(props: ZapProps) {
     const defaultZapAmount = 1_000;
     setAmount(defaultZapAmount);
     setCustomAmount(defaultZapAmount);
-    console.log('defaultZapAmount', defaultZapAmount);
   });
 
   useEffect(() => {
@@ -155,7 +154,7 @@ export default function SendSats(props: ZapProps) {
         tags: [
           ['e', note],
           ['p', recipient],
-          ['relays', relays],
+          ['relays', ...relays],
         ],
       };
 
