@@ -8,7 +8,7 @@ export default function Notifications() {
   const relays = useStore((store) => store.relays);
   const userData = useStore((state) => state.auth.user.data);
 
-  const { events: notificationEvents, eose: notificationEose } = useSubscribe({
+  const { events: notificationEvents, eose: notificationEose, loadMore } = useSubscribe({
     relays,
     filters: [{ kinds: [1, 6, 7], limit: 100, '#p': [userData?.publicKey || ''] }],
   });
@@ -17,5 +17,5 @@ export default function Notifications() {
 
   if (isNotificationsEmpty) return <p>No Notifications</p>;
 
-  return <Feed showDisplayAs={false} events={notificationEvents.filter((e) => e.pubkey !== userData?.publicKey)} />;
+  return <Feed loadMore={loadMore} showDisplayAs={false} events={notificationEvents.filter((e) => e.pubkey !== userData?.publicKey)} />;
 }

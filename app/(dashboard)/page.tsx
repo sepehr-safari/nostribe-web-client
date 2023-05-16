@@ -20,7 +20,7 @@ const HomeFeed = () => {
   } = useProfileContacts(userData?.publicKey || DEFAULT_PUBKEY);
   const authors = latestContactEvent?.tags?.filter((tag) => tag[0] === "p").map((tag) => tag[1]) || [];
 
-  const { events, eose } = useSubscribe({
+  const { events, eose, loadMore } = useSubscribe({
     relays,
     filters: [{ authors, kinds: [1], limit: 100 }],
     options: { invalidate: true, enabled: !!authors?.length },
@@ -39,7 +39,7 @@ const HomeFeed = () => {
           <NewPostForm />
         </div>
       ) : null}
-      <Feed events={events} isEmpty={isEmpty} />
+      <Feed events={events} isEmpty={isEmpty} loadMore={loadMore} />
     </>
   );
 };

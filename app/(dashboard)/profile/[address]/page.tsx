@@ -13,7 +13,7 @@ const Profile = ({ params }: { params: { address: string } }) => {
   const profileHex = useProfileHex(params.address);
   const relays = useStore((store) => store.relays);
 
-  const { events } = useSubscribe({
+  const { events, loadMore } = useSubscribe({
     relays,
     filters: [
       {
@@ -30,7 +30,7 @@ const Profile = ({ params }: { params: { address: string } }) => {
       <div className="mb-4 -mt-4">
         <ProfileCard profileAddress={params.address} />
       </div>
-      <Feed events={events} />
+      <Feed events={events} loadMore={loadMore} />
     </>
   );
 };

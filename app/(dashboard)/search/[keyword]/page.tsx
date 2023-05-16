@@ -12,7 +12,7 @@ export default function Search({ params }: { params: { keyword: string }}) {
   let relays = useStore((store) => store.relays);
   relays = [...new Set([...SEARCH_RELAYS, ...relays])];
   const searchTerm = decodeURIComponent(params.keyword).toLowerCase().trim();
-  const { events, eose } = useSubscribe({
+  const { events, eose, loadMore } = useSubscribe({
     relays,
     filters: [{ kinds: [1], limit: 100, search: searchTerm }],
     options: { invalidate: true },
@@ -24,7 +24,7 @@ export default function Search({ params }: { params: { keyword: string }}) {
 
   return (
     <>
-      <Feed events={events.filter((event) => event?.content?.toLowerCase().includes(searchTerm))} />
+      <Feed loadMore={loadMore} events={events.filter((event) => event?.content?.toLowerCase().includes(searchTerm))} />
     </>
   );
 }
