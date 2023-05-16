@@ -102,14 +102,21 @@ const Feed = ({ filters, showDisplayAs, relays, filterFn }: Props) => {
     };
   }, [events, displayCount, lastElementRef.current]);
 
-  const imagesAndVideos = useMemo(() => events
-    .sort((a, b) => b.created_at - a.created_at)
-    .flatMap((event) => {
-      const imageMatches = (event.content.match(Image.regex) || []).map(url => ({ type: 'image', url }));
-      const videoMatches = (event.content.match(Video.regex) || []).map(url => ({ type: 'video', url }));
-      return [...imageMatches, ...videoMatches];
-    })
-    .slice(0, displayCount), [events, displayCount]) as ImageOrVideo[];
+  const imagesAndVideos = useMemo(() => {
+    if (displayAs === 'feed') {
+      return [];
+    }
+    return events
+      .flatMap((event) => {
+        const imageMatches = (event.content.match(Image.regex) || [])
+          .map(url => ({ type: 'image', url, created_at: event.created_at }));
+        const videoMatches = (event.content.match(Video.regex) || [])
+          .map(url => ({ type: 'video', url, created_at: event.created_at }));
+        return [...imageMatches, ...videoMatches];
+      })
+      .sort((a, b) => b.created_at - a.created_at)
+      .slice(0, displayCount);
+  }, [events, displayCount, displayAs]) as ImageOrVideo[];
 
   const goToPrevImage = () => {
     if (modalItemIndex === null) return;
