@@ -8,13 +8,14 @@ const pubKeyRegex =
 const NostrNpub: Embed = {
   regex: pubKeyRegex,
   component: ({ match, index, key }) => {
+    const pub = match.replace('@', '');
     return (
       <Link
         key={key}
-        href={`/${match}`}
+        href={`/${pub}`}
         className="text-iris-blue hover:underline mx-1"
       >
-        <Name pub={match} />
+        <Name pub={pub} />
       </Link>
     );
   },
