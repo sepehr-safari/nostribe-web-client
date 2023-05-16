@@ -16,6 +16,7 @@ const HomeFeed = () => {
   const relays = useStore((store) => store.relays);
   const {
     latestContactEvent,
+    isContactsEmpty
   } = useProfileContacts(userData?.publicKey || DEFAULT_PUBKEY);
   const authors = latestContactEvent?.tags?.filter((tag) => tag[0] === "p").map((tag) => tag[1]) || [];
 
@@ -27,9 +28,10 @@ const HomeFeed = () => {
 
   const isEmpty = eose && !events.length;
 
+  // TODO pops up slowly with isContactsEmpty. maybe save isNewUser state after signup?
   return (
     <>
-      {userData?.publicKey && isEmpty && authors.length === 0 && (
+      {userData?.publicKey && isContactsEmpty && (
         <FollowSuggestions />
       )}
       {userData?.publicKey ? (
