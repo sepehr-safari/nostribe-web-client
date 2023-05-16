@@ -1,4 +1,3 @@
-import QRCodeStyling from 'qr-code-styling';
 import {useRef, useEffect} from "react";
 
 export default function Qr(props: { data: string, link?: string }) {
@@ -9,6 +8,8 @@ export default function Qr(props: { data: string, link?: string }) {
     if (!ref.current) {
       return;
     }
+    if (typeof window == "undefined") return; // QRCodeStyling not working on SSR
+    const QRCodeStyling = require("qr-code-styling");
     const qrCode = new QRCodeStyling({
       width: 300,
       height: 300,
