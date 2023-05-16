@@ -12,11 +12,15 @@ import useStore from "@/store";
 const Profile = ({ params }: { params: { address: string } }) => {
   const profileHex = useProfileHex(params.address);
 
+  if (!profileHex) {
+    return null;
+  }
+
   const filters = [
     {
       authors: [profileHex],
       kinds: [1],
-      limit: 100,
+      limit: 20,
     }
   ];
 

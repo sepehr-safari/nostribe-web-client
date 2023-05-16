@@ -24,6 +24,7 @@ type Props = {
   filters: Filter[]
   relays?: string[],
   showDisplayAs?: boolean;
+  filterFn?: (event: any) => boolean;
 }
 
 type DisplayAs = 'feed' | 'grid';
@@ -33,7 +34,7 @@ type ImageOrVideo = {
   url: string;
 }
 
-const Feed = ({ filters, showDisplayAs, relays }: Props) => {
+const Feed = ({ filters, showDisplayAs, relays, filterFn }: Props) => {
   const [displayCount, setDisplayCount] = useState(PAGE_SIZE);
   const [displayAs, setDisplayAs] = useState('feed' as DisplayAs);
   const [modalItemIndex, setModalImageIndex] = useState(null as number | null);
@@ -44,12 +45,19 @@ const Feed = ({ filters, showDisplayAs, relays }: Props) => {
   let { events, loadMore, eose } = useSubscribe({
     filters,
     relays: relays || defaultRelays,
-    options: { invalidate: true, enabled: filters.some(f => f.authors?.length) },
+    options: { invalidate: true, batchingInterval: 0 },
   });
 
   // deduplicate
   events = useMemo(() => {
-    const deduped = events.reduce((acc, event) => {
+    const deduped = events
+      .filter((event) => {
+        if (filterFn) {
+          return filterFn(event);
+        }
+        return true;
+      })
+      .reduce((acc, event) => {
       if (!acc.some(e => e.id === event.id)) {
         acc.push(event);
       }

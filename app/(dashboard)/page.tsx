@@ -6,7 +6,6 @@ import FollowSuggestions from '@/components/FollowSuggestions';
 
 import NewPostForm from '@/components/NewPostForm';
 import useStore from "@/store";
-import {useSubscribe} from "nostr-hooks";
 import {useProfileContacts} from "@/hooks";
 
 const DEFAULT_PUBKEY = '4523be58d395b1b196a9b8c82b038b6895cb02b683d0c253a955068dba1facd0';
