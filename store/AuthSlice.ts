@@ -12,15 +12,23 @@ export interface AuthSlice {
   };
 }
 
+const getUserRelays = (pub: string) => {
+  // TODO
+};
+
 const getLocalStorage = () => {
   if (typeof window === 'undefined') {
     return null;
   }
 
+  // TODO try to get iris.myKey first and convert to new format. or just use iris.myKey?
+
   const user = window.localStorage.getItem('user');
 
   if (user) {
-    return JSON.parse(user);
+    const obj = JSON.parse(user);
+    getUserRelays(obj.publicKey);
+    return obj;
   }
 
   return null;
@@ -45,6 +53,7 @@ const createAuthSlice: StateCreator<AuthSlice> = (set) => ({
     },
     loginWithPublicKey: (publicKey: string) => {
       setLocalStorage({ publicKey });
+      getUserRelays(publicKey);
 
       set((state) => ({
         auth: { ...state.auth, user: { data: { publicKey } } },
@@ -54,6 +63,7 @@ const createAuthSlice: StateCreator<AuthSlice> = (set) => ({
       const publicKey = getPublicKey(privateKey);
 
       setLocalStorage({ publicKey, privateKey });
+      getUserRelays(publicKey);
 
       set((state) => ({
         auth: { ...state.auth, user: { data: { publicKey, privateKey } } },
