@@ -1,7 +1,7 @@
 import QRCodeStyling from 'qr-code-styling';
 import {useRef, useEffect} from "react";
 
-export default function Qr(props: { data: string }) {
+export default function Qr(props: { data: string, link?: string }) {
   const ref = useRef<HTMLDivElement>(null);
   //const [qr, setQr] = useState(null);
 
@@ -30,5 +30,10 @@ export default function Qr(props: { data: string }) {
     qrCode.append(ref.current);
   }, [props.data]);
 
-  return <div className="border-4 border-white inline-block" ref={ref} />;
+  const div = <div className="border-4 border-white inline-block" ref={ref} />;
+  return props.link ? (
+    <a href={props.link} target="_blank" rel="noopener noreferrer">
+      {div}
+    </a>
+  ) : div;
 }
