@@ -158,11 +158,11 @@ const Feed = ({ showDisplayAs, relays, filterOptions }: Props) => {
 
   const renderFilterOptions = () => {
     return (
-      <div className="flex mb-4 gap-2">
+      <div className="flex mb-4 gap-2 mx-2 md:mx-0">
         {filterOptions.map((filterOption) => (
           <button
             key={filterOption.name}
-            className={`btn btn-sm ${filterOption.name === filter.name ? 'btn-primary' : ''}`}
+            className={`btn btn-sm ${filterOption.name === filter.name ? 'btn-primary' : 'btn-ghost'}`}
             onClick={() => {
               setFilterOption(filterOption);
               setDisplayCount(PAGE_SIZE);
