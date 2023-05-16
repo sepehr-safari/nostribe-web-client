@@ -34,7 +34,12 @@ type Props = {
 const PostCard = ({ postId, showReplies, standalone, asReply, asRepliedMessage, asInlineQuote, showReplyForm }: Props) => {
   const router = useRouter();
 
-  postId = toHexKey(postId);
+  let invalid;
+  try {
+    postId = toHexKey(postId);
+  } catch (e) {
+    invalid = true;
+  }
   const { isFetching, postEvent, createdAt, nip19NoteId } =
     usePostEvent(postId);
 
@@ -48,6 +53,16 @@ const PostCard = ({ postId, showReplies, standalone, asReply, asRepliedMessage, 
   const sortedReactions = useMemo(() => {
     return reactionEvents.sort((a, b) => a.created_at - b.created_at);
   }, [reactionEvents]);
+
+  if (invalid) {
+    return (
+      <CardContainer>
+        <div className="flex items-center justify-center h-32">
+          Invalid note ID {postId}
+        </div>
+      </CardContainer>
+    );
+  }
 
   const onClick: MouseEventHandler = (e) => {
     if (standalone) return;

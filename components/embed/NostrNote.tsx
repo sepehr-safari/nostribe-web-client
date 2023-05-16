@@ -10,7 +10,7 @@ const NostrUser: Embed = {
     console.log('match', match);
     return (
       <div key={key} className="rounded-lg border border-neutral-800 my-4">
-        <PostCard postId={match} asInlineQuote={true} />
+        <PostCard postId={match.replace('@', '')} asInlineQuote={true} />
       </div>
     );
   },
