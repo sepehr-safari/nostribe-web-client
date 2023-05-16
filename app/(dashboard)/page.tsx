@@ -18,6 +18,10 @@ const HomeFeed = () => {
   } = useProfileContacts(userData?.publicKey || DEFAULT_PUBKEY);
   const authors = latestContactEvent?.tags?.filter((tag) => tag[0] === "p").map((tag) => tag[1]) || [];
 
+  if (authors.length === 0) {
+    return null;
+  }
+
   // TODO pops up slowly with isContactsEmpty. maybe save isNewUser state after signup?
   return (
     <>
