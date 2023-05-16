@@ -1,5 +1,5 @@
 import { memo, useState, useRef, useEffect, useMemo } from 'react';
-import { Event } from 'nostr-tools';
+import { Filter } from 'nostr-tools';
 import Image from '@/components/embed/Image';
 import Video from '@/components/embed/Video';
 import ProxyImg from '@/components/ProxyImg';
@@ -8,6 +8,8 @@ import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/20/solid";
 
 import PostCard from '@/components/Post/PostCard';
 import Modal from "@/components/modal/Modal";
+import useStore from "@/store";
+import {useSubscribe} from "nostr-hooks";
 
 const PAGE_SIZE = 6;
 const LOAD_MORE_MARGIN = '0px 0px 2000px 0px';
@@ -19,9 +21,8 @@ const VideoIcon = (
 )
 
 type Props = {
-  isEmpty?: boolean;
-  events: Event[];
-  loadMore?: () => void;
+  filters: Filter[]
+  relays?: string[],
   showDisplayAs?: boolean;
 }
 
@@ -32,11 +33,32 @@ type ImageOrVideo = {
   url: string;
 }
 
-const Feed = ({ isEmpty, events, loadMore, showDisplayAs }: Props) => {
+const Feed = ({ filters, showDisplayAs, relays }: Props) => {
   const [displayCount, setDisplayCount] = useState(PAGE_SIZE);
   const [displayAs, setDisplayAs] = useState('feed' as DisplayAs);
   const [modalItemIndex, setModalImageIndex] = useState(null as number | null);
   const lastElementRef = useRef(null);
+
+  const defaultRelays = useStore((store) => store.relays);
+
+  let { events, loadMore, eose } = useSubscribe({
+    filters,
+    relays: relays || defaultRelays,
+    options: { invalidate: true, enabled: filters.some(f => f.authors?.length) },
+  });
+
+  // deduplicate
+  events = useMemo(() => {
+    const deduped = events.reduce((acc, event) => {
+      if (!acc.some(e => e.id === event.id)) {
+        acc.push(event);
+      }
+      return acc;
+    }, [] as any[]);
+    return deduped;
+  }, [events]);
+
+  const isEmpty = eose && events.length === 0;
 
   useEffect(() => {
     if (events.length < PAGE_SIZE) {

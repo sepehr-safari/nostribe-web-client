@@ -4,27 +4,20 @@ import Feed from "@/components/Feed";
 import {useSubscribe} from "nostr-hooks";
 import useStore from "@/store";
 
-const SEARCH_RELAYS = ['wss://relay.nostr.band'];
-
 export const runtime = 'edge';
 
+const SEARCH_RELAYS = ['wss://relay.nostr.band'];
+
 export default function Search({ params }: { params: { keyword: string }}) {
-  let relays = useStore((store) => store.relays);
-  relays = [...new Set([...SEARCH_RELAYS, ...relays])];
+  const defaultRelays = useStore((store) => store.relays);
+  const relays = [...new Set([...defaultRelays, ...SEARCH_RELAYS])];
   const searchTerm = decodeURIComponent(params.keyword).toLowerCase().trim();
-  const { events, eose, loadMore } = useSubscribe({
-    relays,
-    filters: [{ kinds: [1], limit: 100, search: searchTerm }],
-    options: { invalidate: true },
-  });
 
-  const isPostsEmpty = eose && !events.length;
-
-  if (isPostsEmpty) return <p>No Results for "{searchTerm}"</p>;
+  // TODO Feed additionalFilters events.filter((event) => event?.content?.toLowerCase().includes(searchTerm))
 
   return (
     <>
-      <Feed loadMore={loadMore} events={events.filter((event) => event?.content?.toLowerCase().includes(searchTerm))} />
+      <Feed filters={[{ kinds: [1], limit: 100, search: searchTerm }]} relays={relays} />
     </>
   );
 }

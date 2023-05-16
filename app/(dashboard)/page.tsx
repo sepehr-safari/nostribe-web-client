@@ -13,20 +13,11 @@ const DEFAULT_PUBKEY = '4523be58d395b1b196a9b8c82b038b6895cb02b683d0c253a955068d
 
 const HomeFeed = () => {
   const userData = useStore((state) => state.auth.user.data);
-  const relays = useStore((store) => store.relays);
   const {
     latestContactEvent,
     isContactsEmpty
   } = useProfileContacts(userData?.publicKey || DEFAULT_PUBKEY);
   const authors = latestContactEvent?.tags?.filter((tag) => tag[0] === "p").map((tag) => tag[1]) || [];
-
-  const { events, eose, loadMore } = useSubscribe({
-    relays,
-    filters: [{ authors, kinds: [1], limit: 100 }],
-    options: { invalidate: true, enabled: !!authors?.length },
-  });
-
-  const isEmpty = eose && !events.length;
 
   // TODO pops up slowly with isContactsEmpty. maybe save isNewUser state after signup?
   return (
@@ -39,7 +30,7 @@ const HomeFeed = () => {
           <NewPostForm />
         </div>
       ) : null}
-      <Feed events={events} isEmpty={isEmpty} loadMore={loadMore} />
+      <Feed filters={[{ authors, kinds: [1], limit: 100 }]} />
     </>
   );
 };

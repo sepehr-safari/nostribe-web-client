@@ -5,17 +5,6 @@ import useStore from "@/store";
 import {useSubscribe} from "nostr-hooks";
 
 export default function Notifications() {
-  const relays = useStore((store) => store.relays);
   const userData = useStore((state) => state.auth.user.data);
-
-  const { events: notificationEvents, eose: notificationEose, loadMore } = useSubscribe({
-    relays,
-    filters: [{ kinds: [1, 6, 7], limit: 100, '#p': [userData?.publicKey || ''] }],
-  });
-
-  const isNotificationsEmpty = notificationEose && !notificationEvents.length;
-
-  if (isNotificationsEmpty) return <p>No Notifications</p>;
-
-  return <Feed loadMore={loadMore} showDisplayAs={false} events={notificationEvents.filter((e) => e.pubkey !== userData?.publicKey)} />;
+  return <Feed showDisplayAs={false} filters={[{ kinds: [1, 6, 7], limit: 100, '#p': [userData?.publicKey || ''] }]} />;
 }
