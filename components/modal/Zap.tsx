@@ -265,7 +265,7 @@ export default function SendSats(props: ZapProps) {
 
   function renderAmounts(amount: number, amounts: number[]) {
     return (
-      <div className="amounts flex gap-2">
+      <div className="amounts flex gap-2" key={amounts.join(',')}>
         {amounts.map((a) => (
           <button
             className={`${amount === a ? 'btn-primary' : ''} btn btn-sm`}

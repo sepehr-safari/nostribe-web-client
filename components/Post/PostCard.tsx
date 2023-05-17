@@ -181,7 +181,7 @@ const PostCard = ({ postId, showReplies, standalone, asReply, asRepliedMessage, 
           if (event.kind !== 1 || isRepost(event)) return false;
           return getReplyingToEvent(event) === postId;
         }).map((event) => (
-          <PostCard postId={event.id} key={event.id} showReplies={1} asReply={true} />
+          <PostCard postId={event.id} key={`${postId}reply${event.id}`} showReplies={1} asReply={true} />
         ))
       ) : ''}
     </>

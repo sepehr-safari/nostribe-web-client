@@ -162,7 +162,7 @@ const Feed = ({ showDisplayAs, relays, filterOptions }: Props) => {
         {filterOptions.map((filterOption) => (
           <button
             key={filterOption.name}
-            className={`btn btn-sm ${filterOption.name === filter.name ? 'btn-primary' : 'btn-ghost'}`}
+            className={`btn btn-sm ${filterOption.name === filter.name ? '' : 'btn-ghost'}`}
             onClick={() => {
               setFilterOption(filterOption);
               setDisplayCount(PAGE_SIZE);
