@@ -14,8 +14,8 @@ export default function ChatList() {
   const { events: directMessageEvents, eose: directMessageEose } = useSubscribe({
     relays,
     filters: [
-      { authors: [userData?.publicKey || ''], kinds: [4], limit: 100 },
-      { kinds: [4], "#p": [userData?.publicKey || ''], limit: 100 },
+      { authors: [userData?.publicKey || ''], kinds: [4] },
+      { kinds: [4], "#p": [userData?.publicKey || ''] },
     ],
     options: {
       force: false,
