@@ -2,6 +2,18 @@ import {Event} from "nostr-tools";
 import {EllipsisHorizontalIcon} from "@heroicons/react/24/outline";
 
 const Dropdown = ({ nip19NoteId, postEvent }: { nip19NoteId: string, postEvent: Event }) => {
+  const report = () => {
+    if (confirm('Publicly report this user?')) {
+      // toast
+    }
+  }
+
+  const mute = () => {
+    if (confirm('Mute this user (private)?')) {
+      // toast
+    }
+  }
+
   return (
     <div className="ml-auto">
       <div className="dropdown-left dropdown">
@@ -42,6 +54,22 @@ const Dropdown = ({ nip19NoteId, postEvent }: { nip19NoteId: string, postEvent: 
               }
             >
               Copy Raw Data
+            </button>
+          </li>
+          <li>
+            <button
+              className="text-start text-xs"
+              onClick={report}
+            >
+              Report user
+            </button>
+          </li>
+          <li>
+            <button
+              className="text-start text-xs"
+              onClick={mute}
+            >
+              Mute user
             </button>
           </li>
         </ul>
