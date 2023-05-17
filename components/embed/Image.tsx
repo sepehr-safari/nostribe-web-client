@@ -1,6 +1,7 @@
 import Embed from "./index";
 import Modal from "../modal/Modal";
 import {MouseEventHandler, useState} from "react";
+import ProxyImg from "@/components/ProxyImg";
 
 const Image: Embed = {
   regex: /(https?:\/\/.*\.(?:png|jpg|jpeg|gif|svg|webp)(?:\?\S*)?)/gi,
@@ -17,15 +18,13 @@ const Image: Embed = {
         <div
           className="relative w-full overflow-hidden object-contain my-2"
         >
-          <img onClick={onClick} className="rounded max-h-[70vh] md:max-h-96 max-w-full cursor-pointer" src={
-            `https://imgproxy.iris.to/insecure/plain/${match}`
+          <ProxyImg onClick={onClick} className="rounded max-h-[70vh] md:max-h-96 max-w-full cursor-pointer" src={
+            match
           } />
         </div>
         {showModal ? (
           <Modal onClose={() => setShowModal(false)}>
-            <img className="rounded max-h-[90vh] max-w-[90vw]" src={
-              `https://imgproxy.iris.to/insecure/plain/${match}`
-            } />
+            <ProxyImg className="rounded max-h-[90vh] max-w-[90vw]" src={match} />
           </Modal>
         ) : ''}
       </div>

@@ -1,19 +1,8 @@
 import {Event} from "nostr-tools";
 import {EllipsisHorizontalIcon} from "@heroicons/react/24/outline";
+import { mute, report } from "@/utils/user";
 
 const Dropdown = ({ nip19NoteId, postEvent }: { nip19NoteId: string, postEvent: Event }) => {
-  const report = () => {
-    if (confirm('Publicly report this user?')) {
-      // toast
-    }
-  }
-
-  const mute = () => {
-    if (confirm('Mute this user (private)?')) {
-      // toast
-    }
-  }
-
   return (
     <div className="ml-auto">
       <div className="dropdown-left dropdown">

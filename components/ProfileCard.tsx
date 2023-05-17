@@ -3,6 +3,7 @@
 import { EllipsisHorizontalIcon } from '@heroicons/react/24/outline';
 import Modal from '@/components/modal/Modal';
 import ProxyImg from '@/components/ProxyImg';
+import { mute, report } from '@/utils/user';
 import Link from 'next/link';
 
 import { useProfileContacts, useProfileContent, useProfileHex } from '@/hooks';
@@ -124,6 +125,22 @@ const ProfileCard = ({ profileAddress }: { profileAddress: string }) => {
                       }
                     >
                       Copy User ID
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      className="text-start text-xs"
+                      onClick={report}
+                    >
+                      Report user
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      className="text-start text-xs"
+                      onClick={mute}
+                    >
+                      Mute user
                     </button>
                   </li>
                 </ul>
