@@ -310,4 +310,4 @@ const Feed = ({ showDisplayAs, relays, filterOptions }: Props) => {
   );
 };
 
-export default memo(Feed);
+export default Feed;
