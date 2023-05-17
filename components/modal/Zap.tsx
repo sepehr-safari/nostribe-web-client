@@ -227,13 +227,13 @@ export default function SendSats(props: ZapProps) {
           type="number"
           min={min}
           max={max}
-          className="bg-neutral-700 p-2 input"
+          className="bg-neutral-800 p-2 input"
           placeholder={'Custom'}
           value={customAmount}
           onChange={(e) => setCustomAmount(parseInt((e.target as HTMLInputElement).value))}
         />
         <button
-          className="secondary"
+          className="btn"
           type="button"
           disabled={!customAmount}
           onClick={() => selectAmount(customAmount ?? 0)}
@@ -292,7 +292,7 @@ export default function SendSats(props: ZapProps) {
             <input
               type="text"
               placeholder={'Comment'}
-              className="input bg-neutral-700"
+              className="input bg-neutral-800"
               maxLength={canZap && zapType !== ZapType.NonZap ? 250 : handler.maxCommentLength}
               onChange={(e) => setComment((e.target as HTMLInputElement).value)}
             />
