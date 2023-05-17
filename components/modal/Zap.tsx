@@ -222,12 +222,12 @@ export default function SendSats(props: ZapProps) {
     const max = handler.max / 1000;
 
     return (
-      <div className="custom-amount flex">
+      <div className="custom-amount flex gap-2">
         <input
           type="number"
           min={min}
           max={max}
-          className="f-grow mr10"
+          className="bg-neutral-700 p-2 input"
           placeholder={'Custom'}
           value={customAmount}
           onChange={(e) => setCustomAmount(parseInt((e.target as HTMLInputElement).value))}
@@ -265,16 +265,16 @@ export default function SendSats(props: ZapProps) {
 
   function renderAmounts(amount: number, amounts: number[]) {
     return (
-      <div className="amounts">
+      <div className="amounts flex gap-2">
         {amounts.map((a) => (
-          <div
-            className={amount === a ? 'active' : ''}
+          <button
+            className={`${amount === a ? 'btn-primary' : ''} btn btn-sm`}
             key={a}
             onClick={() => selectAmount(a)}
           >
             {emojis[a] && <>{emojis[a]}&nbsp;</>}
             {formatSats(a)}
-          </div>
+          </button>
         ))}
       </div>
     );
@@ -292,7 +292,7 @@ export default function SendSats(props: ZapProps) {
             <input
               type="text"
               placeholder={'Comment'}
-              className="f-grow mr10"
+              className="input bg-neutral-700"
               maxLength={canZap && zapType !== ZapType.NonZap ? 250 : handler.maxCommentLength}
               onChange={(e) => setComment((e.target as HTMLInputElement).value)}
             />
@@ -372,13 +372,13 @@ export default function SendSats(props: ZapProps) {
   if (!(props.show ?? false)) return null;
 
   return (
-    <Modal centerVertically={true} onClose={onClose}>
-      <div className="lnurl-tip" onClick={(e) => e.stopPropagation()}>
+    <Modal showContainer={true} centerVertically={true} onClose={onClose}>
+      <div className="flex gap-2 flex-col" onClick={(e) => e.stopPropagation()}>
         <div className="absolute top-2 right-2" onClick={onClose}>
           <XMarkIcon width={20} height={20} />
         </div>
         <div className="lnurl-header">
-          <h2>
+          <h2 className="text-xl">
             {props.title || title}
             <Name pub={recipient as string} />
           </h2>

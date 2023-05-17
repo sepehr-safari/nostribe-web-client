@@ -10,7 +10,7 @@
   @apply rounded-full capitalize;
 }
 
-input[type="text"] {
+input[type="text"], input[type="number"] {
   @apply rounded-full;
 }
 

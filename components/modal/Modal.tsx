@@ -12,8 +12,6 @@ type Props = {
 };
 
 const Modal: FC<Props> = ({
-  width,
-  height,
   showContainer,
   children,
   onClose,
