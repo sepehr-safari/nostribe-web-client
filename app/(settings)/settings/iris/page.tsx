@@ -58,10 +58,13 @@ function CreateAccount({ pub }: { pub: string }) {
         <button className="btn btn-primary" type="submit" disabled={!newUserNameAvailable}>
           Register
         </button>
-        <p>
-          {newUserNameError && <span className="negative">{newUserNameError}</span>}
-          {newUserNameAvailable && <span className="positive">Username is available!</span>}
-        </p>
+        {newUserNameError && <p className="text-warning">{newUserNameError}</p>}
+        {newUserNameAvailable && (
+          <>
+            <p className="text-success">Username is available!</p>
+            <AccountName name={newUserName} link={false} />
+          </>
+        )}
       </form>
     </div>
   )
@@ -116,9 +119,9 @@ export default function IrisToSettings() {
   return (
     <div className="prose p-2">
       <h2>Iris.to</h2>
-      <p>
+      <div>
         {userName ? <AccountName name={userName} /> : <CreateAccount pub={pub} />}
-      </p>
+      </div>
     </div>
   );
 }
