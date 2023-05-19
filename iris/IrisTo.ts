@@ -1,12 +1,8 @@
-import { Event } from 'nostr-tools';
-import Events from './nostr/Events';
-import Key from './nostr/Key';
-import SocialNetwork from './nostr/SocialNetwork';
 import localState from '@/utils/LocalState';
 
 export default {
-  async checkExistingAccount(pub) {
-    if (!['iris.to', 'beta.iris.to', 'localhost'].includes(window.location.hostname)) {
+  async checkExistingAccount(pub: string) {
+    if (!['new.iris.to', 'iris.to', 'beta.iris.to', 'localhost'].includes(window.location.hostname)) {
       return;
     }
     // get username linked to pub along with its user_confirmed status
@@ -25,7 +21,7 @@ export default {
           clearTimeout(timeout);
         }
       });
-      return { existing: json };
+      return json;
     }
     const timeout = setTimeout(() => {
       localState.get('showNoIrisToAddress').set(true);
@@ -35,10 +31,12 @@ export default {
         clearTimeout(timeout);
       }
     });
+    return;
   },
 
-  setAsPrimary(name) {
+  setAsPrimary(name: string) {
     const newNip = name + '@iris.to';
+    /*
     const timeout = setTimeout(() => {
       SocialNetwork.setMetadata({ nip05: newNip });
     }, 2000);
@@ -52,79 +50,27 @@ export default {
       }
       this.setState({ profile: p, irisToActive: true });
     });
+     */
   },
 
-  async enableReserved(name) {
-    const pubkey = Key.getPubKey();
-    const event: Event = {
-      content: `iris.to/${name}`,
-      kind: 1,
-      tags: [],
-      pubkey,
-      created_at: Math.floor(Date.now() / 1000),
-    };
-    event.id = Events.getEventHash(event);
-    event.sig = (await Key.sign(event)) as string;
-    // post signed event as request body to https://api.iris.to/user/confirm_user
-    const res = await fetch('https://api.iris.to/user/confirm_user', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(event),
-    });
-    // should perhaps be in the next block, but users are having cache issues. this may help.
-    localState.get('showNoIrisToAddress').set(false);
-    localState.get('existingIrisToAddress').set({ confirmed: true, name });
-    if (res.status === 200) {
-      return { error: null, existing: { confirmed: true, name } };
+  async checkAvailability(name: string) {
+    const res = await fetch(`https://api.iris.to/user/available?name=${encodeURIComponent(name)}`);
+    if (res.status < 500) {
+      const json = await res.json();
+      if (json.available) {
+        return { available: true };
+      } else {
+        return {
+          available: false,
+          message: json.message,
+        }
+      }
     } else {
-      res
-        .json()
-        .then((json) => {
-          return { error: json.message || 'error' };
-        })
-        .catch(() => {
-          return { error: 'error' };
-        });
+      return {
+        available: false,
+        message: 'Error checking username availability',
+      };
     }
-  },
+  }
 
-  async declineReserved(name) {
-    if (!confirm(`Are you sure you want to decline iris.to/${name}?`)) {
-      return;
-    }
-    const pubkey = Key.getPubKey();
-    const event: Partial<Event> = {
-      content: `decline iris.to/${name}`,
-      kind: 1,
-      tags: [],
-      pubkey,
-      created_at: Math.floor(Date.now() / 1000),
-    };
-    event.id = Events.getEventHash(event);
-    event.sig = (await Key.sign(event)) as string;
-    // post signed event as request body to https://api.iris.to/user/confirm_user
-    const res = await fetch('https://api.iris.to/user/decline_user', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(event),
-    });
-    if (res.status === 200) {
-      localState.get('showNoIrisToAddress').set(false);
-      localState.get('existingIrisToAddress').set(null);
-      return { confirmSuccess: false, error: null, existing: null };
-    } else {
-      res
-        .json()
-        .then((json) => {
-          return { error: json.message || 'error' };
-        })
-        .catch(() => {
-          return { error: 'error' };
-        });
-    }
-  },
 };
