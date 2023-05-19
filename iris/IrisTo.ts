@@ -1,8 +1,8 @@
-import { Event } from './lib/nostr-tools';
+import { Event } from 'nostr-tools';
 import Events from './nostr/Events';
 import Key from './nostr/Key';
 import SocialNetwork from './nostr/SocialNetwork';
-import localState from './LocalState';
+import localState from '@/utils/LocalState';
 
 export default {
   async checkExistingAccount(pub) {
@@ -14,10 +14,10 @@ export default {
     if (res.status === 200) {
       const json = await res.json();
       console.log('existingIrisToAddress', json);
-      localState.get('existingIrisToAddress').put(json);
+      localState.get('existingIrisToAddress').set(json);
       const timeout = setTimeout(() => {
         if (!json?.confirmed) {
-          localState.get('showNoIrisToAddress').put(true);
+          localState.get('showNoIrisToAddress').set(true);
         }
       }, 1000);
       localState.get('showNoIrisToAddress').on((show) => {
@@ -28,7 +28,7 @@ export default {
       return { existing: json };
     }
     const timeout = setTimeout(() => {
-      localState.get('showNoIrisToAddress').put(true);
+      localState.get('showNoIrisToAddress').set(true);
     }, 2000);
     localState.get('showNoIrisToAddress').on((show) => {
       if (!show) {
@@ -74,8 +74,8 @@ export default {
       body: JSON.stringify(event),
     });
     // should perhaps be in the next block, but users are having cache issues. this may help.
-    localState.get('showNoIrisToAddress').put(false);
-    localState.get('existingIrisToAddress').put({ confirmed: true, name });
+    localState.get('showNoIrisToAddress').set(false);
+    localState.get('existingIrisToAddress').set({ confirmed: true, name });
     if (res.status === 200) {
       return { error: null, existing: { confirmed: true, name } };
     } else {
@@ -95,7 +95,7 @@ export default {
       return;
     }
     const pubkey = Key.getPubKey();
-    const event: Event = {
+    const event: Partial<Event> = {
       content: `decline iris.to/${name}`,
       kind: 1,
       tags: [],
@@ -113,8 +113,8 @@ export default {
       body: JSON.stringify(event),
     });
     if (res.status === 200) {
-      localState.get('showNoIrisToAddress').put(false);
-      localState.get('existingIrisToAddress').put(null);
+      localState.get('showNoIrisToAddress').set(false);
+      localState.get('existingIrisToAddress').set(null);
       return { confirmSuccess: false, error: null, existing: null };
     } else {
       res
