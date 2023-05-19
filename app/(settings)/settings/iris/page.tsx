@@ -8,6 +8,7 @@ import { useRouter } from 'next/navigation';
 function CreateAccount({ pub }: { pub: string }) {
   const [newUserName, setNewUserName] = useState<string>('');
   const [newUserNameError, setNewUserNameError] = useState<string | null>(null);
+  const [newUserNameAvailable, setNewUserNameAvailable] = useState<boolean>(false);
 
   const onNewUserNameChange = (e: any) => {
     const name = e.target.value;
@@ -25,6 +26,15 @@ function CreateAccount({ pub }: { pub: string }) {
       return;
     }
     setNewUserNameError(null);
+    IrisTo.checkAvailability(name).then((res) => {
+      if (res.available) {
+        setNewUserNameError(null);
+        setNewUserNameAvailable(true);
+      } else {
+        setNewUserNameError(res.message || `Username ${name} is not available`);
+        setNewUserNameAvailable(false);
+      }
+    });
   }
 
   const onSubmit = async (e: any) => {
@@ -42,20 +52,15 @@ function CreateAccount({ pub }: { pub: string }) {
           type="text"
           placeholder="Username"
           value={newUserName}
+          className="input"
           onInput={(e) => onNewUserNameChange(e)}
         />
-        <button className="btn btn-primary" type="submit" disabled={!!newUserNameError}>
+        <button className="btn btn-primary" type="submit" disabled={!newUserNameAvailable}>
           Register
         </button>
         <p>
-          {newUserNameError ? (
-            <span className="negative">{newUserNameError}</span>
-          ) : (
-            <>
-              <span className="positive">Username is available</span>
-              <AccountName name={newUserName} link={false} />
-            </>
-          )}
+          {newUserNameError && <span className="negative">{newUserNameError}</span>}
+          {newUserNameAvailable && <span className="positive">Username is available!</span>}
         </p>
       </form>
     </div>
@@ -92,7 +97,7 @@ function AccountName({ name, link = true }: { name: string, link?: boolean }) {
   );
 }
 
-export default function Relays() {
+export default function IrisToSettings() {
   const [userName, setUserName] = useState<string | null>(null);
   const userData = useStore((state) => state.auth.user.data);
   const pub = userData?.publicKey;

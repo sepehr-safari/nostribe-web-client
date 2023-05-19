@@ -70,7 +70,7 @@ class Node {
             // result is a list of children
             const newResult = {} as any;
             await Promise.all(
-              result.map(async (key: string) => {
+              result.value.map(async (key: string) => {
                 newResult[key] = await this.get(key).once();
               }),
             );
