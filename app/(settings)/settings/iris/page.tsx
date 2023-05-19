@@ -4,36 +4,37 @@ import useStore from "@/store";
 import IrisTo from "@/iris/IrisTo";
 import {useEffect, useState} from "react";
 import { useRouter } from 'next/navigation';
-import {getEventHash, Event, UnsignedEvent} from "nostr-tools";
+import useSign from "@/hooks/useSign";
 
-function CreateAccount({ pub, onSuccess }: { pub: string, onSuccess: (name: string) => void }) {
+function CreateAccount({ onSuccess }: { onSuccess: (name: string) => void }) {
   const [newUserName, setNewUserName] = useState<string>('');
-  const [newUserNameError, setNewUserNameError] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
   const [newUserNameAvailable, setNewUserNameAvailable] = useState<boolean>(false);
   const [showChallenge, setShowChallenge] = useState<boolean>(false);
+  const sign = useSign();
 
   const onNewUserNameChange = (e: any) => {
     const name = e.target.value;
     setNewUserName(name);
     if (name.length < 6) {
-      setNewUserNameError('Username must be at least 6 characters long');
+      setError('Username must be at least 6 characters long');
       return;
     }
     if (name.length > 15) {
-      setNewUserNameError('Username must be less than 15 characters long');
+      setError('Username must be less than 15 characters long');
       return;
     }
     if (!name.match(/^[a-z0-9]+$/)) {
-      setNewUserNameError('Username must be alphanumeric');
+      setError('Username must be alphanumeric');
       return;
     }
-    setNewUserNameError(null);
+    setError(null);
     IrisTo.checkAvailability(name).then((res) => {
       if (res.available) {
-        setNewUserNameError(null);
+        setError(null);
         setNewUserNameAvailable(true);
       } else {
-        setNewUserNameError(res.message || `Username ${name} is not available`);
+        setError(res.message || `Username ${name} is not available`);
         setNewUserNameAvailable(false);
       }
     });
@@ -41,7 +42,7 @@ function CreateAccount({ pub, onSuccess }: { pub: string, onSuccess: (name: stri
 
   const onSubmit = async (e: any) => {
     e.preventDefault();
-    if (newUserNameError || !newUserNameAvailable) {
+    if (!newUserNameAvailable) {
       return;
     }
     setShowChallenge(true);
@@ -49,15 +50,10 @@ function CreateAccount({ pub, onSuccess }: { pub: string, onSuccess: (name: stri
 
   const register = async (cfToken: string) => {
     console.log('register', cfToken);
-    const event: Partial<Event> = {
+    const event = await sign({
       content: `iris.to/${newUserName}`,
       kind: 1,
-      tags: [],
-      pubkey: pub,
-      created_at: Math.floor(Date.now() / 1000),
-    };
-    event.id = getEventHash(event as UnsignedEvent);
-    event.sig = await (window as any).nostr.signEvent(event); // TODO privkey sign
+    });
     // post signed event as request body to https://api.iris.to/user/confirm_user
     const res = await fetch('https://api.iris.to/user/signup', {
       method: 'POST',
@@ -67,18 +63,19 @@ function CreateAccount({ pub, onSuccess }: { pub: string, onSuccess: (name: stri
       body: JSON.stringify({ event, cfToken }),
     });
     if (res.status === 200) {
+      setError(null);
       onSuccess(newUserName);
-      delete (window as any).cf_turnstile_callback;
     } else {
       res
         .json()
         .then((json) => {
-          setNewUserNameError(json.message || 'error');
+          setError(json.message || 'error');
         })
         .catch(() => {
-          setNewUserNameError('error');
+          setError('error');
         });
     }
+    delete (window as any).cf_turnstile_callback;
     setShowChallenge(false);
   }
 
@@ -114,7 +111,7 @@ function CreateAccount({ pub, onSuccess }: { pub: string, onSuccess: (name: stri
         <button className="btn btn-primary" type="submit" disabled={!newUserNameAvailable}>
           Register
         </button>
-        {newUserNameError && <p className="text-warning">{newUserNameError}</p>}
+        {error && <p className="text-warning">{error}</p>}
         {newUserNameAvailable && (
           <>
             <p className="text-success">Username is available!</p>
@@ -178,7 +175,7 @@ export default function IrisToSettings() {
       <div>
         {userName ?
           <AccountName name={userName} /> :
-          <CreateAccount pub={pub} onSuccess={(n) => setUserName(n)} />}
+          <CreateAccount onSuccess={(n) => setUserName(n)} />}
       </div>
     </div>
   );
