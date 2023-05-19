@@ -4,11 +4,13 @@ import useStore from "@/store";
 import IrisTo from "@/iris/IrisTo";
 import {useEffect, useState} from "react";
 import { useRouter } from 'next/navigation';
+import {getEventHash, Event, UnsignedEvent} from "nostr-tools";
 
-function CreateAccount({ pub }: { pub: string }) {
+function CreateAccount({ pub, onSuccess }: { pub: string, onSuccess: (name: string) => void }) {
   const [newUserName, setNewUserName] = useState<string>('');
   const [newUserNameError, setNewUserNameError] = useState<string | null>(null);
   const [newUserNameAvailable, setNewUserNameAvailable] = useState<boolean>(false);
+  const [showChallenge, setShowChallenge] = useState<boolean>(false);
 
   const onNewUserNameChange = (e: any) => {
     const name = e.target.value;
@@ -39,9 +41,63 @@ function CreateAccount({ pub }: { pub: string }) {
 
   const onSubmit = async (e: any) => {
     e.preventDefault();
-    if (newUserNameError) {
+    if (newUserNameError || !newUserNameAvailable) {
       return;
     }
+    setShowChallenge(true);
+  }
+
+  const register = async (cfToken: string) => {
+    console.log('register', cfToken);
+    const event: Partial<Event> = {
+      content: `iris.to/${newUserName}`,
+      kind: 1,
+      tags: [],
+      pubkey: pub,
+      created_at: Math.floor(Date.now() / 1000),
+    };
+    event.id = getEventHash(event as UnsignedEvent);
+    event.sig = await (window as any).nostr.signEvent(event); // TODO privkey sign
+    // post signed event as request body to https://api.iris.to/user/confirm_user
+    const res = await fetch('https://api.iris.to/user/signup', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ event, cfToken }),
+    });
+    if (res.status === 200) {
+      onSuccess(newUserName);
+      setShowChallenge(false);
+      delete (window as any).cf_turnstile_callback;
+    } else {
+      res
+        .json()
+        .then((json) => {
+          setNewUserNameError(json.message || 'error');
+        })
+        .catch(() => {
+          setNewUserNameError('error');
+        });
+    }
+  }
+
+  if (showChallenge) {
+    (window as any).cf_turnstile_callback = (token: string) => register(token);
+    return (
+      <>
+        <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+        <div
+          className="cf-turnstile"
+          data-sitekey={
+            ['new.iris.to', 'iris.to', 'beta.iris.to'].includes(window.location.hostname)
+              ? '0x4AAAAAAACsEd8XuwpPTFwz'
+              : '3x00000000000000000000FF'
+          }
+          data-callback="cf_turnstile_callback"
+        ></div>
+      </>
+    );
   }
 
   return (
@@ -120,7 +176,9 @@ export default function IrisToSettings() {
     <div className="prose p-2">
       <h2>Iris.to</h2>
       <div>
-        {userName ? <AccountName name={userName} /> : <CreateAccount pub={pub} />}
+        {userName ?
+          <AccountName name={userName} /> :
+          <CreateAccount pub={pub} onSuccess={(n) => setUserName(n)} />}
       </div>
     </div>
   );
