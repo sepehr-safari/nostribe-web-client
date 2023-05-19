@@ -11,10 +11,12 @@ import Avatar from "@/components/Avatar";
 import Name from "@/components/Name";
 import RelativeTime from "@/components/RelativeTime";
 import {nip19} from "nostr-tools";
+import {useLocalState} from "@/utils/LocalState";
 
 const TrendingPosts = () => {
   // https://api.nostr.band/v0/trending/notes json
   const [trendingPosts, setTrendingPosts] = useState([] as any[]);
+  const [mutedUsers] = useLocalState('muted', {});
 
   useEffect(() => {
     fetch('https://api.nostr.band/v0/trending/notes')
@@ -34,7 +36,9 @@ const TrendingPosts = () => {
       <hr className="opacity-10" />
 
       <div className="-ml-2 flex flex-wrap gap-6 text-xs overflow-y-scroll overflow-x-hidden max-h-screen">
-        {trendingPosts.map((post) => (
+        {trendingPosts
+          .filter((post) => !mutedUsers[post.event?.pubkey])
+          .map((post) => (
           <div key={post.id} className="flex gap-2 w-full break-words">
             <Link href={`/${nip19.npubEncode(post.event?.pubkey)}`}>
               <Avatar pub={post.event?.pubkey} width="w-8" />
