@@ -68,7 +68,6 @@ function CreateAccount({ pub, onSuccess }: { pub: string, onSuccess: (name: stri
     });
     if (res.status === 200) {
       onSuccess(newUserName);
-      setShowChallenge(false);
       delete (window as any).cf_turnstile_callback;
     } else {
       res
@@ -80,6 +79,7 @@ function CreateAccount({ pub, onSuccess }: { pub: string, onSuccess: (name: stri
           setNewUserNameError('error');
         });
     }
+    setShowChallenge(false);
   }
 
   if (showChallenge) {
