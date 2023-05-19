@@ -20,6 +20,7 @@ import { useRouter } from 'next/navigation';
 import {MouseEventHandler, useMemo} from "react";
 import {getReplyingToEvent, getThreadRoot, isRepost} from "@/utils/event";
 import {toHexKey} from "@/utils/hexKey";
+import {useLocalState} from "@/utils/LocalState";
 
 type Props = {
   postId: string,
@@ -42,6 +43,8 @@ const PostCard = ({ postId, showReplies, standalone, asReply, asRepliedMessage, 
   }
   const { isFetching, postEvent, createdAt, nip19NoteId } =
     usePostEvent(postId);
+
+  let [mutedUsers] = useLocalState('muted', {});
 
   const { displayName, picture } = useProfileContent(
     postEvent?.pubkey || ''
@@ -178,6 +181,7 @@ const PostCard = ({ postId, showReplies, standalone, asReply, asRepliedMessage, 
       ) : ''}
       {showReplies ? (
         sortedReactions.filter((event) => {
+          if (mutedUsers[event.pubkey]) return false;
           if (event.kind !== 1 || isRepost(event)) return false;
           return getReplyingToEvent(event) === postId;
         }).map((event) => (
