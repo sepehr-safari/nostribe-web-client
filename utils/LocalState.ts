@@ -24,7 +24,7 @@ class Node {
 
   /** */
   constructor(path = '', parent: Node | null = null) {
-    this.path = path;
+    this.path = 'localState/' + path;
     this.parent = parent;
   }
 

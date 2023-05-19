@@ -29,6 +29,15 @@ const getLocalStorage = () => {
     const obj = JSON.parse(user);
     getUserRelays(obj.publicKey);
     return obj;
+  } else {
+    const oldFormat = window.localStorage.getItem('iris.myKey');
+    if (oldFormat) {
+      const old = JSON.parse(oldFormat);
+      const obj = { publicKey: old.rpub, privateKey: old.priv };
+      getUserRelays(obj.publicKey);
+      setLocalStorage(obj);
+      return obj;
+    }
   }
 
   return null;
@@ -43,6 +52,7 @@ const setLocalStorage = (user: any) => {
 const clearLocalStorage = () => {
   if (typeof window !== 'undefined') {
     window.localStorage.removeItem('user');
+    window.localStorage.removeItem('iris.myKey');
   }
 };
 
