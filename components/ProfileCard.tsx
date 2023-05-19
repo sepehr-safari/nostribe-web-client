@@ -126,7 +126,7 @@ const ProfileCard = ({ profileAddress }: { profileAddress: string }) => {
                   <li>
                     <button
                       className="text-start text-xs"
-                      onClick={report}
+                      onClick={() => report(hex)}
                     >
                       Report user
                     </button>
@@ -134,7 +134,7 @@ const ProfileCard = ({ profileAddress }: { profileAddress: string }) => {
                   <li>
                     <button
                       className="text-start text-xs"
-                      onClick={mute}
+                      onClick={() => mute(hex)}
                     >
                       Mute user
                     </button>
