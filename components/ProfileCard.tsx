@@ -107,9 +107,7 @@ const ProfileCard = ({ profileAddress }: { profileAddress: string }) => {
                     <button
                       className="text-start text-xs"
                       onClick={() =>
-                        navigator.clipboard.writeText(
-                          `${location.origin}/${profileAddress}`
-                        )
+                        navigator.clipboard.writeText(`${location.origin}/${profileAddress}`)
                       }
                     >
                       Copy Link
@@ -119,9 +117,7 @@ const ProfileCard = ({ profileAddress }: { profileAddress: string }) => {
                     <button
                       className="text-start text-xs"
                       onClick={() =>
-                        navigator.clipboard.writeText(
-                          `${location.origin}/${profileAddress}`
-                        )
+                        navigator.clipboard.writeText(profileAddress)
                       }
                     >
                       Copy User ID

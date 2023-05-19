@@ -12,7 +12,7 @@ export default function Search({ params }: { params: { keyword: string }}) {
   const defaultRelays = useStore((store) => store.relays);
   const relays = [...new Set([...SEARCH_RELAYS, ...defaultRelays])];
   const searchTerm = decodeURIComponent(params.keyword).toLowerCase().trim();
-  
+
   const filter: Filter = { kinds: [1], limit: 100, search: searchTerm };
   const filterFn = (event: Event) => event?.content?.toLowerCase().includes(searchTerm);
   const filterOptions = [

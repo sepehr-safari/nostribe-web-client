@@ -35,7 +35,6 @@ class Node {
     try {
       if (this.children.size) {
         const children = Array.from(this.children.keys());
-        console.log('saving', this.path, children);
         const val = JSON.stringify({ type: BRANCH, value: children });
         localStorage.setItem(this.path, val);
       } else if (this.value === undefined) {
