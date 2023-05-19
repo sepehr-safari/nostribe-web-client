@@ -23,8 +23,8 @@ class Node {
   loaded = false;
 
   /** */
-  constructor(path = '', parent: Node | null = null) {
-    this.path = 'localState/' + path;
+  constructor(path = 'localState', parent: Node | null = null) {
+    this.path = path;
     this.parent = parent;
   }
 
@@ -35,6 +35,7 @@ class Node {
     try {
       if (this.children.size) {
         const children = Array.from(this.children.keys());
+        console.log('saving', this.path, children);
         const val = JSON.stringify({ type: BRANCH, value: children });
         localStorage.setItem(this.path, val);
       } else if (this.value === undefined) {

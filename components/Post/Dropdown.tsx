@@ -48,7 +48,7 @@ const Dropdown = ({ nip19NoteId, postEvent }: { nip19NoteId: string, postEvent: 
           <li>
             <button
               className="text-start text-xs"
-              onClick={report}
+              onClick={() => report(postEvent.pubkey)}
             >
               Report user
             </button>
@@ -56,7 +56,7 @@ const Dropdown = ({ nip19NoteId, postEvent }: { nip19NoteId: string, postEvent: 
           <li>
             <button
               className="text-start text-xs"
-              onClick={mute}
+              onClick={() => mute(postEvent.pubkey)}
             >
               Mute user
             </button>

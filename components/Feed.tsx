@@ -1,5 +1,6 @@
-import { memo, useState, useRef, useEffect, useMemo } from 'react';
-import { Filter, Event } from 'nostr-tools';
+import { useState, useRef, useEffect, useMemo } from 'react';
+import { Filter } from 'nostr-tools';
+import { useLocalState } from '@/utils/LocalState';
 import Image from '@/components/embed/Image';
 import Video from '@/components/embed/Video';
 import ProxyImg from '@/components/ProxyImg';
@@ -49,7 +50,8 @@ const Feed = ({ showDisplayAs, relays, filterOptions }: Props) => {
   const [displayAs, setDisplayAs] = useState('feed' as DisplayAs);
   const [modalItemIndex, setModalImageIndex] = useState(null as number | null);
   const lastElementRef = useRef(null);
-
+  const [mutedUsers] = useLocalState('muted', {});
+  
   const defaultRelays = useStore((store) => store.relays);
 
   let { events, loadMore, eose } = useSubscribe({
@@ -62,6 +64,9 @@ const Feed = ({ showDisplayAs, relays, filterOptions }: Props) => {
   events = useMemo(() => {
     const deduped = events
       .filter((event) => {
+        if (mutedUsers[event.pubkey]) {
+          return false;
+        }
         if (filter.filterFn) {
           return filter.filterFn(event);
         }
