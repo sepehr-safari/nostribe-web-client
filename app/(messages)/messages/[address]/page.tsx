@@ -26,6 +26,9 @@ const MessageThread = ({ params }: { params: { address: string } }) => {
       { authors: [hexPub], "#p": [myPub], kinds: [4] },
     ],
     options: {
+      force: true,
+      closeAfterEose: false,
+      invalidate: true,
       enabled: !!myPub,
     }
   });

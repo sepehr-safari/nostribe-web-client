@@ -17,7 +17,7 @@ const useProfileContacts = (profileAddress: string) => {
   const { events: contactEvents, eose: contactEose } = useSubscribe({
     relays: defaultRelays,
     filters: [{ authors: [profileHex], kinds: [3] }],
-    options: { enabled: !!profileHex },
+    options: { enabled: !!profileHex, invalidate: true, closeAfterEose: false },
   });
 
   const isFetchingContacts = !contactEose && !contactEvents.length;

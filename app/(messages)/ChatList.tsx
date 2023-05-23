@@ -18,10 +18,9 @@ export default function ChatList() {
       { kinds: [4], "#p": [userData?.publicKey || ''] },
     ],
     options: {
-      force: false,
-      batchingInterval: 500,
+      force: true,
       invalidate: false,
-      closeAfterEose: true,
+      closeAfterEose: false,
     },
   });
 

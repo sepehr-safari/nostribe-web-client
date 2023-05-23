@@ -57,8 +57,10 @@ const Feed = ({ showDisplayAs, relays, filterOptions }: Props) => {
   let { events, loadMore, eose } = useSubscribe({
     filters: [filter.filter],
     relays: relays || defaultRelays,
-    options: { invalidate: true, batchingInterval: 0 },
+    options: { invalidate: true, force: true, closeAfterEose: false },
   });
+
+  console.log('filter', filter);
 
   // deduplicate
   events = useMemo(() => {
