@@ -12,7 +12,7 @@ const useProfileMetadata = (profileAddress: string) => {
 
   const relays = useStore((store) => store.relays);
 
-  const { events: metadataEvents, eose: metadataEose } = useSubscribe({
+  const { events: metadataEvents, eose: metadataEose, invalidate } = useSubscribe({
     relays,
     filters: [{ authors: [profileHex], kinds: [0] }],
     options: { enabled: !!profileHex },
@@ -40,6 +40,7 @@ const useProfileMetadata = (profileAddress: string) => {
     latestMetadataEvent,
     metadataEose,
     metadata,
+    invalidate,
   };
 };
 

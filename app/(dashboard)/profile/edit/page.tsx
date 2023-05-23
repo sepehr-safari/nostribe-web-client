@@ -19,7 +19,7 @@ const EditProfile = () => {
   const myNpub = userData?.publicKey ? nip19.npubEncode(userData?.publicKey) : '';
   const router = useRouter();
 
-  const { latestMetadataEvent } = useProfileMetadata(userData?.publicKey || '');
+  const { latestMetadataEvent, invalidate } = useProfileMetadata(userData?.publicKey || '');
   useEffect(() => {
     if (latestMetadataEvent) {
       try {
@@ -58,6 +58,7 @@ const EditProfile = () => {
       content,
       tags: latestMetadataEvent?.tags || [],
     });
+    invalidate();
     router.push(`/${myNpub}`);
   }
 

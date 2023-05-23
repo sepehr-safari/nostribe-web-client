@@ -19,17 +19,10 @@ const Profile = ({ params }: { params: { address: string } }) => {
   }
 
   const filterOptions: FilterOption[] = [
-    { name: 'Posts', filter: { kinds: [1] }, filterFn: (event: Event) => !getReplyingToEvent(event) },
-    { name: 'Posts & replies', filter: { kinds: [1, 6] } },
-    { name: 'Likes', filter: { kinds: [7] } },
-  ].map((option) => ({
-    ...option,
-    filter: {
-      ...option.filter,
-      authors: [profileHex],
-      limit: 100,
-    }
-  }));
+    { name: 'Posts', filter: { kinds: [1], authors: [profileHex], limit: 100 }, filterFn: (event: Event) => !getReplyingToEvent(event) },
+    { name: 'Posts & replies', filter: { kinds: [1, 6], authors: [profileHex], limit: 100 }},
+    { name: 'Likes', filter: { kinds: [7], authors: [profileHex], limit: 100 }},
+  ];
 
   return (
     <>
