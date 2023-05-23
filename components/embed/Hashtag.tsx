@@ -6,6 +6,7 @@ const Hashtag: Embed = {
   component: ({ match, index, key, event }) => {
     return (
       <Link
+        prefetch={false}
         key={key}
         href={`/search/${encodeURIComponent(match)}`}
         className="text-iris-blue hover:underline"

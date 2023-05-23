@@ -13,6 +13,7 @@ const Url: Embed = {
     }
     return (
       <Link
+        prefetch={false}
         key={key}
         href={url}
         className="text-iris-blue hover:underline"

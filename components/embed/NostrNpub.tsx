@@ -11,6 +11,7 @@ const NostrNpub: Embed = {
     const pub = match.replace('@', '');
     return (
       <Link
+        prefetch={false}
         key={key}
         href={`/${pub}`}
         className="text-iris-blue hover:underline mx-1"

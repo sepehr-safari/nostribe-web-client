@@ -45,7 +45,7 @@ const DirectMessage = memo(({ hexPub, event, showEventAuthor, limitText }: { hex
   }, [hexPub, event.content]);
   const text = limitText && decrypted.length > limitText ? decrypted.slice(0, limitText) + '...' : decrypted;
   return (
-    <Link href={`/messages/${npub}`} key={event.id} className="flex items-center p-2 gap-4">
+    <Link prefetch={false} href={`/messages/${npub}`} key={event.id} className="flex items-center p-2 gap-4">
       <Avatar pub={pub} width="w-12" />
       <div className="flex flex-col">
         <div>

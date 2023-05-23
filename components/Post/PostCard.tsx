@@ -101,7 +101,7 @@ const PostCard = ({ postId, showReplies, standalone, asReply, asRepliedMessage, 
   return (
     <>
       {postEvent && !asInlineQuote && !asReply && !asRepliedMessage && threadRoot && (threadRoot !== replyingToEvent) ? (
-        <Link href={`/${nip19.noteEncode(threadRoot)}`} className="-mb-2 mt-2 text-sm opacity-50 flex items-center gap-2 px-4">
+        <Link prefetch={false} href={`/${nip19.noteEncode(threadRoot)}`} className="-mb-2 mt-2 text-sm opacity-50 flex items-center gap-2 px-4">
           Show thread
         </Link>
       ) : ''}

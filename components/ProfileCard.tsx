@@ -88,7 +88,7 @@ const ProfileCard = ({ profileAddress }: { profileAddress: string }) => {
                   </Link>
                 ) : (
                   <>
-                    <Link className="btn btn-sm" href={`/messages/${profileAddress}`}>
+                    <Link prefetch={false} className="btn btn-sm" href={`/messages/${profileAddress}`}>
                       Message
                     </Link>
                     <FollowButton pub={profileAddress} />
@@ -162,13 +162,13 @@ const ProfileCard = ({ profileAddress }: { profileAddress: string }) => {
             {latestContactEvent && (
               <>
                 <div className="flex flex-wrap gap-3 text-xs">
-                  <Link href={`/following/${profileAddress}`}>
+                  <Link  prefetch={false} href={`/following/${profileAddress}`}>
                     <b>
                       {latestContactEvent.tags?.length || 0}
                     </b>
                     {` `}Following
                   </Link>
-                  <Link href={`/followers/${profileAddress}`}>
+                  <Link prefetch={false} href={`/followers/${profileAddress}`}>
                     <b>{followerCount}</b>
                     {` `}Followers
                   </Link>

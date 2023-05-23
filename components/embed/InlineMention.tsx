@@ -24,6 +24,7 @@ const InlineMention: Embed = {
     if (type === 'p') {
       return (
         <Link
+          prefetch={false}
           key={key}
           href={`/${nip19.npubEncode(id)}`}
           className="text-iris-blue hover:underline"

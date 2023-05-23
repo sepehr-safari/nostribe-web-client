@@ -15,7 +15,7 @@ const NostrUser: Embed = {
         return (
           <>
             {' '}
-            <Link key={key} className="text-iris-blue hover:underline" href={`/${data.pubkey}`}>
+            <Link prefetch={false} key={key} className="text-iris-blue hover:underline" href={`/${data.pubkey}`}>
               <Name pub={data.pubkey} />
             </Link>
           </>

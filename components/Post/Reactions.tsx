@@ -25,7 +25,7 @@ const Reaction = memo(({ event }: { event: Event }) => {
   const amount = invoice ? decodeInvoice(invoice)?.amount : undefined;
   console.log('amount', amount, 'invoice', invoice, 'event', event);
   return (
-    <Link href={`/${nip19.npubEncode(reactor)}`} key={event.id} className="flex items-center gap-4">
+    <Link prefetch={false} href={`/${nip19.npubEncode(reactor)}`} key={event.id} className="flex items-center gap-4">
       <Avatar pub={reactor} width="w-12" />
       <div className="flex flex-col">
         <Name pub={reactor} />
@@ -170,7 +170,7 @@ const Reactions = ({ reactionEvents, nip19NoteId, event, standalone }: Props) =>
           </button>
         )}
 
-        <Link href={`/${nip19NoteId}`} className="btn-ghost hover:bg-transparent text-neutral-500 hover:text-iris-blue btn w-1/4 content-center gap-2 rounded-none p-2">
+        <Link prefetch={false} href={`/${nip19NoteId}`} className="btn-ghost hover:bg-transparent text-neutral-500 hover:text-iris-blue btn w-1/4 content-center gap-2 rounded-none p-2">
           <ChatBubbleOvalLeftIcon width={18} />
           {!standalone && replies.length > 0 && replies.length}
         </Link>
