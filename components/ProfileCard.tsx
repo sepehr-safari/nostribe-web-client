@@ -25,7 +25,7 @@ const ProfileCard = ({ profileAddress }: { profileAddress: string }) => {
     website,
   } = useProfileContent(profileAddress);
 
-  const [showModal, setShowModal] = useState(false);
+  const [modalImage, setModalImage] = useState(null as string | null);
   const [isMyProfile, setIsMyProfile] = useState(false);
   const userData = useStore((state) => state.auth.user.data);
   const { latestContactEvent } = useProfileContacts(profileAddress);
@@ -49,18 +49,23 @@ const ProfileCard = ({ profileAddress }: { profileAddress: string }) => {
 
   const onClickAvatar: MouseEventHandler<HTMLDivElement> = (e) => {
     e.stopPropagation()
-    setShowModal(true);
+    setModalImage(picture);
+  }
+
+  const onClickBanner: MouseEventHandler<HTMLDivElement> = (e) => {
+    e.stopPropagation()
+    setModalImage(banner);
   }
 
   return (
     <>
-      {showModal ? (
-        <Modal onClose={() => setShowModal(false)}>
-          <ProxyImg className="rounded max-h-[90vh] max-w-[90vw]" src={picture} />
+      {modalImage ? (
+        <Modal onClose={() => setModalImage(null)}>
+          <ProxyImg className="rounded max-h-[90vh] max-w-[90vw]" src={modalImage} />
         </Modal>
       ) : ''}
       {banner ? (
-          <div className="h-48 w-full">
+          <div className="h-48 w-full cursor-pointer" onClick={onClickBanner}>
             <ProxyImg
               src={banner}
               className="h-full w-full object-cover opacity-80"
