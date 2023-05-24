@@ -13,7 +13,7 @@ export default function Relays() {
 
   useEffect(() => {
     const intervalId = setInterval(() => {
-      const tempRelays = new Map<string, Relay | null>();
+      const tempRelays = new Map<string, Relay | null>(relays);
       if (relaysOrDefaults) {
         for (const url of Object.keys(relaysOrDefaults)) {
           if (!tempRelays.has(url)) {
@@ -36,7 +36,8 @@ export default function Relays() {
   return (
     <div className="prose p-2">
       <h2>Relays</h2>
-      {Array.from(relays.entries()).map(([url, relay]) => {
+      {relaysOrDefaults && Object.keys(relaysOrDefaults).map((url) => {
+        const relay = relays.get(url);
         return (
           <div key={url}>
             <span className={`mr-2 inline-block h-3 w-3 rounded-full ${relay?.status === 1 ? 'bg-iris-green' : 'bg-iris-red'}`} />
