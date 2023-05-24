@@ -22,6 +22,7 @@ const NewPostForm: React.FC<Props> = ({ onSubmit, replyingTo, placeholder }) => 
   const [postText, setPostText] = useLocalState('newPostDraft', '');
   const [isExpanded, setIsExpanded] = useState(false);
   const [uploadError, setUploadError] = useState('');
+  const formRef = React.useRef<HTMLFormElement>(null);
   const userData = useStore((state) => state.auth.user.data);
   const textAreaRef = React.useRef(null);
 
@@ -58,11 +59,18 @@ const NewPostForm: React.FC<Props> = ({ onSubmit, replyingTo, placeholder }) => 
     onSubmit?.(event);
   };
 
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if ((event.ctrlKey || event.metaKey) && event.key === 'Enter') {
+      event.preventDefault();
+      formRef.current?.requestSubmit();
+    }
+  }
+
   const myNpub = userData?.publicKey ? nip19.npubEncode(userData?.publicKey) : '';
 
   return (
     <CardContainer>
-      <form onSubmit={handleSubmit} className="w-full">
+      <form ref={formRef} onSubmit={handleSubmit} className="w-full">
         <div className="flex items-start">
           <Link href={`/${myNpub}`} className="mr-4">
             <Avatar width="w-12" pub={userData?.publicKey || ''} /> {/* Render the Avatar component here */}
@@ -75,6 +83,7 @@ const NewPostForm: React.FC<Props> = ({ onSubmit, replyingTo, placeholder }) => 
               name="postText"
               value={postText}
               onChange={handlePostTextChange}
+              onKeyDown={handleKeyDown}
               className="p-2 mt-1 w-full h-12 bg-black focus:ring-blue-500 focus:border-blue-500 block w-full text-lg border-gray-700 rounded-md text-white"
               placeholder={placeholder || "What's on your mind?"}
             />
