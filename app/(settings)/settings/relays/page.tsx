@@ -6,19 +6,23 @@ import { useProfileContacts } from "@/hooks";
 import useStore from "@/store";
 
 export default function Relays() {
-  const [relays, setRelays] = useState(new Map<string, Relay>());
+  const [relays, setRelays] = useState(new Map<string, Relay | null>());
   const userData = useStore((store) => store.auth.user.data);
   const simplePool = useStore((store) => store.pool.simplePool);
   const { relaysOrDefaults } = useProfileContacts(userData?.publicKey || '');
 
   useEffect(() => {
-    const intervalId = setInterval(async () => {
-      const tempRelays = new Map<string, Relay>();
+    const intervalId = setInterval(() => {
+      const tempRelays = new Map<string, Relay | null>();
       if (relaysOrDefaults) {
         for (const url of Object.keys(relaysOrDefaults)) {
           if (!tempRelays.has(url)) {
-            const relay = await simplePool.ensureRelay(url);
-            tempRelays.set(url, relay);
+            tempRelays.set(url, null);
+            setRelays(tempRelays);
+            simplePool.ensureRelay(url).then((relay) => {
+              tempRelays.set(url, relay);
+              setRelays(tempRelays);
+            });
           }
         }
       }
