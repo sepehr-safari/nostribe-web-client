@@ -10,37 +10,35 @@ import CardContainer from '@/components/CardContainer';
 import useStore from '@/store';
 
 import { usePublish } from '@/hooks';
-import Link from "next/link";
+import Link from 'next/link';
 
 const Login = () => {
   const router = useRouter();
 
   const { data } = useStore((state) => state.auth.user);
-  const { loginWithPrivateKey } = useStore(
-    (state) => state.auth
-  );
+  const { loginWithPrivateKey } = useStore((state) => state.auth);
   const publish = usePublish();
 
   const [name, setName] = useState<string>('');
   const [showEula, setShowEula] = useState<boolean>(false);
 
-  const isStandalone = typeof window !== 'undefined' && (
-    (navigator as any).standalone ||
-    window.matchMedia('(display-mode: standalone)').matches ||
-    document.referrer.includes('android-app://iris.to')
-  );
+  const isStandalone =
+    typeof window !== 'undefined' &&
+    ((navigator as any).standalone ||
+      window.matchMedia('(display-mode: standalone)').matches ||
+      document.referrer.includes('android-app://iris.to'));
 
   const login = () => {
     const privateKey = generatePrivateKey();
     loginWithPrivateKey(privateKey);
-  }
+  };
 
   useEffect(() => {
     if (data) {
       if (name) {
         publish({
           kind: 0,
-          content: { name }
+          content: { name },
         }).catch(console.error);
       }
       router.replace('/');
@@ -58,7 +56,6 @@ const Login = () => {
       login();
     }
   }, [isStandalone]);
-
 
   return (
     <>
@@ -90,10 +87,7 @@ const Login = () => {
             onChange={handleDisplayNameInput}
           />
         </div>
-        <button
-          className="btn-primary btn"
-          onClick={handleSignupButton}
-        >
+        <button className="btn-primary btn" onClick={handleSignupButton}>
           Go
         </button>
       </CardContainer>
@@ -101,7 +95,9 @@ const Login = () => {
       <CardContainer>
         <p className="text-sm">Already have an account?</p>
         <p>
-          <Link href="/login" className="btn btn-sm">Log in</Link>
+          <Link href="/login" className="btn btn-sm">
+            Log in
+          </Link>
         </p>
       </CardContainer>
     </>

@@ -12,7 +12,9 @@ const getLatestByFollows = () => {
   if (latestByFollows) {
     return latestByFollows;
   }
-  latestByFollows = Events.db.addDynamicView('latest_by_follows', { persist: true });
+  latestByFollows = Events.db.addDynamicView('latest_by_follows', {
+    persist: true,
+  });
   latestByFollows.applyFind({ kind: 1 });
   latestByFollows.applySimpleSort('created_at', { desc: true });
   latestByFollows.applyWhere((event: Event) => {
@@ -26,7 +28,9 @@ const getLatestByEveryone = () => {
   if (latestByEveryone) {
     return latestByEveryone;
   }
-  latestByEveryone = Events.db.addDynamicView('latest_by_everyone', { persist: true });
+  latestByEveryone = Events.db.addDynamicView('latest_by_everyone', {
+    persist: true,
+  });
   latestByEveryone.applyFind({ kind: 1 });
   latestByEveryone.applySimpleSort('created_at', { desc: true });
   return latestByEveryone;
@@ -69,7 +73,10 @@ export default {
       ...Events.db.find({ kind: 0 }),
     ];
     const followEvents = Events.db.find({ kind: 3 }).filter((e: Event) => {
-      return e.pubkey === myPub || SocialNetwork.followedByUser.get(myPub)?.has(e.pubkey);
+      return (
+        e.pubkey === myPub ||
+        SocialNetwork.followedByUser.get(myPub)?.has(e.pubkey)
+      );
     });
     const followEvents2 = [Events.db.findOne({ kind: 3, pubkey: myPub })];
     let size = 0;
@@ -100,7 +107,9 @@ export default {
 
   loadEvents: async function () {
     const latestMsgs = await localForage.getItem('latestMsgs');
-    const latestMsgsByEveryone = await localForage.getItem('latestMsgsByEveryone');
+    const latestMsgsByEveryone = await localForage.getItem(
+      'latestMsgsByEveryone'
+    );
     const followEvents = await localForage.getItem('followEvents');
     const profileEvents = await localForage.getItem('profileEvents');
     const notificationEvents = await localForage.getItem('notificationEvents');

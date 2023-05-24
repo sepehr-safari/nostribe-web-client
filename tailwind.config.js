@@ -14,7 +14,7 @@ module.exports = {
         'safe-area-inset-bottom': 'env(safe-area-inset-bottom)',
       },
       spacing: {
-        'px': '1px',
+        px: '1px',
       },
     },
   },
@@ -41,5 +41,5 @@ module.exports = {
       },
     ],
   },
-  plugins: [require("@tailwindcss/typography"), require('daisyui')],
+  plugins: [require('@tailwindcss/typography'), require('daisyui')],
 };

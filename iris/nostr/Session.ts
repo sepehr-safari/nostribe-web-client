@@ -50,7 +50,10 @@ const Session = {
     SocialNetwork.followDistanceByUser.set(myPub, 0);
     SocialNetwork.followersByUser.set(myPub, new Set());
     SocialNetwork.usersByFollowDistance.set(0, new Set([myPub]));
-    const subscribe = (filters: Filter[], callback: (event: Event) => void): string => {
+    const subscribe = (
+      filters: Filter[],
+      callback: (event: Event) => void
+    ): string => {
       const filter = filters[0];
       const key = filter['#d']?.[0];
       if (key) {
@@ -74,13 +77,13 @@ const Session = {
       (...args) => this.unsubscribe(...args),
       { authors: [myPub] },
       (...args) => Key.encrypt(...args),
-      (...args) => Key.decrypt(...args),
+      (...args) => Key.decrypt(...args)
     );
     this.public = new Path(
       (...args) => Events.publish(...args),
       subscribe,
       (...args) => this.unsubscribe(...args),
-      { authors: [myPub] },
+      { authors: [myPub] }
     );
     this.public.get('notifications/lastOpened', (time) => {
       if (time !== Events.notificationsSeenTime) {
@@ -110,18 +113,24 @@ const Session = {
     SocialNetwork.getProfile(myPub, async (p) => {
       if (p && p.nip05 && p.nip05.endsWith('@iris.to')) {
         localState.get('showNoIrisToAddress').put(false);
-        localState.get('existingIrisToAddress').get('name').put(p.nip05.replace('@iris.to', ''));
+        localState
+          .get('existingIrisToAddress')
+          .get('name')
+          .put(p.nip05.replace('@iris.to', ''));
         clearTimeout(timeout);
       }
     });
-    const unsubFollowers = SocialNetwork.getFollowersByUser(myPub, (followers) => {
-      if (!followers?.size) {
-        localState.get('noFollowers').put(true);
-      } else {
-        localState.get('noFollowers').put(false);
-        unsubFollowers();
+    const unsubFollowers = SocialNetwork.getFollowersByUser(
+      myPub,
+      (followers) => {
+        if (!followers?.size) {
+          localState.get('noFollowers').put(true);
+        } else {
+          localState.get('noFollowers').put(false);
+          unsubFollowers();
+        }
       }
-    });
+    );
     if (window.location.pathname === '/') {
       localState.get('lastOpenedFeed').once((lastOpenedFeed) => {
         route('/' + (lastOpenedFeed || 'following'));
@@ -136,11 +145,18 @@ const Session = {
     }
     setTimeout(() => {
       PubSub.subscribe({ authors: [myPub] }, undefined, true); // our stuff
-      PubSub.subscribe({ '#p': [myPub], kinds: [1, 3, 6, 7, 9735] }, undefined, true); // notifications
+      PubSub.subscribe(
+        { '#p': [myPub], kinds: [1, 3, 6, 7, 9735] },
+        undefined,
+        true
+      ); // notifications
       Events.getDirectMessages();
     }, 200);
     setInterval(() => {
-      console.log('handled msgs per second', Math.round(Events.handledMsgsPerSecond / 5));
+      console.log(
+        'handled msgs per second',
+        Math.round(Events.handledMsgsPerSecond / 5)
+      );
       Events.handledMsgsPerSecond = 0;
     }, 5000);
   },

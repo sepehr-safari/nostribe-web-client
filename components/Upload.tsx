@@ -4,14 +4,14 @@ type Props = {
   onUrl?: (url: string) => void;
   onError?: (error: string) => void;
   children?: ReactNode;
-}
+};
 
 const Upload = (props: Props) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const handleClick = () => {
     inputRef.current?.click();
-  }
+  };
 
   const handleFileUpload = (event: ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
@@ -38,10 +38,19 @@ const Upload = (props: Props) => {
 
   return (
     <div className="inline-block" onClick={handleClick}>
-      {props.children ? props.children : (
-        <button className="btn btn-primary" onClick={(e) => e.preventDefault()}>Upload</button>
+      {props.children ? (
+        props.children
+      ) : (
+        <button className="btn btn-primary" onClick={(e) => e.preventDefault()}>
+          Upload
+        </button>
       )}
-      <input ref={inputRef} className="hidden" type="file" onChange={handleFileUpload} />
+      <input
+        ref={inputRef}
+        className="hidden"
+        type="file"
+        onChange={handleFileUpload}
+      />
     </div>
   );
 };

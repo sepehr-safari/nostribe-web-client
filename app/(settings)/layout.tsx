@@ -27,9 +27,7 @@ export default function DashboardLayout({
                   iris.to
                 </Link>
               </div>
-              <div className="w-full overflow-x-hidden">
-                {children}
-              </div>
+              <div className="w-full overflow-x-hidden">{children}</div>
             </div>
           </section>
           <Footer />

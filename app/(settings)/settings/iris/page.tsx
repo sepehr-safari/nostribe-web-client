@@ -1,15 +1,16 @@
-"use client";
+'use client';
 
-import useStore from "@/store";
-import IrisTo from "@/iris/IrisTo";
-import {useEffect, useState} from "react";
+import useStore from '@/store';
+import IrisTo from '@/iris/IrisTo';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import useSign from "@/hooks/useSign";
+import useSign from '@/hooks/useSign';
 
 function CreateAccount({ onSuccess }: { onSuccess: (name: string) => void }) {
   const [newUserName, setNewUserName] = useState<string>('');
   const [error, setError] = useState<string | null>(null);
-  const [newUserNameAvailable, setNewUserNameAvailable] = useState<boolean>(false);
+  const [newUserNameAvailable, setNewUserNameAvailable] =
+    useState<boolean>(false);
   const [showChallenge, setShowChallenge] = useState<boolean>(false);
   const sign = useSign();
 
@@ -38,7 +39,7 @@ function CreateAccount({ onSuccess }: { onSuccess: (name: string) => void }) {
         setNewUserNameAvailable(false);
       }
     });
-  }
+  };
 
   const onSubmit = async (e: any) => {
     e.preventDefault();
@@ -46,7 +47,7 @@ function CreateAccount({ onSuccess }: { onSuccess: (name: string) => void }) {
       return;
     }
     setShowChallenge(true);
-  }
+  };
 
   const register = async (cfToken: string) => {
     console.log('register', cfToken);
@@ -77,17 +78,23 @@ function CreateAccount({ onSuccess }: { onSuccess: (name: string) => void }) {
     }
     delete (window as any).cf_turnstile_callback;
     setShowChallenge(false);
-  }
+  };
 
   if (showChallenge) {
     (window as any).cf_turnstile_callback = (token: string) => register(token);
     return (
       <>
-        <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+        <script
+          src="https://challenges.cloudflare.com/turnstile/v0/api.js"
+          async
+          defer
+        ></script>
         <div
           className="cf-turnstile"
           data-sitekey={
-            ['new.iris.to', 'iris.to', 'beta.iris.to'].includes(window.location.hostname)
+            ['new.iris.to', 'iris.to', 'beta.iris.to'].includes(
+              window.location.hostname
+            )
               ? '0x4AAAAAAACsEd8XuwpPTFwz'
               : '3x00000000000000000000FF'
           }
@@ -108,7 +115,11 @@ function CreateAccount({ onSuccess }: { onSuccess: (name: string) => void }) {
           className="input"
           onInput={(e) => onNewUserNameChange(e)}
         />
-        <button className="btn btn-primary" type="submit" disabled={!newUserNameAvailable}>
+        <button
+          className="btn btn-primary"
+          type="submit"
+          disabled={!newUserNameAvailable}
+        >
           Register
         </button>
         {error && <p className="text-warning">{error}</p>}
@@ -120,10 +131,10 @@ function CreateAccount({ onSuccess }: { onSuccess: (name: string) => void }) {
         )}
       </form>
     </div>
-  )
+  );
 }
 
-function AccountName({ name, link = true }: { name: string, link?: boolean }) {
+function AccountName({ name, link = true }: { name: string; link?: boolean }) {
   const router = useRouter();
   return (
     <>
@@ -137,7 +148,7 @@ function AccountName({ name, link = true }: { name: string, link?: boolean }) {
             href={`https://iris.to/${name}`}
             onClick={(e) => {
               e.preventDefault();
-              router.replace(`/${name}`)
+              router.replace(`/${name}`);
             }}
           >
             iris.to/{name}
@@ -157,25 +168,28 @@ export default function IrisToSettings() {
   const [userName, setUserName] = useState<string | null>(null);
   const userData = useStore((state) => state.auth.user.data);
   const pub = userData?.publicKey;
-  
+
   useEffect(() => {
-    pub && IrisTo.checkExistingAccount(pub).then((res) => {
-      const username = res?.name;
-      setUserName(username);
-    });
+    pub &&
+      IrisTo.checkExistingAccount(pub).then((res) => {
+        const username = res?.name;
+        setUserName(username);
+      });
   }, [pub]);
 
   if (!pub) {
     return null;
   }
-  
+
   return (
     <div className="prose p-2">
       <h2>Iris.to</h2>
       <div>
-        {userName ?
-          <AccountName name={userName} /> :
-          <CreateAccount onSuccess={(n) => setUserName(n)} />}
+        {userName ? (
+          <AccountName name={userName} />
+        ) : (
+          <CreateAccount onSuccess={(n) => setUserName(n)} />
+        )}
       </div>
     </div>
   );

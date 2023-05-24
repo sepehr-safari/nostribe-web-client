@@ -16,7 +16,11 @@ const usePostReactions = (postId: string) => {
   // only 1 like or repost per author. TODO kind 1 reposts
   reactionEvents = reactionEvents.filter((event, index, self) => {
     if (event.kind === 1 || event.kind === 9735) return true;
-    return self.findIndex((e) => e.pubkey === event.pubkey && e.kind === event.kind) === index;
+    return (
+      self.findIndex(
+        (e) => e.pubkey === event.pubkey && e.kind === event.kind
+      ) === index
+    );
   });
 
   const isFetchingReactions = !reactionEose && !reactionEvents.length;

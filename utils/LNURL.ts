@@ -1,5 +1,5 @@
 import { Event } from 'nostr-tools';
-import {bech32} from "bech32";
+import { bech32 } from 'bech32';
 
 // Code kindly contributed by @Kieran from Snort
 
@@ -65,7 +65,10 @@ export class LNURL {
       tmp.protocol = 'https:';
       this.#url = tmp;
     } else {
-      throw new LNURLError(LNURLErrorCode.InvalidLNURL, 'Could not determine service url');
+      throw new LNURLError(
+        LNURLErrorCode.InvalidLNURL,
+        'Could not determine service url'
+      );
     }
   }
 
@@ -122,11 +125,14 @@ export class LNURL {
       } else {
         throw new LNURLError(
           LNURLErrorCode.ServiceUnavailable,
-          `Failed to fetch invoice (${rsp.statusText})`,
+          `Failed to fetch invoice (${rsp.statusText})`
         );
       }
     } catch (e) {
-      throw new LNURLError(LNURLErrorCode.ServiceUnavailable, 'Failed to load callback');
+      throw new LNURLError(
+        LNURLErrorCode.ServiceUnavailable,
+        'Failed to load callback'
+      );
     }
   }
 
@@ -167,7 +173,10 @@ export class LNURL {
 
   #validateService() {
     if (this.#service?.tag !== PayServiceTag) {
-      throw new LNURLError(LNURLErrorCode.InvalidLNURL, 'Only LNURLp is supported');
+      throw new LNURLError(
+        LNURLErrorCode.InvalidLNURL,
+        'Only LNURLp is supported'
+      );
     }
     if (!this.#service?.callback) {
       throw new LNURLError(LNURLErrorCode.InvalidLNURL, 'No callback url');

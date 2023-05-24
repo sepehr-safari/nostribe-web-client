@@ -4,8 +4,10 @@ import { nip19 } from 'nostr-tools';
 
 import Modal from './Modal';
 
-const QRModal = (props: { pub: string, onClose?: () => {} }) => {
-  const npub = props.pub.startsWith('npub') ? props.pub : nip19.npubEncode(props.pub);
+const QRModal = (props: { pub: string; onClose?: () => {} }) => {
+  const npub = props.pub.startsWith('npub')
+    ? props.pub
+    : nip19.npubEncode(props.pub);
   const link = `https://iris.to/${npub}`;
   return (
     <Modal centerVertically={true} showContainer={true} onClose={props.onClose}>

@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
 import React, { useState, useEffect } from 'react';
 import { nip19 } from 'nostr-tools';
 import usePublish from '@/hooks/usePublish';
 import useStore from '@/store';
 import CardContainer from '@/components/CardContainer';
-import {useProfileMetadata} from "@/hooks";
-import Upload from "@/components/Upload";
+import { useProfileMetadata } from '@/hooks';
+import Upload from '@/components/Upload';
 import { useRouter } from 'next/navigation';
 
 const IMAGE_FIELDS = ['picture', 'banner'];
@@ -16,10 +16,14 @@ const EditProfile = () => {
   const [newFieldName, setNewFieldName] = useState('');
   const [newFieldValue, setNewFieldValue] = useState('');
   const userData = useStore((state) => state.auth.user.data);
-  const myNpub = userData?.publicKey ? nip19.npubEncode(userData?.publicKey) : '';
+  const myNpub = userData?.publicKey
+    ? nip19.npubEncode(userData?.publicKey)
+    : '';
   const router = useRouter();
 
-  const { latestMetadataEvent, invalidate } = useProfileMetadata(userData?.publicKey || '');
+  const { latestMetadataEvent, invalidate } = useProfileMetadata(
+    userData?.publicKey || ''
+  );
   useEffect(() => {
     if (latestMetadataEvent) {
       try {
@@ -60,7 +64,7 @@ const EditProfile = () => {
     });
     invalidate();
     router.push(`/${myNpub}`);
-  }
+  };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -70,7 +74,10 @@ const EditProfile = () => {
   const handleAddField = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (newFieldName && newFieldValue) {
-      const updatedProfile = handleProfileAttributeChange(newFieldName, newFieldValue);
+      const updatedProfile = handleProfileAttributeChange(
+        newFieldName,
+        newFieldValue
+      );
       setNewFieldName('');
       setNewFieldValue('');
       await saveProfile(updatedProfile);
@@ -108,23 +115,39 @@ const EditProfile = () => {
               <Upload onUrl={(url) => handleProfileAttributeChange(key, url)} />
             </div>
             <div className="mt-2">
-              {value && <img src={value} alt={key} className="rounded-sm h-32 object-cover" />}
+              {value && (
+                <img
+                  src={value}
+                  alt={key}
+                  className="rounded-sm h-32 object-cover"
+                />
+              )}
             </div>
           </>
         )}
       </div>
     );
-  }
+  };
 
   const renderProfileFields = () => {
-    const defaultFields = ['name', 'picture', 'about', 'banner', 'website', 'lud16', 'nip05'];
+    const defaultFields = [
+      'name',
+      'picture',
+      'about',
+      'banner',
+      'website',
+      'lud16',
+      'nip05',
+    ];
 
     return (
       <>
         {defaultFields.map((field) => renderProfileField(field))}
-        {Object.keys(profile).filter((key) => !defaultFields.includes(key)).map((key) => {
-          return renderProfileField(key);
-        })}
+        {Object.keys(profile)
+          .filter((key) => !defaultFields.includes(key))
+          .map((key) => {
+            return renderProfileField(key);
+          })}
       </>
     );
   };
@@ -169,8 +192,8 @@ const EditProfile = () => {
           </p>
         </form>
       </div>
-
-    </CardContainer>);
+    </CardContainer>
+  );
 };
 
 export default EditProfile;

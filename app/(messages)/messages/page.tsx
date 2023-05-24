@@ -10,5 +10,5 @@ export default function Messages() {
         <ChatList />
       </div>
     </>
-  )
+  );
 }

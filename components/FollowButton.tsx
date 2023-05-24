@@ -1,31 +1,35 @@
-import {memo, useMemo, useState} from 'react';
-import useStore from "@/store";
-import { useProfileContacts, useProfileHex } from "@/hooks";
-import usePublish from "@/hooks/usePublish";
+import { memo, useMemo, useState } from 'react';
+import useStore from '@/store';
+import { useProfileContacts, useProfileHex } from '@/hooks';
+import usePublish from '@/hooks/usePublish';
 
 const FollowButton = memo(({ pub }: { pub: string }) => {
   const [hovering, setHovering] = useState(false);
   const userData = useStore((state) => state.auth.user.data);
-  const { latestContactEvent } = useProfileContacts(userData?.publicKey || "");
+  const { latestContactEvent } = useProfileContacts(userData?.publicKey || '');
   const publish = usePublish();
   const hex = useProfileHex(pub);
 
   const isFollowing = useMemo(() => {
-    const isFollowing = latestContactEvent?.tags?.some((tag) => tag[0] === 'p' && tag[1] === hex);
+    const isFollowing = latestContactEvent?.tags?.some(
+      (tag) => tag[0] === 'p' && tag[1] === hex
+    );
     return isFollowing;
   }, [pub, latestContactEvent]);
 
   // this is re-rendering too much
   // console.log('event', event);
-  
+
   if (hex === userData?.publicKey) return null;
 
   const onClick = () => {
     let newTags;
     if (isFollowing) {
-      newTags = (latestContactEvent?.tags || []).filter((tag) => tag[0] !== "p" || tag[1] !== hex);
+      newTags = (latestContactEvent?.tags || []).filter(
+        (tag) => tag[0] !== 'p' || tag[1] !== hex
+      );
     } else {
-      newTags = (latestContactEvent?.tags || []).concat([["p", hex]]);
+      newTags = (latestContactEvent?.tags || []).concat([['p', hex]]);
     }
     publish({
       tags: newTags,
@@ -51,12 +55,16 @@ const FollowButton = memo(({ pub }: { pub: string }) => {
 
   return (
     <button
-      className={`btn btn-sm gap-2 w-24 ${isFollowing ? "btn-ghost" : ""}`}
+      className={`btn btn-sm gap-2 w-24 ${isFollowing ? 'btn-ghost' : ''}`}
       onClick={onClick}
       onMouseOver={onMouseOver}
       onMouseOut={onMouseOut}
     >
-      {hovering && isFollowing ? "Unfollow" : isFollowing ? "Following" : "Follow"}
+      {hovering && isFollowing
+        ? 'Unfollow'
+        : isFollowing
+        ? 'Following'
+        : 'Follow'}
     </button>
   );
 });

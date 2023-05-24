@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import {useEffect, useState, useCallback} from "react";
+import { useEffect, useState, useCallback } from 'react';
 
 export type Unsubscribe = () => void;
 
@@ -72,7 +72,7 @@ class Node {
             await Promise.all(
               result.value.map(async (key: string) => {
                 newResult[key] = await this.get(key).once();
-              }),
+              })
             );
             result = newResult;
           } else if (result.type === LEAF) {
@@ -158,7 +158,11 @@ class Node {
    * @param returnIfUndefined
    * @returns {Promise<*>}
    */
-  async once(callback?: Callback, unsub?: Unsubscribe, returnIfUndefined = true): Promise<any> {
+  async once(
+    callback?: Callback,
+    unsub?: Unsubscribe,
+    returnIfUndefined = true
+  ): Promise<any> {
     let result: any;
     if (this.children.size) {
       // return an object containing all children
@@ -166,7 +170,7 @@ class Node {
       await Promise.all(
         Array.from(this.children.keys()).map(async (key) => {
           result[key] = await this.get(key).once(undefined, unsub);
-        }),
+        })
       );
     } else if (this.value !== undefined) {
       result = this.value;
@@ -174,7 +178,12 @@ class Node {
       result = await this.loadLocalStorage();
     }
     if (result !== undefined || returnIfUndefined) {
-      callback && callback(result, this.path.slice(this.path.lastIndexOf('/') + 1), unsub || (() => {}));
+      callback &&
+        callback(
+          result,
+          this.path.slice(this.path.lastIndexOf('/') + 1),
+          unsub || (() => {})
+        );
       return result;
     }
   }
@@ -216,7 +225,11 @@ class Node {
 const localState = new Node();
 
 // unsubscribes on unmount
-export function useLocalState(key: string, initialValue: any = undefined, once = false) {
+export function useLocalState(
+  key: string,
+  initialValue: any = undefined,
+  once = false
+) {
   const [value, setValue] = useState(initialValue);
   useEffect(() => {
     const unsub = localState.get(key).on((new_value, _key, unsubscribe) => {
@@ -230,8 +243,9 @@ export function useLocalState(key: string, initialValue: any = undefined, once =
   const setter = useCallback(
     (new_value: any) => {
       localState.get(key).set(new_value);
-    }
-  , [key]);
+    },
+    [key]
+  );
   return [value, setter];
 }
 

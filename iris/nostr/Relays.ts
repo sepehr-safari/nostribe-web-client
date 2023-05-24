@@ -52,8 +52,12 @@ const Relays = {
   newAuthors: new Set<string>(),
   DEFAULT_RELAYS,
   init() {
-    this.relays = new Map(DEFAULT_RELAYS.map((url) => [url, { enabled: true, url }]));
-    this.searchRelays = new Map(SEARCH_RELAYS.map((url) => [url, { enabled: true, url }]));
+    this.relays = new Map(
+      DEFAULT_RELAYS.map((url) => [url, { enabled: true, url }])
+    );
+    this.searchRelays = new Map(
+      SEARCH_RELAYS.map((url) => [url, { enabled: true, url }])
+    );
     this.manage();
   },
   enabledRelays(relays: Map<string, RelayMetadata> = this.relays) {
@@ -233,7 +237,7 @@ const Relays = {
       localState.get('relays').get(url).get('lastSeen').put(now);
     },
     5 * 1000,
-    { leading: true },
+    { leading: true }
   ),
   groupFilter(filter: Filter): { name: string; groupedFilter: Filter } {
     // if filter has authors, add to subscribedAuthors and group by authors
@@ -243,14 +247,19 @@ const Relays = {
       });
       return {
         name: 'profiles',
-        groupedFilter: { authors: Array.from(this.subscribedProfiles.values()), kinds: [0] },
+        groupedFilter: {
+          authors: Array.from(this.subscribedProfiles.values()),
+          kinds: [0],
+        },
       };
     }
     if (filter.authors) {
       filter.authors = Array.from(this.subscribedProfiles.values());
       return {
         name: 'authors',
-        groupedFilter: { authors: Array.from(this.subscribedProfiles.values()) },
+        groupedFilter: {
+          authors: Array.from(this.subscribedProfiles.values()),
+        },
       };
     }
     if (filter.ids) {

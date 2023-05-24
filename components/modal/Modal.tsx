@@ -1,4 +1,4 @@
-import {FC, MouseEventHandler, ReactNode, useEffect} from 'react';
+import { FC, MouseEventHandler, ReactNode, useEffect } from 'react';
 import 'daisyui';
 
 type Props = {
@@ -11,11 +11,7 @@ type Props = {
   children?: ReactNode;
 };
 
-const Modal: FC<Props> = ({
-  showContainer,
-  children,
-  onClose,
-}) => {
+const Modal: FC<Props> = ({ showContainer, children, onClose }) => {
   const handleKeyDown = (e: KeyboardEvent) => {
     if (e.key === 'Escape') {
       onClose?.();
@@ -54,11 +50,7 @@ const Modal: FC<Props> = ({
       className="fixed top-0 left-0 z-40 w-full h-full bg-black bg-opacity-80 flex items-center justify-center overflow-y-auto overflow-x-hidden p-5"
       onClick={handleOverlayClick}
     >
-      <div
-        className="flex flex-col items-center w-full"
-      >
-        {content}
-      </div>
+      <div className="flex flex-col items-center w-full">{content}</div>
     </div>
   );
 };

@@ -2,8 +2,9 @@ import Embed from './index';
 import Link from 'next/link';
 
 const Spotify: Embed = {
-  regex: /(?:https?:\/\/)?(?:www\.)?(?:open\.spotify\.com\/track\/)([\w-]+)(?:\S+)?/g,
-  component: ({ match, index , key}) => {
+  regex:
+    /(?:https?:\/\/)?(?:www\.)?(?:open\.spotify\.com\/track\/)([\w-]+)(?:\S+)?/g,
+  component: ({ match, index, key }) => {
     return (
       <iframe
         className="audio"
@@ -18,7 +19,7 @@ const Spotify: Embed = {
         allowFullScreen
       />
     );
-  }
-}
+  },
+};
 
 export default Spotify;

@@ -1,15 +1,15 @@
 'use client';
 
 import React, { useState } from 'react';
-import Avatar from "@/components/Avatar";
-import Upload from "@/components/Upload";
-import CardContainer from "@/components/CardContainer";
-import useStore from "@/store";
-import {nip19, Event} from "nostr-tools";
-import Link from "next/link";
-import {PaperClipIcon} from "@heroicons/react/24/outline";
+import Avatar from '@/components/Avatar';
+import Upload from '@/components/Upload';
+import CardContainer from '@/components/CardContainer';
+import useStore from '@/store';
+import { nip19, Event } from 'nostr-tools';
+import Link from 'next/link';
+import { PaperClipIcon } from '@heroicons/react/24/outline';
 
-import usePublish from "@/hooks/usePublish";
+import usePublish from '@/hooks/usePublish';
 
 interface Props {
   onSubmit?: (event: Event) => void;
@@ -17,7 +17,11 @@ interface Props {
   placeholder?: string;
 }
 
-const NewPostForm: React.FC<Props> = ({ onSubmit, replyingTo, placeholder }) => {
+const NewPostForm: React.FC<Props> = ({
+  onSubmit,
+  replyingTo,
+  placeholder,
+}) => {
   const [postText, setPostText] = useState('');
   const [isExpanded, setIsExpanded] = useState(false);
   const [uploadError, setUploadError] = useState('');
@@ -31,11 +35,11 @@ const NewPostForm: React.FC<Props> = ({ onSubmit, replyingTo, placeholder }) => 
     const current = textAreaRef.current as HTMLTextAreaElement;
     current.style.height = 'inherit';
     current.style.height = `${current.scrollHeight}px`;
-  }
+  };
 
   const handlePostTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-      setPostText(e.target.value);
-      updateTextAreaHeight();
+    setPostText(e.target.value);
+    updateTextAreaHeight();
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -46,10 +50,19 @@ const NewPostForm: React.FC<Props> = ({ onSubmit, replyingTo, placeholder }) => 
       content: postText,
     };
     if (replyingTo) {
-      eventData.tags = [['e', replyingTo.id, '', 'reply'], ['p', replyingTo.pubkey], ...replyingTo.tags];
+      eventData.tags = [
+        ['e', replyingTo.id, '', 'reply'],
+        ['p', replyingTo.pubkey],
+        ...replyingTo.tags,
+      ];
       eventData.tags = eventData.tags.filter((tag: string[], index: number) => {
         // Remove duplicate tags
-        return index === eventData.tags.findIndex((t: string[]) => t[0] === tag[0] && t[1] === tag[1]);
+        return (
+          index ===
+          eventData.tags.findIndex(
+            (t: string[]) => t[0] === tag[0] && t[1] === tag[1]
+          )
+        );
       });
     }
     const event = await publish(eventData);
@@ -57,14 +70,17 @@ const NewPostForm: React.FC<Props> = ({ onSubmit, replyingTo, placeholder }) => 
     onSubmit?.(event);
   };
 
-  const myNpub = userData?.publicKey ? nip19.npubEncode(userData?.publicKey) : '';
+  const myNpub = userData?.publicKey
+    ? nip19.npubEncode(userData?.publicKey)
+    : '';
 
   return (
     <CardContainer>
       <form onSubmit={handleSubmit} className="w-full">
         <div className="flex items-start">
           <Link href={`/${myNpub}`} className="mr-4">
-            <Avatar width="w-12" pub={userData?.publicKey || ''} /> {/* Render the Avatar component here */}
+            <Avatar width="w-12" pub={userData?.publicKey || ''} />{' '}
+            {/* Render the Avatar component here */}
           </Link>
           <div className="flex-grow">
             <textarea
@@ -81,16 +97,25 @@ const NewPostForm: React.FC<Props> = ({ onSubmit, replyingTo, placeholder }) => 
         </div>
         {isExpanded && (
           <div className="flex items-center justify-between mt-2">
-            <Upload onError={(e) => setUploadError(e)}
+            <Upload
+              onError={(e) => setUploadError(e)}
               onUrl={(url) => {
                 setPostText(postText + ' ' + url);
                 updateTextAreaHeight();
-              }}>
-              <button className="btn btn-ghost btn-circle" onClick={(e) => e.preventDefault()}>
+              }}
+            >
+              <button
+                className="btn btn-ghost btn-circle"
+                onClick={(e) => e.preventDefault()}
+              >
                 <PaperClipIcon width={24} />
               </button>
             </Upload>
-            <button type="submit" className="btn btn-primary" disabled={postText.length === 0}>
+            <button
+              type="submit"
+              className="btn btn-primary"
+              disabled={postText.length === 0}
+            >
               Post
             </button>
           </div>
