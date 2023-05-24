@@ -161,7 +161,7 @@ const Reactions = ({ reactionEvents, nip19NoteId, event, standalone }: Props) =>
             console.log('click', lightning);
             setShowZapModal(true)
           }} className={`btn-ghost hover:bg-transparent hover:text-iris-orange btn w-1/4 content-center gap-2 rounded-none p-2 ${zapped ? 'text-iris-orange' : 'text-neutral-500'}`}>
-            <BoltIcon width={18} />
+            {zapped ? <BoltIconFull width={18} /> : <BoltIcon width={18}/>}
             {!standalone && zaps.length > 0 && (
               <>
                 {formatAmount(totalZapAmount / 1000)}

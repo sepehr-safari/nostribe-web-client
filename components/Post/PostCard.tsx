@@ -14,6 +14,11 @@ import Spinner from '@/components/Spinner';
 import NewPostForm from "@/components/NewPostForm";
 import Reactions from './Reactions';
 import Dropdown from './Dropdown';
+import {
+  ArrowPathIcon,
+  BoltIcon,
+  HeartIcon,
+} from "@heroicons/react/24/solid";
 
 import { usePostEvent, usePostReactions, useProfileContent } from '@/hooks';
 import { useRouter } from 'next/navigation';
@@ -21,6 +26,7 @@ import {MouseEventHandler, useMemo} from "react";
 import {getReplyingToEvent, getThreadRoot, isRepost} from "@/utils/event";
 import {toHexKey} from "@/utils/hexKey";
 import {useLocalState} from "@/utils/LocalState";
+import {getZappingUser} from "@/utils/Lightning";
 
 type Props = {
   postId: string,
@@ -96,6 +102,30 @@ const PostCard = ({ postId, showReplies, standalone, asReply, asRepliedMessage, 
         </div>
       </CardContainer>
     );
+  }
+
+  if (replyingToEvent && postEvent.kind !== 1) {
+    let text = '';
+    let icon = <HeartIcon className="w-4 h-4 text-iris-purple" />;
+    let author = postEvent.pubkey;
+    if (postEvent.kind === 7) {
+      text = 'liked';
+    } else if (isRepost(postEvent)) {
+      text = 'reposted';
+      icon = <ArrowPathIcon className="w-4 h-4 text-iris-green" />;
+    } else if (postEvent.kind === 9735) {
+      text = 'zapped';
+      author = getZappingUser(postEvent);
+      icon = <BoltIcon className="w-4 h-4 text-iris-orange" />;
+    }
+    return(
+      <>
+        <span className={`text-sm opacity-50 flex items-center gap-2 px-4 -mb-2 mt-2`}>
+          {icon} <Name pub={author} /> {text}
+        </span>
+        <PostCard postId={replyingToEvent} showReplies={0} />
+      </>
+    )
   }
 
   return (

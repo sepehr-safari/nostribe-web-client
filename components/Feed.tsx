@@ -60,8 +60,6 @@ const Feed = ({ showDisplayAs, relays, filterOptions }: Props) => {
     options: { invalidate: true, force: true, closeAfterEose: false },
   });
 
-  console.log('filter', filter);
-
   // deduplicate
   events = useMemo(() => {
     const deduped = events
