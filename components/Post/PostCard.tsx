@@ -1,29 +1,29 @@
 'use client';
 
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { Event, nip19 } from 'nostr-tools';
+import { MouseEventHandler, useCallback, useMemo, memo } from 'react';
 
-import { nip19 } from 'nostr-tools';
+import { usePostEvent, usePostReactions, useProfileContent } from '@/hooks';
+
+import { getReplyingToEvent, getThreadRoot, isRepost } from '@/utils/event';
+import { useLocalState } from '@/utils/LocalState';
 
 import { BaseAvatar } from '@/components/Avatar';
 import AvatarLoader from '@/components/Avatar/AvatarLoader';
 import CardContainer from '@/components/CardContainer';
+import Name from '@/components/Name';
+import NewPostForm from '@/components/NewPostForm';
 import PostContent from '@/components/Post/PostContent';
 import RelativeTime from '@/components/RelativeTime';
-import Name from '@/components/Name';
 import Spinner from '@/components/Spinner';
-import NewPostForm from '@/components/NewPostForm';
-import Reactions from './Reactions';
 import Dropdown from './Dropdown';
-
-import { usePostEvent, usePostReactions, useProfileContent } from '@/hooks';
-import { useRouter } from 'next/navigation';
-import { MouseEventHandler, useMemo } from 'react';
-import { getReplyingToEvent, getThreadRoot, isRepost } from '@/utils/event';
-import { toHexKey } from '@/utils/hexKey';
-import { useLocalState } from '@/utils/LocalState';
+import Reactions from './Reactions';
 
 type Props = {
   postId: string;
+  externalReactions?: Event[] | undefined;
   showReplies?: number;
   standalone?: boolean;
   asReply?: boolean;
@@ -34,6 +34,7 @@ type Props = {
 
 const PostCard = ({
   postId,
+  externalReactions,
   showReplies,
   standalone,
   asReply,
@@ -43,67 +44,69 @@ const PostCard = ({
 }: Props) => {
   const router = useRouter();
 
-  let invalid;
-  try {
-    postId = toHexKey(postId);
-  } catch (e) {
-    invalid = true;
-  }
   const { isFetching, postEvent, createdAt, nip19NoteId } =
     usePostEvent(postId);
+
+  const { reactionEvents: internalReactions } = usePostReactions(
+    !externalReactions ? postId : undefined
+  );
+  const sortedReactions = useMemo(() => {
+    if (!externalReactions) {
+      return internalReactions.sort((a, b) => a.created_at - b.created_at);
+    }
+
+    return externalReactions.sort((a, b) => a.created_at - b.created_at);
+  }, [internalReactions, externalReactions]);
 
   let [mutedUsers] = useLocalState('muted', {});
 
   const { displayName, picture } = useProfileContent(postEvent?.pubkey || '');
   const npub = nip19.npubEncode(postEvent?.pubkey || '');
 
-  const { reactionEvents } = usePostReactions(postId);
+  const onClick: MouseEventHandler = useCallback(
+    (e) => {
+      if (standalone) return;
+      const target = e.target as HTMLElement;
+      const selectors = [
+        'a',
+        'button',
+        '.btn',
+        'video',
+        'audio',
+        'input',
+        'textarea',
+        'iframe',
+        'img',
+      ];
 
-  const sortedReactions = useMemo(() => {
-    return reactionEvents.sort((a, b) => a.created_at - b.created_at);
-  }, [reactionEvents]);
+      const isMatch = selectors.some((selector) => target.closest(selector));
 
-  if (invalid) {
-    return (
-      <CardContainer>
-        <div className="flex items-center justify-center h-32">
-          Invalid note ID {postId}
-        </div>
-      </CardContainer>
-    );
-  }
+      if (!isMatch) {
+        e.preventDefault();
+        router.push(`/${nip19NoteId}`);
+      }
+    },
+    [standalone, router, nip19NoteId]
+  );
 
-  const onClick: MouseEventHandler = (e) => {
-    if (standalone) return;
-    const target = e.target as HTMLElement;
-    const selectors = [
-      'a',
-      'button',
-      '.btn',
-      'video',
-      'audio',
-      'input',
-      'textarea',
-      'iframe',
-      'img',
-    ];
-
-    const isMatch = selectors.some((selector) => target.closest(selector));
-
-    if (!isMatch) {
-      e.preventDefault();
-      router.push(`/${nip19NoteId}`);
-    }
-  };
-
-  const replyingToEvent = postEvent && getReplyingToEvent(postEvent);
-  const replyingToUsers = postEvent?.tags
-    ?.filter((tag) => tag[0] === 'p' && tag[3] !== 'mention')
-    .filter(
-      (tag, index, self) =>
-        self.findIndex((t) => t[0] === tag[0] && t[1] === tag[1]) === index
-    );
-  const threadRoot = replyingToEvent && getThreadRoot(postEvent);
+  const replyingToEvent = useMemo(
+    () => getReplyingToEvent(postEvent),
+    [postEvent]
+  );
+  const threadRoot = useMemo(
+    () => !!replyingToEvent && getThreadRoot(postEvent),
+    [postEvent, replyingToEvent]
+  );
+  const replyingToUsers = useMemo(
+    () =>
+      postEvent?.tags
+        ?.filter((tag) => tag[0] === 'p' && tag[3] !== 'mention')
+        .filter(
+          (tag, index, self) =>
+            self.findIndex((t) => t[0] === tag[0] && t[1] === tag[1]) === index
+        ),
+    [postEvent]
+  );
 
   if (!postEvent) {
     return (
@@ -224,7 +227,7 @@ const PostCard = ({
           <Reactions
             standalone={standalone || false}
             event={postEvent}
-            reactionEvents={reactionEvents}
+            reactionEvents={sortedReactions}
             nip19NoteId={nip19NoteId}
           />
         ) : (
@@ -259,4 +262,4 @@ const PostCard = ({
   );
 };
 
-export default PostCard;
+export default memo(PostCard);

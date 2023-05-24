@@ -1,14 +1,16 @@
 'use client';
 
 import { Event } from 'nostr-tools';
-import { memo } from 'react';
+
+import { getReplyingToEvent } from '@/utils/event';
+
+import { useProfileContacts } from '@/hooks';
+
+import useStore from '@/store';
+
 import Feed from '@/components/Feed';
 import FollowSuggestions from '@/components/FollowSuggestions';
-
 import NewPostForm from '@/components/NewPostForm';
-import useStore from '@/store';
-import { useProfileContacts } from '@/hooks';
-import { getReplyingToEvent } from '@/utils/event';
 
 const DEFAULT_PUBKEY =
   '4523be58d395b1b196a9b8c82b038b6895cb02b683d0c253a955068dba1facd0';

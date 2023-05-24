@@ -11,7 +11,12 @@ export function getThreadRoot(event: Event): string | undefined {
   return event?.tags?.find((t) => t[0] === 'e')?.[1];
 }
 
-export function getReplyingToEvent(event: Event): string | undefined {
+export function getReplyingToEvent(
+  event: Event | undefined
+): string | undefined {
+  if (!event) {
+    return undefined;
+  }
   const replyTags = event.tags?.filter(
     (tag) => tag[0] === 'e' && tag[3] !== 'mention'
   );

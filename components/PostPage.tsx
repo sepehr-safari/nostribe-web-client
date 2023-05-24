@@ -1,26 +1,20 @@
 'use client';
 
-import { memo } from 'react';
+import { usePostEvent, usePostReactions } from '@/hooks';
 
-import { usePostHex } from '@/hooks';
+import { toHexKey } from '@/utils/hexKey';
+
+import useStore from '@/store';
 
 import PostCard from '@/components/Post/PostCard';
 import Spinner from '@/components/Spinner';
-import useStore from '@/store';
-import { useSubscribe } from 'nostr-hooks';
 
 const PostPage = ({ address }: { address: string }) => {
-  const postId = usePostHex(address);
+  const postId = toHexKey(address);
   const userData = useStore((state) => state.auth.user.data);
-  const relays = useStore((store) => store.relays);
 
-  const { events: postEvents, eose: postEose } = useSubscribe({
-    relays,
-    filters: [{ ids: [postId] }],
-  });
-
-  const isFetching = !postEose && !postEvents.length;
-  const isPostsEmpty = postEose && !postEvents.length;
+  const { isFetching, isPostsEmpty } = usePostEvent(postId);
+  const { reactionEvents } = usePostReactions(postId);
 
   if (isPostsEmpty) return <p>No Posts</p>;
 
@@ -32,6 +26,7 @@ const PostPage = ({ address }: { address: string }) => {
         <PostCard
           key={postId}
           postId={postId}
+          externalReactions={reactionEvents}
           showReplies={Infinity}
           standalone={true}
           showReplyForm={!!userData?.publicKey}
@@ -41,4 +36,4 @@ const PostPage = ({ address }: { address: string }) => {
   );
 };
 
-export default memo(PostPage);
+export default PostPage;
