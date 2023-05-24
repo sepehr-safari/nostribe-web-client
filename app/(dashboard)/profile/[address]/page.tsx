@@ -36,10 +36,10 @@ const Profile = ({ params }: { params: { address: string } }) => {
     return null;
   }
 
-  const filterOptions: FilterOption[] = [
-    { name: 'Posts', filter: { kinds: [1], authors: [profileHex], limit: 100 }, filterFn: (event: Event) => !getReplyingToEvent(event) },
-    { name: 'Posts & replies', filter: { kinds: [1, 6], authors: [profileHex], limit: 100 }},
-    { name: 'Likes', filter: { kinds: [7], authors: [profileHex], limit: 100 }},
+  const filterOptions: FilterOption[] = [ // TODO useSubscribe doesn't react to filter change, so we temporarily use kinds [1, 6, 7] and let filterFn do the rest
+    { name: 'Posts', filter: { kinds: [1, 6, 7], authors: [profileHex], limit: 100 }, filterFn: (event: Event) => !getReplyingToEvent(event) },
+    { name: 'Posts & replies', filter: { kinds: [1, 6], authors: [profileHex], limit: 100 }, filterFn: (event: Event) => [1,6].includes(event.kind)},
+    { name: 'Likes', filter: { kinds: [7], authors: [profileHex], limit: 100 }, filterFn: (event: Event) => event.kind === 7 },
   ];
 
   return (

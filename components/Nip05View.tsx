@@ -3,13 +3,13 @@ import { useEffect, useState } from "react";
 
 function ColoredText({ text, valid }: { text: string, valid: boolean | null }) {
   const textClass = valid === false ? 'line-through text-neutral-500' : (valid === null ? 'text-neutral-500' : 'text-iris-green');
-  const tooltipClass = valid === false ? 'tooltip tooltip-right' : '';
+  const tooltipClass = valid === false ? 'tooltip tooltip-bottom' : '';
   const tooltipText = valid === false ? 'Invalid nip05' : '';
 
   return (
-    <div className={`${textClass} text-left text-xs font-bold leading-5 ${tooltipClass}`} data-tip={tooltipText}>
+    <span className={`${textClass} text-left text-xs font-bold leading-5 ${tooltipClass}`} data-tip={tooltipText}>
       {text}
-    </div>
+    </span>
   );
 }
 
@@ -33,7 +33,7 @@ export default function Nip05View({ text }: { text: string }) {
   const trimmedText = text.slice(0, 25) + '...' + text.slice(-25);
 
   return (
-    <div className="tooltip">
+    <div className="dropdown">
       <label tabIndex={0}>
         <ColoredText text={trimmedText} valid={nip05Valid} />
       </label>
