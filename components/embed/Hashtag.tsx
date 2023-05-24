@@ -11,10 +11,11 @@ const Hashtag: Embed = {
         href={`/search/${encodeURIComponent(match)}`}
         className="text-iris-blue hover:underline"
       >
-        {' '}{match}{' '}
+        {' '}
+        {match}{' '}
       </Link>
     );
-  }
-}
+  },
+};
 
 export default Hashtag;

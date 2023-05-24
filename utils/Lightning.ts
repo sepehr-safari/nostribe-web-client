@@ -1,11 +1,11 @@
 import { bytesToHex } from '@noble/hashes/utils';
 //@ts-ignore
 import { decode as invoiceDecode } from 'light-bolt11-decoder';
-import { Event } from "nostr-tools";
+import { Event } from 'nostr-tools';
 
 let lastBitcoinPrice: any;
 
-const currencies: { [key: string]: string; } = {
+const currencies: { [key: string]: string } = {
   USD: '$',
   EUR: '€',
   JPY: '¥',
@@ -54,7 +54,9 @@ const getExchangeRate = () => {
       }
     })
     .then((data) => {
-      lastBitcoinPrice = parseFloat(data?.result?.['XXBTZ' + displayCurrency]?.c?.[0]);
+      lastBitcoinPrice = parseFloat(
+        data?.result?.['XXBTZ' + displayCurrency]?.c?.[0]
+      );
       console.log('lastBitcoinPrice', lastBitcoinPrice, displayCurrency);
     })
     .catch((error) => {
@@ -86,20 +88,30 @@ export function decodeInvoice(pr: string): InvoiceDetails | undefined {
     const parsed = invoiceDecode(pr);
 
     const amountSection = parsed.sections.find((a: any) => a.name === 'amount');
-    const amount = amountSection ? Number(amountSection.value as number | string) : undefined;
+    const amount = amountSection
+      ? Number(amountSection.value as number | string)
+      : undefined;
 
-    const timestampSection = parsed.sections.find((a: any) => a.name === 'timestamp');
+    const timestampSection = parsed.sections.find(
+      (a: any) => a.name === 'timestamp'
+    );
     const timestamp = timestampSection
       ? Number(timestampSection.value as number | string)
       : undefined;
 
     const expirySection = parsed.sections.find((a: any) => a.name === 'expiry');
-    const expire = expirySection ? Number(expirySection.value as number | string) : undefined;
-    const descriptionSection = parsed.sections.find((a: any) => a.name === 'description')?.value;
-    const descriptionHashSection = parsed.sections.find(
-      (a: any) => a.name === 'description_hash',
+    const expire = expirySection
+      ? Number(expirySection.value as number | string)
+      : undefined;
+    const descriptionSection = parsed.sections.find(
+      (a: any) => a.name === 'description'
     )?.value;
-    const paymentHashSection = parsed.sections.find((a: any) => a.name === 'payment_hash')?.value;
+    const descriptionHashSection = parsed.sections.find(
+      (a: any) => a.name === 'description_hash'
+    )?.value;
+    const paymentHashSection = parsed.sections.find(
+      (a: any) => a.name === 'payment_hash'
+    )?.value;
     const ret = {
       amount: amount,
       expire: timestamp && expire ? timestamp + expire : undefined,
@@ -108,7 +120,9 @@ export function decodeInvoice(pr: string): InvoiceDetails | undefined {
       descriptionHash: descriptionHashSection
         ? /* bytesToHex(descriptionHashSection as Uint8Array) tmp disabled */ undefined
         : undefined,
-      paymentHash: paymentHashSection ? undefined /* bytesToHex(paymentHashSection as Uint8Array)  tmp */ : undefined,
+      paymentHash: paymentHashSection
+        ? undefined /* bytesToHex(paymentHashSection as Uint8Array)  tmp */
+        : undefined,
       expired: false,
     };
     if (ret.expire) {

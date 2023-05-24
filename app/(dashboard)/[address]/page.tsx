@@ -1,12 +1,12 @@
-import Post from '@/app/(dashboard)/post/[address]/page';
-import Profile from '@/app/(dashboard)/profile/[address]/page';
+import PostPage from '@/components/PostPage';
+import ProfilePage from '@/components/ProfilePage';
 
 export const runtime = 'edge';
 
-export default function Address({params}: {params: {address: string}}) {
+export default function Address({ params }: { params: { address: string } }) {
   if (params.address.startsWith('note')) {
-    return <Post params={params} />;
+    return <PostPage address={params.address} />;
   } else {
-    return <Profile params={params} />;
+    return <ProfilePage address={params.address} />;
   }
 }

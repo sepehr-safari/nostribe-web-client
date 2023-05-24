@@ -1,4 +1,4 @@
-import Embed from "./index";
+import Embed from './index';
 
 const Video: Embed = {
   regex: /(https?:\/\/.*\.(?:mp4|webm|ogg|mov)(?:\?\S*)?)/gi,
@@ -18,6 +18,6 @@ const Video: Embed = {
       ></video>
     </div>
   ),
-}
+};
 
 export default Video;

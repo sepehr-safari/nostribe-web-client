@@ -123,7 +123,7 @@ const PubSub = {
     filter: Filter,
     callback?: (event: Event) => void,
     sinceLastOpened = false,
-    mergeSubscriptions = true,
+    mergeSubscriptions = true
   ): Unsubscribe {
     let currentSubscriptionId;
     if (callback) {
@@ -140,7 +140,7 @@ const PubSub = {
       'subscribedEventIds',
       this.subscribedEventIds.size,
       'subscribedAuthors',
-      this.subscribedAuthors.size,
+      this.subscribedAuthors.size
     );
 
     if (filter.authors) {
@@ -170,7 +170,11 @@ const PubSub = {
 
     // TODO if asking event by id or profile, ask http proxy
 
-    const unsubRelays = this.subscribeRelayPool(filter, sinceLastOpened, mergeSubscriptions);
+    const unsubRelays = this.subscribeRelayPool(
+      filter,
+      sinceLastOpened,
+      mergeSubscriptions
+    );
 
     return () => {
       unsubRelays?.();
@@ -197,7 +201,11 @@ const PubSub = {
     }
   },
 
-  subscribeRelayPool(filter: Filter, sinceLastOpened: boolean, mergeSubscriptions: boolean) {
+  subscribeRelayPool(
+    filter: Filter,
+    sinceLastOpened: boolean,
+    mergeSubscriptions: boolean
+  ) {
     let relays: any;
     if (filter.keywords) {
       // TODO bomb all relays with searches, or add more search relays
@@ -205,7 +213,10 @@ const PubSub = {
     } else if (mergeSubscriptions || filter.authors?.length !== 1) {
       relays = Relays.enabledRelays();
     }
-    if (dev.indexed03 !== false && filter.kinds?.every((k) => k === 0 || k === 3)) {
+    if (
+      dev.indexed03 !== false &&
+      filter.kinds?.every((k) => k === 0 || k === 3)
+    ) {
       relays = ['wss://us.rbr.bio', 'wss://eu.rbr.bio'];
     }
     if (sinceLastOpened) {
@@ -231,7 +242,7 @@ const PubSub = {
       {
         // enabled relays
         defaultRelays,
-      },
+      }
     );
   },
 };

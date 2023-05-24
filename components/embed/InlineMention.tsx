@@ -42,7 +42,7 @@ const InlineMention: Embed = {
       console.log('unknown tag type', type, index, event);
       return <>{fail(match)}</>;
     }
-  }
-}
+  },
+};
 
 export default InlineMention;

@@ -5,12 +5,13 @@ import { nip19 } from 'nostr-tools';
 
 import useStore from '@/store';
 
-const usePostEvent = (postId: string) => {
+const usePostEvent = (postId: string | undefined) => {
   const relays = useStore((store) => store.relays);
 
   const { events: postEvents, eose: postEose } = useSubscribe({
     relays,
-    filters: [{ ids: [postId] }],
+    filters: !!postId ? [{ ids: [postId] }] : [],
+    options: { enabled: !!postId },
   });
 
   const isFetching = !postEose && !postEvents.length;

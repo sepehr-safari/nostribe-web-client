@@ -2,7 +2,7 @@ import Embed from './index';
 import Name from '@/components/Name';
 import PostCard from '@/components/Post/PostCard';
 import Link from 'next/link';
-import {nip19} from "nostr-tools";
+import { nip19 } from 'nostr-tools';
 
 const nip19Regex = /\bnostr:(n(?:event|profile)1\w+)\b/g;
 
@@ -15,7 +15,12 @@ const NostrUser: Embed = {
         return (
           <>
             {' '}
-            <Link prefetch={false} key={key} className="text-iris-blue hover:underline" href={`/${data.pubkey}`}>
+            <Link
+              prefetch={false}
+              key={key}
+              className="text-iris-blue hover:underline"
+              href={`/${data.pubkey}`}
+            >
               <Name pub={data.pubkey} />
             </Link>
           </>

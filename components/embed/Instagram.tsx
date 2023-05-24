@@ -2,8 +2,9 @@ import Embed from './index';
 import Link from 'next/link';
 
 const Instagram: Embed = {
-  regex: /(?:https?:\/\/)?(?:www\.)?(?:instagram\.com\/)((?:p|reel)\/[\w-]{11})(?:\S+)?/g,
-  component: ({ match, index , key}) => {
+  regex:
+    /(?:https?:\/\/)?(?:www\.)?(?:instagram\.com\/)((?:p|reel)\/[\w-]{11})(?:\S+)?/g,
+  component: ({ match, index, key }) => {
     return (
       <iframe
         className="instagram"
@@ -17,7 +18,7 @@ const Instagram: Embed = {
         allowFullScreen
       />
     );
-  }
-}
+  },
+};
 
 export default Instagram;

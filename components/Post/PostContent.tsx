@@ -4,7 +4,7 @@ import { Event } from 'nostr-tools';
 import { useState } from 'react';
 
 import Spinner from '../Spinner';
-import HyperText from "@/components/HyperText";
+import HyperText from '@/components/HyperText';
 
 const MSG_TRUNCATE_LENGTH = 500;
 const MSG_TRUNCATE_LINES = 8;
@@ -16,7 +16,13 @@ const isTooLong = (event: Event) => {
   );
 };
 
-const PostContent = ({ postEvent, standalone }: { postEvent: Event, standalone: boolean }) => {
+const PostContent = ({
+  postEvent,
+  standalone,
+}: {
+  postEvent: Event;
+  standalone: boolean;
+}) => {
   const [isExpanded, setIsExpanded] = useState(standalone);
 
   if (!postEvent) return <Spinner />;
@@ -24,14 +30,17 @@ const PostContent = ({ postEvent, standalone }: { postEvent: Event, standalone: 
   const { content } = postEvent;
 
   const tooLong = !standalone && isTooLong(postEvent);
-  const displayedContent = isExpanded || !tooLong ? content : content.slice(0, MSG_TRUNCATE_LENGTH) + '...';
+  const displayedContent =
+    isExpanded || !tooLong
+      ? content
+      : content.slice(0, MSG_TRUNCATE_LENGTH) + '...';
 
   return (
     <>
-      <div className={`whitespace-pre-wrap ${standalone ? 'text-lg' : 'text-md'}`}>
-        <HyperText event={postEvent}>
-          {displayedContent}
-        </HyperText>
+      <div
+        className={`whitespace-pre-wrap ${standalone ? 'text-lg' : 'text-md'}`}
+      >
+        <HyperText event={postEvent}>{displayedContent}</HyperText>
       </div>
 
       {tooLong && (

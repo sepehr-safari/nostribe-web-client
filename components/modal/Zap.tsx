@@ -1,10 +1,16 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { XMarkIcon } from '@heroicons/react/24/solid';
 
-import {Event, getEventHash, signEvent} from 'nostr-tools';
-import { LNURL, LNURLError, LNURLErrorCode, LNURLInvoice, LNURLSuccessAction } from '@/utils/LNURL';
+import { Event, getEventHash, signEvent } from 'nostr-tools';
+import {
+  LNURL,
+  LNURLError,
+  LNURLErrorCode,
+  LNURLInvoice,
+  LNURLSuccessAction,
+} from '@/utils/LNURL';
 import { formatSats } from '@/utils/Lightning';
-import useStore from "@/store";
+import useStore from '@/store';
 import Name from '../Name';
 import QrCode from '../QrCode';
 
@@ -54,7 +60,15 @@ export default function SendSats(props: ZapProps) {
   const userData = useStore((state) => state.auth.user.data);
   const relays = useStore((store) => store.relays);
   const defaultZapAmount = 1_000;
-  const amounts = [defaultZapAmount, 5_000, 10_000, 20_000, 50_000, 100_000, 1_000_000];
+  const amounts = [
+    defaultZapAmount,
+    5_000,
+    10_000,
+    20_000,
+    50_000,
+    100_000,
+    1_000_000,
+  ];
   const emojis: Record<number, string> = {
     1_000: '👍',
     5_000: '💜',
@@ -230,7 +244,9 @@ export default function SendSats(props: ZapProps) {
           className="bg-neutral-800 p-2 input"
           placeholder={'Custom'}
           value={customAmount}
-          onChange={(e) => setCustomAmount(parseInt((e.target as HTMLInputElement).value))}
+          onChange={(e) =>
+            setCustomAmount(parseInt((e.target as HTMLInputElement).value))
+          }
         />
         <button
           className="btn"
@@ -293,7 +309,11 @@ export default function SendSats(props: ZapProps) {
               type="text"
               placeholder={'Comment'}
               className="input bg-neutral-800"
-              maxLength={canZap && zapType !== ZapType.NonZap ? 250 : handler.maxCommentLength}
+              maxLength={
+                canZap && zapType !== ZapType.NonZap
+                  ? 250
+                  : handler.maxCommentLength
+              }
               onChange={(e) => setComment((e.target as HTMLInputElement).value)}
             />
           )}
@@ -339,7 +359,11 @@ export default function SendSats(props: ZapProps) {
               <>
                 <QrCode data={invoice} link={`lightning:${invoice}`} />
                 <div className="mt-4">
-                  <button onClick={() => navigator.clipboard.writeText(invoice)}>Copy invoice</button>
+                  <button
+                    onClick={() => navigator.clipboard.writeText(invoice)}
+                  >
+                    Copy invoice
+                  </button>
                   <a className="button" href={`lightning:${invoice}`}>
                     Open wallet
                   </a>

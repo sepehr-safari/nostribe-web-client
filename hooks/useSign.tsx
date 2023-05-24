@@ -24,7 +24,8 @@ const useSign = () => {
       const unsignedEvent: UnsignedEvent = {
         pubkey,
         created_at: Math.floor(Date.now() / 1000),
-        content: typeof content === 'string' ? content : (JSON.stringify(content) || ''),
+        content:
+          typeof content === 'string' ? content : JSON.stringify(content) || '',
         tags: tags || [],
         kind,
       };

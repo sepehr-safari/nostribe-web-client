@@ -5,16 +5,20 @@ import { useSubscribe } from 'nostr-hooks';
 import useStore from '@/store';
 
 import { useProfileHex } from '@/hooks';
-import {Event} from "nostr-tools";
+import { Event } from 'nostr-tools';
 
-const useProfileMetadata = (profileAddress: string) => {
+const useProfileMetadata = (profileAddress: string | undefined) => {
   const profileHex = useProfileHex(profileAddress);
 
   const relays = useStore((store) => store.relays);
 
-  const { events: metadataEvents, eose: metadataEose, invalidate } = useSubscribe({
+  const {
+    events: metadataEvents,
+    eose: metadataEose,
+    invalidate,
+  } = useSubscribe({
     relays,
-    filters: [{ authors: [profileHex], kinds: [0] }],
+    filters: !!profileHex ? [{ authors: [profileHex], kinds: [0] }] : [],
     options: { enabled: !!profileHex },
   });
 
@@ -29,7 +33,9 @@ const useProfileMetadata = (profileAddress: string) => {
 
   let metadata: any = {};
   try {
-    metadata = latestMetadataEvent ? JSON.parse(latestMetadataEvent.content) : {};
+    metadata = latestMetadataEvent
+      ? JSON.parse(latestMetadataEvent.content)
+      : {};
   } catch (e) {
     console.error(e);
   }

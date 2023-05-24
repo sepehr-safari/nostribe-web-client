@@ -81,11 +81,11 @@ const Login = () => {
         </div>
       </CardContainer>
       <CardContainer>
-        <p className="text-sm">
-          Don't have an account?
-        </p>
+        <p className="text-sm">Don't have an account?</p>
         <p>
-          <Link href="/signup" className="btn btn-sm">Sign up</Link>
+          <Link href="/signup" className="btn btn-sm">
+            Sign up
+          </Link>
         </p>
       </CardContainer>
     </>

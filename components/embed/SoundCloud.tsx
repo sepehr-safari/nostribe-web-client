@@ -1,7 +1,8 @@
 import Embed from './index';
 
 const SoundCloud: Embed = {
-  regex: /(?:https?:\/\/)?(?:www\.)?(soundcloud\.com\/(?!live)[a-zA-Z0-9-_]+\/[a-zA-Z0-9-_]+)(?:\?.*)?/g,
+  regex:
+    /(?:https?:\/\/)?(?:www\.)?(soundcloud\.com\/(?!live)[a-zA-Z0-9-_]+\/[a-zA-Z0-9-_]+)(?:\?.*)?/g,
   component: ({ match, index, key }) => {
     return (
       <iframe
@@ -16,7 +17,7 @@ const SoundCloud: Embed = {
         allow="encrypted-media"
       />
     );
-  }
-}
+  },
+};
 
 export default SoundCloud;

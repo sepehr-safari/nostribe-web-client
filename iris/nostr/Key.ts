@@ -1,4 +1,10 @@
-import { Event, generatePrivateKey, getPublicKey, nip04, signEvent } from '../lib/nostr-tools';
+import {
+  Event,
+  generatePrivateKey,
+  getPublicKey,
+  nip04,
+  signEvent,
+} from '../lib/nostr-tools';
 
 import Events from './Events';
 const bech32 = require('bech32-buffer'); /* eslint-disable-line @typescript-eslint/no-var-requires */
@@ -83,7 +89,12 @@ export default {
       return nip04.encrypt(k.priv, pub, data);
     } else if (window.nostr) {
       return new Promise((resolve) => {
-        this.processWindowNostr({ op: 'encrypt', data, pub, callback: resolve });
+        this.processWindowNostr({
+          op: 'encrypt',
+          data,
+          pub,
+          callback: resolve,
+        });
       });
     } else {
       return Promise.reject('no private key');
@@ -96,7 +107,12 @@ export default {
       return nip04.decrypt(k.priv, pub, data);
     } else if (window.nostr) {
       return new Promise((resolve) => {
-        this.processWindowNostr({ op: 'decrypt', data, pub, callback: resolve });
+        this.processWindowNostr({
+          op: 'decrypt',
+          data,
+          pub,
+          callback: resolve,
+        });
       });
     } else {
       return Promise.reject('no private key');
@@ -135,7 +151,7 @@ export default {
       fn = this.handlePromise(window.nostr.nip04.encrypt(pub, data), callback);
     } else if (op === 'sign') {
       fn = this.handlePromise(window.nostr.signEvent(data), (signed) =>
-        callback(signed && signed.sig),
+        callback(signed && signed.sig)
       );
     }
     await fn;
@@ -162,7 +178,9 @@ export default {
       const myPub = this.getPubKey();
       const msg = Events.db.by('id', id);
       const theirPub =
-        msg.pubkey === myPub ? msg.tags?.find((tag: any) => tag[0] === 'p')[1] : msg.pubkey;
+        msg.pubkey === myPub
+          ? msg.tags?.find((tag: any) => tag[0] === 'p')[1]
+          : msg.pubkey;
       if (!(msg && theirPub)) {
         return;
       }
@@ -197,7 +215,9 @@ export default {
       const response = await fetch(url);
       const json = await response.json();
       const names = json.names;
-      return names[username] === pubkey || names[username.toLowerCase()] === pubkey;
+      return (
+        names[username] === pubkey || names[username.toLowerCase()] === pubkey
+      );
     } catch (error) {
       // gives lots of cors errors:
       // console.error(error);

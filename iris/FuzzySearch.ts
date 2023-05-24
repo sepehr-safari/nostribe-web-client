@@ -7,7 +7,7 @@ type SearchResult = {
   name: string;
   display_name: string;
   key: string;
-}
+};
 
 const options = {
   keys: ['name', 'display_name'],
@@ -17,7 +17,7 @@ const options = {
 };
 
 const notifyUpdate = throttle(() => {
-//  localState.get('searchIndexUpdated').put(true);
+  //  localState.get('searchIndexUpdated').put(true);
 }, 2000);
 
 const FuzzySearch = {

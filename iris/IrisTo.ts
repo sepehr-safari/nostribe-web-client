@@ -2,7 +2,11 @@ import localState from '@/utils/LocalState';
 
 export default {
   async checkExistingAccount(pub: string) {
-    if (!['new.iris.to', 'iris.to', 'beta.iris.to', 'localhost'].includes(window.location.hostname)) {
+    if (
+      !['new.iris.to', 'iris.to', 'beta.iris.to', 'localhost'].includes(
+        window.location.hostname
+      )
+    ) {
       return;
     }
     // get username linked to pub along with its user_confirmed status
@@ -54,7 +58,9 @@ export default {
   },
 
   async checkAvailability(name: string) {
-    const res = await fetch(`https://api.iris.to/user/available?name=${encodeURIComponent(name)}`);
+    const res = await fetch(
+      `https://api.iris.to/user/available?name=${encodeURIComponent(name)}`
+    );
     if (res.status < 500) {
       const json = await res.json();
       if (json.available) {
@@ -63,7 +69,7 @@ export default {
         return {
           available: false,
           message: json.message,
-        }
+        };
       }
     } else {
       return {
@@ -71,6 +77,5 @@ export default {
         message: 'Error checking username availability',
       };
     }
-  }
-
+  },
 };

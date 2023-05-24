@@ -1,7 +1,7 @@
 'use client';
 
-import {useProfileContent} from "@/hooks";
-import ProxyImg from "@/components/ProxyImg";
+import { useProfileContent } from '@/hooks';
+import ProxyImg from '@/components/ProxyImg';
 
 type Width = 'w-6' | 'w-8' | 'w-12' | 'w-14' | 'w-24' | 'w-36';
 

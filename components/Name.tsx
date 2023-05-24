@@ -1,12 +1,8 @@
 'use client';
 
-import {useProfileContent} from "@/hooks";
+import { useProfileContent } from '@/hooks';
 
-export default function Name({
-  pub
-}: {
-  pub: string;
-}) {
+export default function Name({ pub }: { pub: string }) {
   let { name, displayName } = useProfileContent(pub);
 
   return <>{displayName || name || ''}</>;

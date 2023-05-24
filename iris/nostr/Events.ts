@@ -111,7 +111,9 @@ const Events = {
     }
   },
   getRepostedEventId(event: Event) {
-    let id = event.tags?.find((tag) => tag[0] === 'e' && tag[3] === 'mention')?.[1];
+    let id = event.tags?.find(
+      (tag) => tag[0] === 'e' && tag[3] === 'mention'
+    )?.[1];
     if (id) {
       return id;
     }
@@ -132,11 +134,15 @@ const Events = {
     return this.getEventReplyingTo(event);
   },
   getEventReplyingTo: function (event: Event) {
-    const replyTags = event.tags?.filter((tag) => tag[0] === 'e' && tag[3] !== 'mention');
+    const replyTags = event.tags?.filter(
+      (tag) => tag[0] === 'e' && tag[3] !== 'mention'
+    );
     if (replyTags.length === 1) {
       return replyTags[0][1];
     }
-    const replyTag = event.tags?.find((tag) => tag[0] === 'e' && tag[3] === 'reply');
+    const replyTag = event.tags?.find(
+      (tag) => tag[0] === 'e' && tag[3] === 'reply'
+    );
     if (replyTag) {
       return replyTag[1];
     }
@@ -177,7 +183,10 @@ const Events = {
     this.insert(event);
     const myPub = Key.getPubKey();
 
-    if (event.pubkey === myPub || SocialNetwork.followedByUser.get(myPub)?.has(event.pubkey)) {
+    if (
+      event.pubkey === myPub ||
+      SocialNetwork.followedByUser.get(myPub)?.has(event.pubkey)
+    ) {
       LocalForage.loaded && LocalForage.saveProfilesAndFollows();
     }
 
@@ -195,8 +204,13 @@ const Events = {
       }
     }
     if (SocialNetwork.followedByUser.has(event.pubkey)) {
-      for (const previouslyFollowed of SocialNetwork.followedByUser.get(event.pubkey)) {
-        if (!event.tags || !event.tags?.find((t) => t[0] === 'p' && t[1] === previouslyFollowed)) {
+      for (const previouslyFollowed of SocialNetwork.followedByUser.get(
+        event.pubkey
+      )) {
+        if (
+          !event.tags ||
+          !event.tags?.find((t) => t[0] === 'p' && t[1] === previouslyFollowed)
+        ) {
           SocialNetwork.removeFollower(previouslyFollowed, event.pubkey);
         }
       }
@@ -319,7 +333,10 @@ const Events = {
       return; // TODO you can also zap profiles
     }
     if (!this.zapsByNote.has(zappedNote)) {
-      this.zapsByNote.set(zappedNote, new SortedLimitedEventSet(MAX_ZAPS_BY_NOTE));
+      this.zapsByNote.set(
+        zappedNote,
+        new SortedLimitedEventSet(MAX_ZAPS_BY_NOTE)
+      );
     }
     this.zapsByNote.get(zappedNote)?.add(event);
   },
@@ -329,7 +346,9 @@ const Events = {
     if (event.pubkey === myPub) {
       user = event.tags?.find((tag) => tag[0] === 'p')?.[1] || user;
     } else {
-      const forMe = event.tags?.some((tag) => tag[0] === 'p' && tag[1] === myPub);
+      const forMe = event.tags?.some(
+        (tag) => tag[0] === 'p' && tag[1] === myPub
+      );
       if (!forMe) {
         return;
       }
@@ -358,7 +377,9 @@ const Events = {
     if (event.kind === 6) {
       return true;
     }
-    const mentionIndex = event.tags?.findIndex((tag) => tag[0] === 'e' && tag[3] === 'mention');
+    const mentionIndex = event.tags?.findIndex(
+      (tag) => tag[0] === 'e' && tag[3] === 'mention'
+    );
     if (event.kind === 1 && event.content === `#[${mentionIndex}]`) {
       return true;
     }
@@ -367,7 +388,10 @@ const Events = {
   acceptEvent(event: Event) {
     // quick fix: disable follow distance filter when not logged in
     if (globalFilter.maxFollowDistance && !!Key.getPubKey()) {
-      if (!PubSub.subscribedAuthors.has(event.pubkey) && !PubSub.subscribedEventIds.has(event.id)) {
+      if (
+        !PubSub.subscribedAuthors.has(event.pubkey) &&
+        !PubSub.subscribedEventIds.has(event.id)
+      ) {
         // unless we specifically subscribed to the user or post, ignore long follow distance users
         if (SocialNetwork.followDistanceByUser.has(event.pubkey)) {
           const distance = SocialNetwork.followDistanceByUser.get(event.pubkey);
@@ -424,7 +448,11 @@ const Events = {
         callback(e);
       });
   },
-  handle(event: Event & { id: string }, force = false, saveToIdb = true): boolean {
+  handle(
+    event: Event & { id: string },
+    force = false,
+    saveToIdb = true
+  ): boolean {
     if (!event) return;
     if (!force && this.seen.has(event.id)) {
       return false;
@@ -479,7 +507,10 @@ const Events = {
         this.handleDelete(event);
         break;
       case 3:
-        if (Events.db.findOne({ kind: 3, pubkey: event.pubkey })?.created_at >= event.created_at) {
+        if (
+          Events.db.findOne({ kind: 3, pubkey: event.pubkey })?.created_at >=
+          event.created_at
+        ) {
           return false;
         }
         this.maybeAddNotification(event);
@@ -514,7 +545,9 @@ const Events = {
     // TODO since we're only querying relays since lastSeen, we need to store all beforeseen events and correctly query them on demand
     // otherwise feed will be incomplete
     if (saveToIdb) {
-      const followDistance = SocialNetwork.followDistanceByUser.get(event.pubkey);
+      const followDistance = SocialNetwork.followDistanceByUser.get(
+        event.pubkey
+      );
       if (followDistance <= 1) {
         // save all our own events and events from people we follow
         if (dev.indexedDbSave !== false) {
@@ -574,7 +607,9 @@ const Events = {
     return muted;
   },
   getEventRoot(event: Event) {
-    const rootEvent = event?.tags?.find((t) => t[0] === 'e' && t[3] === 'root')?.[1];
+    const rootEvent = event?.tags?.find(
+      (t) => t[0] === 'e' && t[3] === 'root'
+    )?.[1];
     if (rootEvent) {
       return rootEvent;
     }
@@ -589,7 +624,10 @@ const Events = {
     }
     const myPub = Key.getPubKey();
     // TODO: if it's a like, only add if the last p tag is us
-    if (event.pubkey !== myPub && event.tags?.some((tag) => tag[0] === 'p' && tag[1] === myPub)) {
+    if (
+      event.pubkey !== myPub &&
+      event.tags?.some((tag) => tag[0] === 'p' && tag[1] === myPub)
+    ) {
       if (event.kind === 3) {
         // only notify if we know that they previously weren't following us
         const existingFollows = SocialNetwork.followedByUser.get(event.pubkey);
@@ -599,7 +637,10 @@ const Events = {
       }
       if (!this.isMuted(event)) {
         this.insert(event);
-        const target = this.getEventRoot(event) || this.getEventReplyingTo(event) || event.id; // TODO get thread root instead
+        const target =
+          this.getEventRoot(event) ||
+          this.getEventReplyingTo(event) ||
+          event.id; // TODO get thread root instead
         const key = `${event.kind}-${target}`;
         const existing = this.latestNotificationByTargetAndKind.get(key); // also latestNotificationByAuthor?
         if (!existing || existing.created_at < event.created_at) {
@@ -626,7 +667,12 @@ const Events = {
         break;
       }
     }
-    console.log('notificationsSeenTime', Events.notificationsSeenTime, 'count', count);
+    console.log(
+      'notificationsSeenTime',
+      Events.notificationsSeenTime,
+      'count',
+      count
+    );
     localState.get('unseenNotificationCount').put(count);
   }, 1000),
   publish: async function (event: Partial<Event>): Promise<Event> {
@@ -673,7 +719,9 @@ const Events = {
     return event as Event;
   },
   getZappingUser(eventId: string) {
-    const description = Events.db.by('id', eventId)?.tags?.find((t) => t[0] === 'description')?.[1];
+    const description = Events.db
+      .by('id', eventId)
+      ?.tags?.find((t) => t[0] === 'description')?.[1];
     if (!description) {
       return;
     }
@@ -693,8 +741,8 @@ const Events = {
       likedBy: Set<string>,
       threadReplyCount: number,
       repostedBy: Set<string>,
-      zaps: Set<string>,
-    ) => void,
+      zaps: Set<string>
+    ) => void
   ): Unsubscribe {
     const callback = () => {
       cb?.(
@@ -702,11 +750,15 @@ const Events = {
         this.likesByMessageId.get(id) ?? new Set(),
         this.threadRepliesByMessageId.get(id)?.size ?? 0,
         this.repostsByMessageId.get(id) ?? new Set(),
-        this.zapsByNote.get(id) ?? new Set(),
+        this.zapsByNote.get(id) ?? new Set()
       );
     };
     callback();
-    return PubSub.subscribe({ '#e': [id], kinds: [1, 6, 7, 9735] }, callback, false);
+    return PubSub.subscribe(
+      { '#e': [id], kinds: [1, 6, 7, 9735] },
+      callback,
+      false
+    );
   },
   // TODO: return Unsubscribe
   getEventById(id: string, proxyFirst = false, cb?: (event: Event) => void) {
@@ -737,14 +789,23 @@ const Events = {
       PubSub.subscribe({ ids: [id] }, cb, false);
     }
   },
-  getDirectMessagesByUser(address: string, cb?: (messageIds: string[]) => void): Unsubscribe {
+  getDirectMessagesByUser(
+    address: string,
+    cb?: (messageIds: string[]) => void
+  ): Unsubscribe {
     const callback = () => {
       cb?.(this.directMessagesByUser.get(address)?.eventIds);
     };
     this.directMessagesByUser.has(address) && callback();
     const myPub = Key.getPubKey();
-    const unsub1 = PubSub.subscribe({ kinds: [4], '#p': [address], authors: [myPub] }, callback);
-    const unsub2 = PubSub.subscribe({ kinds: [4], '#p': [myPub], authors: [address] }, callback);
+    const unsub1 = PubSub.subscribe(
+      { kinds: [4], '#p': [address], authors: [myPub] },
+      callback
+    );
+    const unsub2 = PubSub.subscribe(
+      { kinds: [4], '#p': [myPub], authors: [address] },
+      callback
+    );
     return () => {
       unsub1();
       unsub2();
@@ -755,8 +816,14 @@ const Events = {
       cb?.(this.directMessagesByUser);
     };
     callback();
-    const unsub1 = PubSub.subscribe({ kinds: [4], '#p': [Key.getPubKey()] }, callback);
-    const unsub2 = PubSub.subscribe({ kinds: [4], authors: [Key.getPubKey()] }, callback);
+    const unsub1 = PubSub.subscribe(
+      { kinds: [4], '#p': [Key.getPubKey()] },
+      callback
+    );
+    const unsub2 = PubSub.subscribe(
+      { kinds: [4], authors: [Key.getPubKey()] },
+      callback
+    );
     return () => {
       unsub1();
       unsub2();

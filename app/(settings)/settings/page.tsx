@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
 import Link from 'next/link';
-import useStore from "@/store";
+import useStore from '@/store';
 import { nip19 } from 'nostr-tools';
 
 export default function Settings() {
@@ -22,24 +22,38 @@ export default function Settings() {
       </p>
       <h3>Public key</h3>
       <p className="flex gap-2">
-        <button className="btn btn-sm" onClick={() => navigator.clipboard.writeText(pub)}>
+        <button
+          className="btn btn-sm"
+          onClick={() => navigator.clipboard.writeText(pub)}
+        >
           Copy hex
         </button>
-        <button className="btn btn-sm" onClick={() => navigator.clipboard.writeText(npub)}>
+        <button
+          className="btn btn-sm"
+          onClick={() => navigator.clipboard.writeText(npub)}
+        >
           Copy npub
         </button>
       </p>
       <h3>Private key</h3>
       {priv ? (
         <p className="flex gap-2">
-          <button className="btn btn-sm" onClick={() => navigator.clipboard.writeText(priv)}>
+          <button
+            className="btn btn-sm"
+            onClick={() => navigator.clipboard.writeText(priv)}
+          >
             Copy hex
           </button>
-          <button className="btn btn-sm" onClick={() => navigator.clipboard.writeText(nsec)}>
+          <button
+            className="btn btn-sm"
+            onClick={() => navigator.clipboard.writeText(nsec)}
+          >
             Copy nsec
           </button>
         </p>
-      ) : <p>Not present. Good!</p>}
+      ) : (
+        <p>Not present. Good!</p>
+      )}
     </div>
   );
 }

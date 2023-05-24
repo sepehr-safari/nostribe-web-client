@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 
 import { getProfileHex } from '@/utils';
 
-const useProfileHex = (profileAddress: string) => {
+const useProfileHex = (profileAddress: string | undefined) => {
   const [profileHex, setProfileHex] = useState('');
 
   useEffect(() => {

@@ -33,11 +33,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html
-      lang="en"
-      className="h-full w-full"
-      data-theme="iris"
-    >
+    <html lang="en" className="h-full w-full" data-theme="iris">
       <body className="overflow-x-hidden">{children}</body>
     </html>
   );

@@ -3,14 +3,15 @@
 @tailwind utilities;
 
 * {
-    font-family: 'Lato', sans-serif;
+  font-family: 'Lato', sans-serif;
 }
 
 .btn {
   @apply rounded-full capitalize;
 }
 
-input[type="text"], input[type="number"] {
+input[type='text'],
+input[type='number'] {
   @apply rounded-full;
 }
 

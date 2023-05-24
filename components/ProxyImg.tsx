@@ -28,10 +28,7 @@ const ProxyImg = (props: Props) => {
   const [originalFailed, setOriginalFailed] = useState(false);
 
   const getSrc = () => {
-    if (
-      props.src &&
-      !isSafeOrigin(props.src)
-    ) {
+    if (props.src && !isSafeOrigin(props.src)) {
       const originalSrc = props.src;
       if (props.width) {
         const width = props.width * 2;
@@ -43,7 +40,7 @@ const ProxyImg = (props: Props) => {
     } else {
       return props.src;
     }
-  }
+  };
 
   const [src, setSrc] = useState(() => getSrc());
 
@@ -56,7 +53,12 @@ const ProxyImg = (props: Props) => {
 
   useEffect(() => {
     if (proxyFailed && !originalFailed) {
-      console.log('image proxy failed', src, 'trying original source', props.src);
+      console.log(
+        'image proxy failed',
+        src,
+        'trying original source',
+        props.src
+      );
       setSrc(props.src);
     }
   }, [proxyFailed, props.src, src, originalFailed]);
@@ -67,7 +69,7 @@ const ProxyImg = (props: Props) => {
       const originalOnError = props.onError;
       console.log('original source failed too', originalSrc);
       setSrc(
-        'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+P+/HgAFhQJ/qwQX2QAAAABJRU5ErkJggg==',
+        'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+P+/HgAFhQJ/qwQX2QAAAABJRU5ErkJggg=='
       );
       originalOnError && originalOnError();
     }

@@ -1,12 +1,21 @@
-import {Event} from "nostr-tools";
-import {EllipsisHorizontalIcon} from "@heroicons/react/24/outline";
-import { mute, report } from "@/utils/user";
+import { Event } from 'nostr-tools';
+import { EllipsisHorizontalIcon } from '@heroicons/react/24/outline';
+import { mute, report } from '@/utils/user';
 
-const Dropdown = ({ nip19NoteId, postEvent }: { nip19NoteId: string, postEvent: Event }) => {
+const Dropdown = ({
+  nip19NoteId,
+  postEvent,
+}: {
+  nip19NoteId: string;
+  postEvent: Event;
+}) => {
   return (
     <div className="ml-auto">
       <div className="dropdown-left dropdown">
-        <label tabIndex={0} className="btn-ghost btn-circle btn m-1 text-neutral-500">
+        <label
+          tabIndex={0}
+          className="btn-ghost btn-circle btn m-1 text-neutral-500"
+        >
           <EllipsisHorizontalIcon width={24} />
         </label>
         <ul
@@ -28,9 +37,7 @@ const Dropdown = ({ nip19NoteId, postEvent }: { nip19NoteId: string, postEvent: 
           <li>
             <button
               className="text-start text-xs"
-              onClick={() =>
-                navigator.clipboard.writeText(nip19NoteId)
-              }
+              onClick={() => navigator.clipboard.writeText(nip19NoteId)}
             >
               Copy ID
             </button>
@@ -64,7 +71,7 @@ const Dropdown = ({ nip19NoteId, postEvent }: { nip19NoteId: string, postEvent: 
         </ul>
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default Dropdown;

@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import {useState, useRef, useEffect, useCallback, KeyboardEvent} from 'react';
+import { useState, useRef, useEffect, useCallback, KeyboardEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import { FormEvent } from 'react';
 import { throttle } from 'lodash';
@@ -18,7 +18,7 @@ type SearchResult = [
     content: any;
     sig: string;
   },
-  npub: string,
+  npub: string
 ];
 
 const MAX_ABOUT_LENGTH = 50;
@@ -40,14 +40,16 @@ export default function SearchBar() {
       }
 
       if (event.key === 'ArrowDown') {
-        const nextIndex = focusedIndex + 1 >= searchResults.length ? -1 : focusedIndex + 1;
+        const nextIndex =
+          focusedIndex + 1 >= searchResults.length ? -1 : focusedIndex + 1;
         setFocusedIndex(nextIndex);
       } else if (event.key === 'ArrowUp') {
-        const prevIndex = focusedIndex - 1 < -1 ? searchResults.length - 1 : focusedIndex - 1;
+        const prevIndex =
+          focusedIndex - 1 < -1 ? searchResults.length - 1 : focusedIndex - 1;
         setFocusedIndex(prevIndex);
       }
     },
-    [searchResults, focusedIndex],
+    [searchResults, focusedIndex]
   );
 
   const selectResult = useCallback(
@@ -61,7 +63,7 @@ export default function SearchBar() {
         router.push(`/${npub}`);
       }
     },
-    [searchResults, searchTerm, router],
+    [searchResults, searchTerm, router]
   );
 
   useEffect(() => {
@@ -152,7 +154,7 @@ export default function SearchBar() {
         console.log(err);
       }
     }, 300),
-    [],
+    []
   );
 
   return (
