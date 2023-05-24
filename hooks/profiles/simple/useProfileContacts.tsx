@@ -8,7 +8,7 @@ import { useProfileHex } from '@/hooks';
 import { Event } from 'nostr-tools';
 import { useMemo, useState } from 'react';
 
-const useProfileContacts = (profileAddress: string) => {
+const useProfileContacts = (profileAddress: string | undefined) => {
   const [latestContactEvent, setLatestContactEvent] = useState<
     Event | undefined
   >(undefined);
@@ -18,7 +18,7 @@ const useProfileContacts = (profileAddress: string) => {
 
   const { events: contactEvents, eose: contactEose } = useSubscribe({
     relays: defaultRelays,
-    filters: [{ authors: [profileHex], kinds: [3] }],
+    filters: !!profileHex ? [{ authors: [profileHex], kinds: [3] }] : [],
     options: { enabled: !!profileHex, invalidate: true, closeAfterEose: false },
   });
 

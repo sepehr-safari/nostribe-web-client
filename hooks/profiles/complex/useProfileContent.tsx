@@ -6,7 +6,7 @@ import { IAuthor } from '@/types';
 
 import { useProfileHex, useProfileMetadata } from '@/hooks';
 
-const useProfileContent = (profileAddress: string) => {
+const useProfileContent = (profileAddress: string | undefined) => {
   const hex = useProfileHex(profileAddress);
   const {
     isFetchingMetadata,
@@ -36,7 +36,7 @@ const useProfileContent = (profileAddress: string) => {
     displayName: profileObject.display_name || profileObject.name,
   };
 
-  const npub = (profileAddress && nip19.npubEncode(hex)) || undefined;
+  const npub = (!!profileAddress && nip19.npubEncode(hex)) || undefined;
 
   return {
     ...author,

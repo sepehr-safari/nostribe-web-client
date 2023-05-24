@@ -4,13 +4,13 @@ import { useSubscribe } from 'nostr-hooks';
 
 import useStore from '@/store';
 
-const usePostReactions = (postId: string) => {
+const usePostReactions = (postId: string | undefined) => {
   const relays = useStore((store) => store.relays);
 
   let { events: reactionEvents, eose: reactionEose } = useSubscribe({
     relays,
-    filters: [{ '#e': [postId], kinds: [1, 6, 7, 9735] }],
-    options: { invalidate: true, closeAfterEose: false },
+    filters: !!postId ? [{ '#e': [postId], kinds: [1, 6, 7, 9735] }] : [],
+    options: { closeAfterEose: false, enabled: !!postId },
   });
 
   // only 1 like or repost per author. TODO kind 1 reposts

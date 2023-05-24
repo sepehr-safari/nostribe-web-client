@@ -7,7 +7,7 @@ import useStore from '@/store';
 import { useProfileHex } from '@/hooks';
 import { Event } from 'nostr-tools';
 
-const useProfileMetadata = (profileAddress: string) => {
+const useProfileMetadata = (profileAddress: string | undefined) => {
   const profileHex = useProfileHex(profileAddress);
 
   const relays = useStore((store) => store.relays);
@@ -18,7 +18,7 @@ const useProfileMetadata = (profileAddress: string) => {
     invalidate,
   } = useSubscribe({
     relays,
-    filters: [{ authors: [profileHex], kinds: [0] }],
+    filters: !!profileHex ? [{ authors: [profileHex], kinds: [0] }] : [],
     options: { enabled: !!profileHex },
   });
 
