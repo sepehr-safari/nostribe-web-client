@@ -120,7 +120,7 @@ const PostCard = ({ postId, showReplies, standalone, asReply, asRepliedMessage, 
     }
     return(
       <>
-        <span className={`text-sm opacity-50 flex items-center gap-2 px-4 -mb-2 mt-2`}>
+        <span className={`text-sm text-neutral-500 flex items-center gap-2 px-4 -mb-2 mt-2`}>
           {icon} <Name pub={author} /> {text}
         </span>
         <PostCard postId={replyingToEvent} showReplies={0} />
