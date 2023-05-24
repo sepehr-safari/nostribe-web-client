@@ -10,6 +10,7 @@ import Link from "next/link";
 import {PaperClipIcon} from "@heroicons/react/24/outline";
 
 import usePublish from "@/hooks/usePublish";
+import {useLocalState} from "@/utils/LocalState";
 
 interface Props {
   onSubmit?: (event: Event) => void;
@@ -18,7 +19,7 @@ interface Props {
 }
 
 const NewPostForm: React.FC<Props> = ({ onSubmit, replyingTo, placeholder }) => {
-  const [postText, setPostText] = useState('');
+  const [postText, setPostText] = useLocalState('newPostDraft', '');
   const [isExpanded, setIsExpanded] = useState(false);
   const [uploadError, setUploadError] = useState('');
   const userData = useStore((state) => state.auth.user.data);
