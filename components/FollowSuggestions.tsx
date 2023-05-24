@@ -2,6 +2,7 @@ import Link from "next/link";
 import Avatar from "@/components/Avatar";
 import Name from "@/components/Name";
 import FollowButton from "@/components/FollowButton";
+import localState from "@/utils/LocalState";
 
 const SUGGESTED_FOLLOWS = [
   [
@@ -49,6 +50,11 @@ export default function FollowSuggestions() {
           <FollowButton pub={npub} />
         </div>
       ))}
+      <p>
+        <button className="btn btn-primary" onClick={() => localState.get('showFollowSuggestions').set(false)}>
+          Done
+        </button>
+      </p>
     </div>
   );
 }

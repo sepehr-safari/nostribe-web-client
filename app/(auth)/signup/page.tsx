@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import { generatePrivateKey } from 'nostr-tools';
 import { useCallback, useEffect, useState } from 'react';
 import EULA from './EULA';
+import localState from "@/utils/LocalState";
 
 import CardContainer from '@/components/CardContainer';
 
@@ -32,6 +33,7 @@ const Login = () => {
 
   const login = () => {
     const privateKey = generatePrivateKey();
+    localState.get('showFollowSuggestions').set(true);
     loginWithPrivateKey(privateKey);
   }
 

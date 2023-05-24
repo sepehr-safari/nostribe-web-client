@@ -9,11 +9,13 @@ import NewPostForm from '@/components/NewPostForm';
 import useStore from "@/store";
 import {useProfileContacts} from "@/hooks";
 import {getReplyingToEvent} from "@/utils/event";
+import {useLocalState} from "@/utils/LocalState";
 
 const DEFAULT_PUBKEY = '4523be58d395b1b196a9b8c82b038b6895cb02b683d0c253a955068dba1facd0';
 
 const HomeFeed = () => {
   const userData = useStore((state) => state.auth.user.data);
+  const [showFollowSuggestions] = useLocalState('showFollowSuggestions', false);
   const {
     latestContactEvent
   } = useProfileContacts(userData?.publicKey || DEFAULT_PUBKEY);
@@ -42,7 +44,7 @@ const HomeFeed = () => {
   // TODO pops up slowly with isContactsEmpty. maybe save isNewUser state after signup?
   return (
     <>
-      {userData?.publicKey && authors.length === 1 && (
+      {showFollowSuggestions && (
         <FollowSuggestions />
       )}
       {userData?.publicKey ? (

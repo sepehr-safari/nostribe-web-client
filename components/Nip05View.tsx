@@ -20,7 +20,7 @@ export default function Nip05View({ text }: { text: string }) {
     nip05.queryProfile(text).then((profile) => {
       setNip05Valid(!!profile);
     });
-  });
+  }, [text]);
 
   if (text.startsWith('_@')) {
     text = text.slice(2);

@@ -30,7 +30,7 @@ const Profile = ({ params }: { params: { address: string } }) => {
         }
       });
     }
-  });
+  }, [nip05addr]);
 
   if (!profileHex) {
     return null;
