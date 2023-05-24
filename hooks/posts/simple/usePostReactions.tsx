@@ -10,7 +10,7 @@ const usePostReactions = (postId: string) => {
   let { events: reactionEvents, eose: reactionEose } = useSubscribe({
     relays,
     filters: [{ '#e': [postId], kinds: [1, 6, 7, 9735] }],
-    options: { invalidate: true, closeAfterEose: false },
+    options: { invalidate: false, closeAfterEose: false },
   });
 
   // only 1 like or repost per author. TODO kind 1 reposts

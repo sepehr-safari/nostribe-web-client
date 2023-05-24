@@ -10,6 +10,13 @@ module.exports = {
         'iris-red': '#f81780',
         'iris-purple': '#8e44ad',
       },
+      backgroundColor: {
+        'iris-blue': '#1d9bf0',
+        'iris-green': '#34ba7c',
+        'iris-orange': '#ffa600',
+        'iris-red': '#f81780',
+        'iris-purple': '#8e44ad',
+      },
       paddingBottom: {
         'safe-area-inset-bottom': 'env(safe-area-inset-bottom)',
       },

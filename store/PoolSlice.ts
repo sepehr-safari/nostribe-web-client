@@ -3,6 +3,7 @@ import { StateCreator } from 'zustand';
 
 export interface PoolSlice {
   pool: {
+    simplePool: SimplePool;
     sub: (filters: Filter[]) => Sub;
     list: (filters: Filter[]) => Promise<Event[]>;
     publish: (event: Event) => Pub;
@@ -14,6 +15,7 @@ const _pool = new SimplePool();
 
 const createPoolSlice: StateCreator<PoolSlice> = (set, get) => ({
   pool: {
+    simplePool: _pool,
     sub: (filters: Filter[]) => _pool.sub(get().relays, filters),
     list: (filters: Filter[]) => _pool.list(get().relays, filters),
     publish: (event: Event) => _pool.publish(get().relays, event),
