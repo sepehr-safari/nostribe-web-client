@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { FormEvent } from 'react';
 import { throttle } from 'lodash';
 import { BaseAvatar } from '@/components/Avatar';
+import {nip05} from 'nostr-tools';
 
 type SearchResult = [
   followerCount: number,
@@ -96,6 +97,32 @@ export default function SearchBar() {
 
   const onInput = (e: FormEvent<HTMLInputElement>) => {
     const value = (e.target as HTMLInputElement).value;
+    // if starts with https://iris.to redirecto to pathname
+    if (value.startsWith('https://iris.to')) {
+      const pathname = value.replace('https://iris.to', '');
+      router.push(pathname);
+      return;
+    } else {
+      const match = value.match(/(?:npub|note)[a-zA-Z0-9]{59,60}/);
+      if (match) {
+        const id = match[0];
+        router.push(`/${id}`);
+        return;
+      }
+      // if nip05 (user@example.com)
+      const nip05addr = value.match(/[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9_-]+/);
+      if (nip05addr) {
+        const id = nip05addr[0];
+        // TODO validate nip05
+        nip05.queryProfile(id).then((profile) => {
+          if (profile) {
+            setSearchTerm('');
+            router.push(`/${id}`);
+            return;
+          }
+        });
+      }
+    }
     setSearchTerm(value); // Update search term when typing
     throttledSearch(value); // Call throttled search function
   };
