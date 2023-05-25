@@ -1,9 +1,10 @@
 'use client';
 
+import { ArrowPathIcon, BoltIcon, HeartIcon } from '@heroicons/react/24/solid';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Event, nip19 } from 'nostr-tools';
-import { MouseEventHandler, useCallback, useMemo, memo } from 'react';
+import { memo, MouseEventHandler, useCallback, useMemo } from 'react';
 
 import { usePostEvent, usePostReactions, useProfileContent } from '@/hooks';
 
@@ -20,13 +21,8 @@ import RelativeTime from '@/components/RelativeTime';
 import Spinner from '@/components/Spinner';
 import Dropdown from './Dropdown';
 import Reactions from './Reactions';
-import {
-  ArrowPathIcon,
-  BoltIcon,
-  HeartIcon,
-} from "@heroicons/react/24/solid";
 
-import {getZappingUser} from "@/utils/Lightning";
+import { getZappingUser } from '@/utils/Lightning';
 
 type Props = {
   postId: string;
@@ -139,14 +135,16 @@ const PostCard = ({
       author = getZappingUser(postEvent);
       icon = <BoltIcon className="w-4 h-4 text-iris-orange" />;
     }
-    return(
+    return (
       <>
-        <span className={`text-sm text-neutral-500 flex items-center gap-2 px-4 -mb-2 mt-2`}>
+        <span
+          className={`text-sm text-neutral-500 flex items-center gap-2 px-4 -mb-2 mt-2`}
+        >
           {icon} <Name pub={author} /> {text}
         </span>
         <PostCard postId={replyingToEvent} showReplies={0} />
       </>
-    )
+    );
   }
 
   return (

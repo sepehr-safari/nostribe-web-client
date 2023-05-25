@@ -1,3 +1,5 @@
+'use client';
+
 import NavSidebar from '@/components/NavSidebar';
 import Discover from '@/components/Discover';
 import Header from '@/components/Header';
