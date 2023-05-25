@@ -13,7 +13,7 @@ const usePostReactions = (postId: string | undefined) => {
     options: {
       closeAfterEose: false,
       enabled: !!postId,
-      invalidate: true,
+      invalidate: false, // TODO: true causes a refresh loop bug in post reactions
       batchingInterval: 2000,
     },
   });
