@@ -1,10 +1,10 @@
 'use client';
 
 import { Event } from 'nostr-tools';
-import { useState } from 'react';
+import { memo, useState } from 'react';
 
-import Spinner from '../Spinner';
 import HyperText from '@/components/HyperText';
+import Spinner from '../Spinner';
 
 const MSG_TRUNCATE_LENGTH = 500;
 const MSG_TRUNCATE_LINES = 8;
@@ -55,4 +55,4 @@ const PostContent = ({
   );
 };
 
-export default PostContent;
+export default memo(PostContent);

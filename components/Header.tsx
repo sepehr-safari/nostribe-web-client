@@ -40,7 +40,7 @@ const HomeHeader = () => {
         <img src="/img/icon128.png" className="w-8 rounded-full" />
         iris
       </div>
-      <div className="hidden md:flex w-full flex items-center justify-center gap-2 p-3 mr-16 md:mr-0 h-14">
+      <div className="hidden md:flex w-full items-center justify-center gap-2 p-3 mr-16 md:mr-0 h-14">
         Home
       </div>
       <Link href="/notifications" className="md:hidden items-center py-3 px-4">
@@ -126,7 +126,7 @@ const Header = () => {
 
   return (
     <div className="sticky top-0 z-10 w-full cursor-pointer" onClick={scrollUp}>
-      <div className="w-full bg-base-200 bg-black md:bg-opacity-50 md:shadow-lg md:backdrop-blur-lg">
+      <div className="w-full bg-black md:bg-opacity-50 md:shadow-lg md:backdrop-blur-lg">
         <div className="flex w-full items-center justify-between">
           {content}
         </div>

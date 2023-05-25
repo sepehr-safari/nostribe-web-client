@@ -27,7 +27,7 @@ const PostPage = ({ address }: { address: string }) => {
           key={postId}
           postId={postId}
           externalReactions={reactionEvents}
-          showReplies={Infinity}
+          showReplies={true}
           standalone={true}
           showReplyForm={!!userData?.publicKey}
         />

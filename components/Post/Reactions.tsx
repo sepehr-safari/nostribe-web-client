@@ -1,4 +1,5 @@
-import { Event, nip19 } from 'nostr-tools';
+'use client';
+
 import {
   ArrowPathIcon,
   BoltIcon,
@@ -11,16 +12,21 @@ import {
   HeartIcon as HeartIconFull,
 } from '@heroicons/react/24/solid';
 import Link from 'next/link';
+import { Event, nip19 } from 'nostr-tools';
+import { memo, useCallback, useMemo, useState } from 'react';
+
 import { isRepost } from '@/utils/event';
+import { decodeInvoice, formatAmount, getZappingUser } from '@/utils/Lightning';
+
+import { useProfileMetadata } from '@/hooks';
 import usePublish from '@/hooks/usePublish';
+
 import useStore from '@/store';
-import { useMemo, useState, memo } from 'react';
+
+import Avatar from '@/components/Avatar';
 import Modal from '@/components/modal/Modal';
 import ZapModal from '@/components/modal/Zap';
-import Avatar from '@/components/Avatar';
 import Name from '@/components/Name';
-import { getZappingUser, decodeInvoice, formatAmount } from '@/utils/Lightning';
-import { useProfileMetadata } from '@/hooks';
 
 type Props = {
   event: Event;
@@ -68,20 +74,27 @@ const Reactions = ({
   event,
   standalone,
 }: Props) => {
-  const publish = usePublish();
-  const userData = useStore((state) => state.auth.user.data);
-  const myPub = userData?.publicKey || '';
   const [modalReactions, setModalReactions] = useState([] as Event[]);
   const [modalTitle, setModalTitle] = useState('');
   const [showZapModal, setShowZapModal] = useState(false);
 
+  const userData = useStore((state) => state.auth.user.data);
+  const myPub = userData?.publicKey || '';
+
+  const publish = usePublish();
+
+  const metadata = useProfileMetadata(event.pubkey).metadata;
+  const lightning = metadata.lud16 || metadata.lud06;
+
   const liked = useMemo(() => {
     if (!myPub) return false;
+
     return reactionEvents.some(
       (event) => event.kind === 7 && event.pubkey === myPub
     );
   }, [reactionEvents, myPub]);
-  const like = () => {
+
+  const like = useCallback(() => {
     !liked &&
       publish({
         kind: 7,
@@ -91,15 +104,17 @@ const Reactions = ({
           ['p', event.pubkey],
         ],
       });
-  };
+  }, [liked, publish, event.id, event.pubkey]);
 
   const reposted = useMemo(() => {
     if (!myPub) return false;
+
     return reactionEvents.some(
       (event) => event.pubkey === myPub && isRepost(event)
     );
   }, [reactionEvents, myPub]);
-  const repost = () => {
+
+  const repost = useCallback(() => {
     !reposted &&
       publish({
         kind: 6,
@@ -109,27 +124,37 @@ const Reactions = ({
           ['p', event.pubkey],
         ],
       });
-  };
+  }, [reposted, publish, event.id, event.pubkey]);
 
   const zapped = useMemo(() => {
     if (!myPub) return false;
+
     return reactionEvents.some(
       (event) => event.kind === 9735 && getZappingUser(event) === myPub
     );
   }, [reactionEvents, myPub]);
 
-  const likes = reactionEvents.filter((event) => event.kind === 7);
-  const reposts = reactionEvents.filter((event) => isRepost(event));
-  const zaps = reactionEvents.filter((event) => event.kind === 9735);
-  const replies = reactionEvents.filter(
-    (event) => event.kind === 1 && !isRepost(event)
+  const likes = useMemo(
+    () => reactionEvents.filter((event) => event.kind === 7),
+    [reactionEvents]
+  );
+  const reposts = useMemo(
+    () => reactionEvents.filter((event) => isRepost(event)),
+    [reactionEvents]
+  );
+  const zaps = useMemo(
+    () => reactionEvents.filter((event) => event.kind === 9735),
+    [reactionEvents]
+  );
+  const replies = useMemo(
+    () =>
+      reactionEvents.filter((event) => event.kind === 1 && !isRepost(event)),
+    [reactionEvents]
   );
   const hasReactions =
     likes.length > 0 || reposts.length > 0 || zaps.length > 0;
-  const metadata = useProfileMetadata(event.pubkey).metadata;
-  const lightning = metadata.lud16 || metadata.lud06;
 
-  const totalZapAmount: number = useMemo(
+  const totalZapAmount = useMemo(
     () =>
       zaps.reduce((acc, event) => {
         const invoice = event.tags?.find((tag) => tag[0] === 'bolt11')?.[1];
@@ -138,17 +163,22 @@ const Reactions = ({
       }, 0),
     [zaps]
   );
+  const formattedAmount = useMemo(
+    () => formatAmount(totalZapAmount / 1000),
+    [totalZapAmount]
+  );
 
   // in standalone, show twitter-like listings that open the modal
   return (
     <>
-      <ZapModal
-        show={showZapModal}
-        lnurl={lightning}
-        note={event.id}
-        recipient={event.pubkey}
-        onClose={() => setShowZapModal(false)}
-      />
+      {showZapModal && (
+        <ZapModal
+          lnurl={lightning}
+          note={event.id}
+          recipient={event.pubkey}
+          onClose={() => setShowZapModal(false)}
+        />
+      )}
       {standalone && hasReactions && (
         <>
           <hr className="-mx-4 opacity-10" />
@@ -205,7 +235,7 @@ const Reactions = ({
                   {totalZapAmount > 0 && (
                     <small className="text-neutral-500">
                       {' '}
-                      ({formatAmount(totalZapAmount / 1000)})
+                      ({formattedAmount})
                     </small>
                   )}
                 </a>
@@ -227,7 +257,7 @@ const Reactions = ({
               zapped ? 'text-iris-orange' : 'text-neutral-500'
             }`}
           >
-            {zapped ? <BoltIconFull width={18} /> : <BoltIcon width={18}/>}
+            {zapped ? <BoltIconFull width={18} /> : <BoltIcon width={18} />}
             {!standalone && zaps.length > 0 && (
               <>{formatAmount(totalZapAmount / 1000)}</>
             )}
@@ -271,4 +301,4 @@ const Reactions = ({
   );
 };
 
-export default Reactions;
+export default memo(Reactions);

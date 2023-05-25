@@ -109,7 +109,7 @@ export default function NavSidebar() {
                   href={a.url}
                   className={`${
                     a.className || ''
-                  } inline-flex w-auto flex items-center space-x-4 p-3 rounded-full transition-colors duration-200 hover:bg-neutral-900`}
+                  } inline-flex w-auto items-center space-x-4 p-3 rounded-full transition-colors duration-200 hover:bg-neutral-900`}
                 >
                   <Icon className="w-6 h-6" />
                   <span className={`hidden lg:flex`}>{a.text}</span>
