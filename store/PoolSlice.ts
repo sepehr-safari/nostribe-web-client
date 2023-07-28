@@ -27,6 +27,7 @@ const createPoolSlice: StateCreator<PoolSlice> = (set, get) => ({
     'wss://nostr-pub.wellorder.net',
     'wss://nostr.fmt.wiz.biz',
     'wss://nos.lol',
+    'wss://soloco.nl',
   ],
 });
 
